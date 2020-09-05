@@ -28,6 +28,8 @@ The server tries solving the problem and returns a suitable message.
 
 ## Design
 
+![alt text](https://github.com/yonatan-E/APproject/blob/design/absHierarchy.PNG?raw=true)
+
 ### Server
 
 Abstract Class **Server**:
@@ -70,3 +72,4 @@ Solve<ProblemType, SolutionType>()
     
 Class **DFSSolver, BFSSolver, BestFSSolver, AStarSolver** implement solver interface, and they will choose The parameters 
 <ProblemType, SolutionType> for the Solve method .
+
