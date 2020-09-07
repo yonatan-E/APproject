@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Searchable.hpp"
+#include "AbstractSearchable.hpp"
 #include "Matrix.hpp"
 #include <cstdint>
 #include <utility>
@@ -10,7 +10,7 @@ namespace searcher {
     typedef std::pair<uint32_t, uint32_t> pair;
     typedef Element<std::pair<uint32_t, uint32_t>, double> graphElement;
 
-    class Graph : public Searchable<pair, double> {
+    class Graph : public AbstractSearchable<pair, double> {
 
         const matrix::Matrix m_graphMatrix;
 
