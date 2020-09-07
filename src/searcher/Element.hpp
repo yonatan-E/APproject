@@ -8,6 +8,5 @@ namespace searcher {
 
         public:
             virtual double getValue() const = 0;
-            virtual std::vector<Element> getReachables() const = 0;
     };
 }
