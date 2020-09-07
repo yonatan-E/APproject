@@ -6,10 +6,15 @@
 namespace searcher {
 
     class Searchable {
-        
+
+        const Element& m_startElement;
+        const Element& m_endElement;
+
         public:
-            virtual Element getStartElement() const = 0;
-            virtual Element getGoalElement() const = 0;
+            Searchable(const Element& startElement, const Element& endElement);
+            virtual const Element& getStartElement() const final;
+            virtual const Element& getEndElement() const final;
             virtual std::vector<Element> getAllReachableElements(const Element& current) const final;
+            virtual ~Searchable() = default;
     };
 }
