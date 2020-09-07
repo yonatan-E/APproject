@@ -11,8 +11,11 @@ namespace searcher {
         const ValueType m_value;
 
         public:
+
             Element(const IdentifierType& identifier, const ValueType& value);
-            virtual const IdentifierType& getIdentifier() const final;
-            virtual const ValueType& getValue() const final;
+
+            const IdentifierType& getIdentifier() const;
+
+            const ValueType& getValue() const;
     };
 }
