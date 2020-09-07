@@ -13,8 +13,4 @@ namespace searcher {
     const Element& Searchable::getEndElement() const {
         return m_endElement;
     }
-
-    std::vector<Element> Searchable::getAllReachableElements(const Element& current) const {
-        return current.getReachables();
-    }
 }

@@ -12,9 +12,9 @@ namespace searcher {
 
         public:
             Searchable(const Element& startElement, const Element& endElement);
+            virtual ~Searchable() = default;
             virtual const Element& getStartElement() const final;
             virtual const Element& getEndElement() const final;
-            virtual std::vector<Element> getAllReachableElements(const Element& current) const final;
-            virtual ~Searchable() = default;
+            virtual std::vector<Element> getAllReachableElements(const Element& current) const = 0;
     };
 }
