@@ -4,17 +4,18 @@
 #include <vector>
 
 namespace searcher {
-
+    
+    template <typename IdentifierType, typename ValueType>
     class Searchable {
 
-        const Element& m_startElement;
-        const Element& m_endElement;
+        const Element<IdentifierType, ValueType>& m_startElement;
+        const Element<IdentifierType, ValueType>& m_endElement;
 
         public:
-            Searchable(const Element& startElement, const Element& endElement);
+            Searchable(const Element<IdentifierType, ValueType>& startElement, const Element<IdentifierType, ValueType>& endElement);
             virtual ~Searchable() = default;
-            virtual const Element& getStartElement() const final;
-            virtual const Element& getEndElement() const final;
-            virtual std::vector<Element> getAllReachableElements(const Element& current) const = 0;
+            virtual const Element<IdentifierType, ValueType>& getStartElement() const final;
+            virtual const Element<IdentifierType, ValueType>& getEndElement() const final;
+            virtual std::vector<Element<IdentifierType, ValueType>> getAllReachableElements(const Element<IdentifierType, ValueType>& current) const = 0;
     };
 }

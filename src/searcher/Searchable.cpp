@@ -2,15 +2,19 @@
 
 namespace searcher {
 
-    Searchable::Searchable(const Element& startElement, const Element& endElement)
+    template <typename IdentifierType, typename ValueType>
+    Searchable<IdentifierType, ValueType>::Searchable(const Element<IdentifierType, ValueType>& startElement,
+        const Element<IdentifierType, ValueType>& endElement)
     : m_startElement(startElement),
     m_endElement(endElement) {}
 
-    const Element& Searchable::getStartElement() const {
+    template <typename IdentifierType, typename ValueType>
+    const Element<IdentifierType, ValueType>& Searchable<IdentifierType, ValueType>::getStartElement() const {
         return m_startElement;
     }
 
-    const Element& Searchable::getEndElement() const {
+    template <typename IdentifierType, typename ValueType>
+    const Element<IdentifierType, ValueType>& Searchable<IdentifierType, ValueType>::getEndElement() const {
         return m_endElement;
     }
 }
