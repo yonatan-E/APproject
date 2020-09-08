@@ -8,6 +8,7 @@ namespace searcher {
     class Searcher {
 
         public:
-            virtual std::vector<std::string> search(const Searchable& searchable) const;
+            template <typename IdentifierType, typename ValueType>
+            std::vector<std::string> search(const Searchable<IdentifierType, ValueType>& searchable) const;
     };
 }
