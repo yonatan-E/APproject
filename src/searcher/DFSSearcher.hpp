@@ -4,7 +4,7 @@
 
 namespace searcher{
 
-    class BFSSearcher : public Searcher {
+    class DFSSearcher : public Searcher {
 
         public:
             template <typename ElementType>
