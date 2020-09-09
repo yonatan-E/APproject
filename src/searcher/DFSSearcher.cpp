@@ -1,22 +1,22 @@
 #include "DFSSearcher.hpp"
+#include "algorithm"
 
 
 namespace searcher{
     
     template <typename ElementType>
     std::vector<std::string> DFSSearcher::search(const Searchable<ElementType>& searchable) const{
-        return recursiveSearch(searchable, searchable.getStartElement(), searchable.getEndElement());
+        std::vector<ElementType> visited;
+        std::vector<std::string> directions;
+        for(searchable.)
+        return recursiveSearch(visited, directions, searchable, searchable.getStartElement());
     }
 
     template <typename ElementType>
-     std::vector<std::string> DFSSearcher::recursiveSearch(const Searchable<ElementType>& searchable, const ElementType& elm, const ElementType& target){
-         if(elm.getValue() == target.getValue())
-            return "";
-        
-        ElementType best = nullptr;
-        uint32_t bestPrice = elm.getValue();
-        for(auto next : searchable.getAllReachableElements(elm)){
-            
+     std::vector<std::string> DFSSearcher::recursiveSearch(std::vector<ElementType>& visited, std::vector<std::string>& directions, const Searchable<ElementType>& searchable, const ElementType& elm){
+       
+        if(std::find(visited.begin(), visited.end(), elm) == visited.end()){
+
         }
 
      }

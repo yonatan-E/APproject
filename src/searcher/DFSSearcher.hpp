@@ -12,6 +12,6 @@ namespace searcher{
 
         private:
             template <typename ElementType>
-            std::vector<std::string> recursiveSearch(const Searchable<ElementType>& searchable, const ElementType& elm, const ElementType& target);
+            std::vector<std::string> recursiveSearch(std::vector<ElementType>& visited, std::vector<std::string>& directions, const Searchable<ElementType>& searchable, const ElementType& elm);
     };
 }
