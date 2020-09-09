@@ -11,6 +11,7 @@ namespace searcher {
         const ElementType m_endElement;
 
         public:
+        
             AbstractSearchable(const ElementType& startElement, const ElementType& endElement);
 
             virtual ~AbstractSearchable() = default;
@@ -21,6 +22,6 @@ namespace searcher {
 
             virtual std::vector<ElementType> getAllReachableElements(const ElementType& current) const = 0;
 
-           virtual  std::string direction(const ElementType& origin, const ElementType& destination) const = 0;
+            virtual std::string getDirection(const ElementType& origin, const ElementType& destination) const = 0;
     };
 }
