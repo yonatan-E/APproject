@@ -5,12 +5,13 @@
 namespace searcher{
 
     class BFSSearcher : public Searcher {
-         public:
-            template <typename IdentifierType, typename ValueType>
-            std::vector<std::string> search(const Searchable<IdentifierType, ValueType>& searchable) const;
+
+        public:
+            template <typename ElementType>
+            std::vector<std::string> search(const Searchable<ElementType>& searchable) const;
 
         private:
-            template <typename IdentifierType, typename ValueType>
-            std::vector<std::string> recursiveSearch(const Searchable<IdentifierType, ValueType>& searchable, const Element<IdentifierType, ValueType>& elm, const Element<IdentifierType, ValueType>& target);
+            template <typename ElementType>
+            std::vector<std::string> recursiveSearch(const Searchable<ElementType>& searchable, const ElementType& elm, const ElementType& target);
     };
 }
