@@ -8,9 +8,9 @@
 namespace searcher {
 
     typedef std::pair<uint32_t, uint32_t> pair;
-    typedef Element<std::pair<uint32_t, uint32_t>, double> graphElement;
+    typedef Element<pair, double> graphElement;
 
-    class Graph : public AbstractSearchable<pair, double> {
+    class Graph : public AbstractSearchable<graphElement> {
 
         const matrix::Matrix m_graphMatrix;
 

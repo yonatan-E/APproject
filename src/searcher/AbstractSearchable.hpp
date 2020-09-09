@@ -4,21 +4,21 @@
 
 namespace searcher {
     
-    template <typename IdentifierType, typename ValueType>
-    class AbstractSearchable : public Searchable<IdentifierType, ValueType> {
+    template <typename ElementType>
+    class AbstractSearchable : public Searchable<ElementType> {
 
-        const Element<IdentifierType, ValueType> m_startElement;
-        const Element<IdentifierType, ValueType> m_endElement;
+        const ElementType m_startElement;
+        const ElementType m_endElement;
 
         public:
-            AbstractSearchable(const Element<IdentifierType, ValueType>& startElement, const Element<IdentifierType, ValueType>& endElement);
+            AbstractSearchable(const ElementType& startElement, const ElementType& endElement);
 
             virtual ~AbstractSearchable() = default;
 
-            virtual const Element<IdentifierType, ValueType>& getStartElement() const final;
+            virtual const ElementType& getStartElement() const final;
 
-            virtual const Element<IdentifierType, ValueType>& getEndElement() const final;
+            virtual const ElementType& getEndElement() const final;
 
-            virtual std::vector<Element<IdentifierType, ValueType>> getAllReachableElements(const Element<IdentifierType, ValueType>& current) const = 0;
+            virtual std::vector<ElementType> getAllReachableElements(const ElementType& current) const = 0;
     };
 }

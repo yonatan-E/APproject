@@ -5,15 +5,15 @@
 
 namespace searcher {
     
-    template <typename IdentifierType, typename ValueType>
+    template <typename ElementType>
     class Searchable {
 
         public:
 
-            virtual const Element<IdentifierType, ValueType>& getStartElement() const = 0;
+            virtual const ElementType& getStartElement() const = 0;
 
-            virtual const Element<IdentifierType, ValueType>& getEndElement() const = 0;
+            virtual const ElementType& getEndElement() const = 0;
 
-            virtual std::vector<Element<IdentifierType, ValueType>> getAllReachableElements(const Element<IdentifierType, ValueType>& current) const = 0;
+            virtual std::vector<ElementType> getAllReachableElements(const ElementType& current) const = 0;
     };
 }

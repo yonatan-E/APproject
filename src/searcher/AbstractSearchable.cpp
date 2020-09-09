@@ -2,19 +2,19 @@
 
 namespace searcher {
 
-    template <typename IdentifierType, typename ValueType>
-    AbstractSearchable<IdentifierType, ValueType>::AbstractSearchable(const Element<IdentifierType, ValueType>& startElement,
-        const Element<IdentifierType, ValueType>& endElement)
+    template <typename ElementType>
+    AbstractSearchable<ElementType>::AbstractSearchable(const ElementType& startElement,
+        const ElementType& endElement)
     : m_startElement(startElement),
     m_endElement(endElement) {}
 
-    template <typename IdentifierType, typename ValueType>
-    const Element<IdentifierType, ValueType>& AbstractSearchable<IdentifierType, ValueType>::getStartElement() const {
+    template <typename ElementType>
+    const ElementType& AbstractSearchable<ElementType>::getStartElement() const {
         return m_startElement;
     }
 
-    template <typename IdentifierType, typename ValueType>
-    const Element<IdentifierType, ValueType>& AbstractSearchable<IdentifierType, ValueType>::getEndElement() const {
+    template <typename ElementType>
+    const ElementType& AbstractSearchable<ElementType>::getEndElement() const {
         return m_endElement;
     }
 }
