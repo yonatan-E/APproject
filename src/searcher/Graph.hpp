@@ -18,5 +18,7 @@ namespace searcher {
 
             Graph(const matrix::Matrix& graphMatrix, const pair& startLocation, const pair& endLocation);
             std::vector<graphElement> getAllReachableElements(const graphElement& current) const override;
+
+            std::string direction(const graphElement& origin, const graphElement& destination) const override;
     };
 }

@@ -37,4 +37,24 @@ namespace searcher {
 
         return reachables;
     }
+
+    std::string Graph::direction(const graphElement& origin, const graphElement& destination) const{
+        if(origin.getIdentifier().first == destination.getIdentifier().first + 1
+             && origin.getIdentifier().second == destination.getIdentifier().second){
+                 return "Left";
+        }
+        else if(origin.getIdentifier().first == destination.getIdentifier().first - 1
+             && origin.getIdentifier().second == destination.getIdentifier().second){
+                 return "Right";
+        }
+        else if(origin.getIdentifier().first == destination.getIdentifier().first
+             && origin.getIdentifier().second == destination.getIdentifier().second + 1){
+                 return "Up";
+        }
+         else if(origin.getIdentifier().first == destination.getIdentifier().first
+             && origin.getIdentifier().second == destination.getIdentifier().second - 1){
+                 return "Down";
+        }
+    }
+
 }
