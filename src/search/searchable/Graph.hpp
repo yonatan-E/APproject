@@ -2,21 +2,22 @@
 
 #include "AbstractSearchable.hpp"
 #include "Matrix.hpp"
+#include "Element.hpp"
 #include <cstdint>
 #include <utility>
 
 namespace searcher {
 
     typedef std::pair<uint32_t, uint32_t> pair;
-    typedef Element<pair, double> graphElement;
+    typedef Element<pair> graphElement;
 
-    class Graph : public AbstractSearchable<graphElement> {
+    class Graph : public AbstractSearchable<pair> {
 
         const matrix::Matrix m_graphMatrix;
 
         public:
 
-            Graph(const matrix::Matrix& graphMatrix, const pair& startLocation, const pair& endLocation);
+            Graph(const matrix::Matrix& graphMatrix, const pair& startPos, const pair& endPos);
             
             std::vector<graphElement> getAllReachableElements(const graphElement& current) const override;
 
