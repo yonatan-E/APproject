@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Solver.hpp"
-#include "SolverExceptions.hpp"
+#include "ServerExceptions.hpp"
 #include "../search/searcher/Searcher.hpp"
 #include "../search/searchable/Searchable.hpp"
 #include "../search/searchable/Graph.hpp"
@@ -34,12 +34,12 @@ namespace solver {
                     numColumns = std::stoi(std::string(&input[input.find(",", 0) + 1], &input[firstLine.size()]));
                 } catch (...) {
                     // throwing a file format exception in case that the stoi function hasn't succeeded
-                    throw exceptions::MessageFormatException();
+                    throw server::exceptions::MessageFormatException();
                 }
 
                 // throwing an exception in a case that the matrix height or width is 0
                 if (numRows == 0 || numColumns == 0) {
-                    throw exceptions::MessageFormatException();
+                    throw server::exceptions::MessageFormatException();
                 }
 
                 // creating a new matrix with sizes numRows * numColumns
@@ -69,12 +69,12 @@ namespace solver {
                                 val = std::stoi(line.substr(j, k - j + 1));
                             } catch (...) {
                                 // throwing a file format exception in case that the stoi function hasn't succeeded
-                                throw exceptions::MessageFormatException();
+                                throw server::exceptions::MessageFormatException();
                             }
                         }
                         // throwing an exception in case that the specified value in the matrix is smaller than 1
                         if (val < 1) {
-                            throw exceptions::MessageFormatException();
+                            throw server::exceptions::MessageFormatException();
                         }
                         // finally setting the value in the matrix
                         matrix.setAt(i, colIndex, val);
@@ -97,7 +97,7 @@ namespace solver {
                     startPos.second = std::stoi(std::string(&input[input.find(",", it) + 1], &input[firstLine.size()]));
                 } catch (...) {
                     // throwing a file format exception in case that the stoi function hasn't succeeded
-                    throw exceptions::MessageFormatException();
+                    throw server::exceptions::MessageFormatException();
                 }
                 it = input.find("\r\n", it) + 2;
 
@@ -111,7 +111,7 @@ namespace solver {
                     endPos.second = std::stoi(std::string(&input[input.find(",", it) + 1], &input[firstLine.size()]));
                 } catch (...) {
                     // throwing a file format exception in case that the stoi function hasn't succeeded
-                    throw exceptions::MessageFormatException();
+                    throw server::exceptions::MessageFormatException();
                 }
 
                 return Graph(matrix, startPos, endPos);
