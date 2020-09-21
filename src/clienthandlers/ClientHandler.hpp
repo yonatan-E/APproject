@@ -11,7 +11,7 @@ namespace handler{
         ClientHandler(const Solver& solver) : 
         solver(std::make_unique<solver::Solver<Problem, Solution>>(solver)){}
         
-        template <class iStream, class oStream>
+        template <typename iStream, typename oStream>
         virtual void handleClient(iStream input, oStream output) const;
 
     };
