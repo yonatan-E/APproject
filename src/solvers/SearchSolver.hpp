@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Solver.hpp"
-#include "../searcher/Searchable.hpp"
-#include "../searcher/Searcher.hpp"
+#include "../search/searchable/Searchable.hpp"
+#include "../search/searcher/Searcher.hpp"
 
 namespace solver {
 
