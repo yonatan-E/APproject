@@ -3,7 +3,7 @@
 namespace handler{
 
     template <typename Searchable, typename Searcher>
-    class AlgorihtmClientHandler : public ClientHandler{
+    class AlgorithmClientHandler : public ClientHandler{
 
         AlgorithmClientHandler(const Solver& solver);
 
