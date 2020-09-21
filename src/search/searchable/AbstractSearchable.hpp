@@ -14,9 +14,7 @@ namespace searcher {
         public:
         
             AbstractSearchable(const Element<Identifier>& startPos, const Element<Identifier>& endPos)
-            try
-                : m_startPos(startPos), m_endPos(endPos)
-            {
+            : m_startPos(startPos), m_endPos(endPos) {
                 // checking if the start position is valid
                 if (!isValidElement(startPos)) {
                     throw exceptions::InvalidStartPositionException();
@@ -26,10 +24,6 @@ namespace searcher {
                 if (!isValidElement(endPos)) {
                     throw exceptions::InvalidEndPositionException();
                 }
-            }
-            catch(const std::exception& e)
-            {
-                throw e;
             }
 
             virtual const Element<Identifier>& getStartElement() const final {
