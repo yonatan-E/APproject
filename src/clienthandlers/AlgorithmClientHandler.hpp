@@ -1,14 +1,16 @@
 #include "ClientHandler.hpp"
 
-namespace handler{
+namespace server {
 
-    template <typename Searchable, typename Searcher>
-    class AlgorithmClientHandler : public ClientHandler{
+    namespace handler {
 
-        AlgorithmClientHandler(const Solver& solver);
+        template <typename Searchable, typename Searcher>
+        class AlgorithmClientHandler : public ClientHandler{
 
-        template <typename int, typename int>
-        virtual void handleClient(int inputSocket, int outputSocket) const;
-    };
+            AlgorithmClientHandler(const Solver& solver);
 
+            template <typename int, typename int>
+            virtual void handleClient(int inputSocket, int outputSocket) const;
+        };
+    }
 }
