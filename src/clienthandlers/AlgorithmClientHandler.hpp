@@ -8,7 +8,7 @@ namespace handler{
         AlgorithmClientHandler(const Solver& solver);
 
         template <typename int, typename int>
-        virtual void handleClient(iStream inputSocket, oStream outputSocket) const;
+        virtual void handleClient(int inputSocket, int outputSocket) const;
     };
 
 }
