@@ -8,5 +8,7 @@ namespace solver {
         public:
 
             virtual Solution solve(const Problem& problem) const = 0;
+
+            virtual Problem parseInput(std::string input) const = 0;
     };
 }
