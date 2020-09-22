@@ -47,10 +47,14 @@ namespace cache {
             bool contains(const uint32_t hashCode) const;
 
             /**
-             * @brief Clear the cache
+             * @brief Get the content of the operation file in the cache
              * 
+             * @param hashCode the hashCode of the operation
+             * @return std::string the content of the operation file in the cache
              */
-            void clear();
+            std::string getOperationFileContent(const uint32_t hashCode) const;
+
+        private:
 
             /**
              * @brief Get the path of the operation file of the operation with the given hashCode

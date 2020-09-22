@@ -96,25 +96,24 @@ namespace cache {
         return std::find(m_hashCodes.begin(), m_hashCodes.end(), hashCode) != m_hashCodes.end();
     }
 
-    void CacheManager::clear() {
-        // removing all of the result files from the cache directory using for_each
-        for_each(m_hashCodes.begin(), m_hashCodes.end(), [this](uint32_t hashCode) {
-            // removing the file of the operation from the cache directory,
-            // and checking if an error has occured while removing the file
-            if (remove(getOperationFilePath(hashCode).c_str()) != 0) {
-                // throwing an exception in case that the directory deletion filed
-                throw std::system_error(errno, std::system_category());
-            }
-        });
+    std::string CacheManager::getOperationFileContent(const uint32_t hashCode) const {
+        // opening the file
+        std::ifstream in(getOperationFilePath(hashCode));
 
-        // removing the info.txt file
-        if (remove((m_directoryPath + "/info.txt").c_str()) != 0) {
-            // throwing an exception in case that the directory deletion filed
-            throw std::system_error(errno, std::system_category());
+        // checking if an error has occured while opening the file
+        if (!in) {
+            throw exceptions::FileOpenException();
         }
 
-        // making the vector empty
-        m_hashCodes.clear();
+        // reading the content from the file
+        auto content = std::string{std::istreambuf_iterator<char>{in}, std::istreambuf_iterator<char>{}};
+
+        // checking if an error has occured while reading from the file
+        if (!in) {
+            throw exceptions::FileReadException();
+        }
+
+        return content;
     }
 
     std::string CacheManager::getOperationFilePath(const uint32_t hashCode) const {
