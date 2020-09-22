@@ -1,6 +1,7 @@
 #include "ClientHandler.hpp"
 #include "../solvers/Solver.hpp"
 #include "../solvers/SearchSolver.hpp"
+#include "ServerExceptions.hpp"
 
 namespace server {
 
@@ -37,7 +38,7 @@ namespace server {
                  catch(const searcher::exceptions::InvalidEndPositionException&){
                     result = printLog(3, 0);
                 }
-                catch(const searcher::exceptions::MessageFormatException&){
+                catch(const server::exceptions::MessageFormatException&){
                     result = printLog(4, 0);
                 }
 
