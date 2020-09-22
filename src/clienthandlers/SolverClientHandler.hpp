@@ -2,6 +2,7 @@
 #include "../solvers/Solver.hpp"
 #include "../solvers/SearchSolver.hpp"
 #include "ServerExceptions.hpp"
+#include "../factories/SolverFactory.hpp"
 
 namespace server {
 
@@ -46,36 +47,46 @@ namespace server {
                 //success in recieving input, solving the problem with the input
 
                 //get the right solver according to the problem request
-                SolverFactory factory = SolverFactory();
-                solver<Problem, Solution> solver& = factory.getSolver(stringProblem);
-
-                //parse the input according to the solver
-                Problem input = solver.parseInput(stringInput);
+                SolverFactory sFactory = SolverFactory<Problem, Solution>();
+                auto solver = sFactory.getSolver(command);
 
                 //add cache managing here
 
                 std::string result;
+                uint32_t status = 0;
 
                 //trying to solve the problem, return error message if one accurs
                 try {
-                    result = m_solver.solve(problem);
+                    result = solver->solve(problem);
                 }
                 catch(const searcher::exceptions::PathDoesNotExistException&){
-                    result = printLog(1, m_noResponseLength);
+                    status = 1;
                 }
                 catch(const searcher::exceptions::InvalidStartPositionException&){
-                    result =  printLog(2, m_noResponseLength);
+                    status = 2;
                 }
-                 catch(const searcher::exceptions::InvalidEndPositionException&){
-                    result = printLog(3, m_noResponseLength);
+                catch(const searcher::exceptions::InvalidEndPositionException&){
+                    status = 3;
+                }
+                catch(const server::exceptions::InvalidCommandException&){
+                    status = 4;
                 }
                 catch(const server::exceptions::MessageFormatException&){
-                    result = printLog(4, m_noResponseLength);
+                    status = 5;
                 }
 
-                //success, write a success message and the result to the client
-                writeSock(clientSocket,  getLog(m_successStatus, result.size()));
-                writeSock(clientSocket, result);
+                //send success/fail message
+                if(status == 0){
+                    writeSock(clientSocket, getLog(status, result.size()));
+                }
+                else{
+                     writeSock(clientSocket, getLog(status, m_noResponseLength));
+                }
+
+                //success, send the result
+                if(status == 0){
+                    writeSock(clientSocket, result);
+                }
 
                 //close the port
                 close(clientSocket);          
@@ -107,7 +118,7 @@ namespace server {
                 }
                 
                 //success
-                return (std::string) buffer;
+                return (std::string) buffer);
             }
 
             std::string getLog(int status, int length){
