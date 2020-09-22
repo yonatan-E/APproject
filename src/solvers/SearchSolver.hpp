@@ -3,7 +3,6 @@
 #include "Solver.hpp"
 #include "../search/searcher/Searcher.hpp"
 #include "../search/searcher/SearchResult.hpp"
-#include "../parsers/SearcherInputParser.hpp"
 #include <cstdint>
 #include <utility>
 
@@ -15,13 +14,8 @@ namespace solver {
 
         public:
 
-            SearchSolver(const searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>& searcher)
-            : m_searcher(searcher) {}
+            SearchSolver(const searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>& searcher);
 
-            std::string solve(const std::string& problemString) const override {
-                parser::SearcherInputParser parser;
-                searcher::Graph problem = parser.parseInput(problemString);
-                return (m_searcher.search(problem)).toString();
-            }
+            std::string solve(const std::string& problemString) const override;
     };
 }
