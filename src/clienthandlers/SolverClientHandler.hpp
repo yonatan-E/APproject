@@ -6,6 +6,7 @@
 #include "../cachemanager/CacheManager.hpp"
 #include "../cachemanager/SolverOperation.hpp"
 #include "../search/SearchExceptions.hpp"
+#include "../cachemanager/util/HashUtil.hpp"
 #include <unistd.h>
 #include <string>
 
@@ -64,7 +65,7 @@ namespace server {
 
                     // first, searching for the solution in the cache:
                     // getting the hashCode of the operation
-                    const uint32_t hashCode = calculateSolverOperationHashCode(problemString);
+                    const uint32_t hashCode = util::HashUtil::calculateHash(command + problemString);
                     // if the operation result also exists in the cache, so getting it from the cache
                     if (m_cache.contains(hashCode)) {
                         try {
