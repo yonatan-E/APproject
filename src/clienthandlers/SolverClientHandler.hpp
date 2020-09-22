@@ -5,6 +5,7 @@
 #include "../solvers/SolverFactory.hpp"
 #include "../cachemanager/CacheManager.hpp"
 #include "../cachemanager/SolverOperation.hpp"
+#include "../search/SearchExceptions.hpp"
 #include <unistd.h>
 #include <string>
 
