@@ -1,7 +1,7 @@
 #include "ClientHandler.hpp"
 #include "../solvers/Solver.hpp"
 #include "../solvers/SearchSolver.hpp"
-#include "ServerExceptions.hpp"
+#include "../server/ServerExceptions.hpp"
 #include "../solvers/SolverFactory.hpp"
 #include "../cachemanager/CacheManager.hpp"
 #include "../cachemanager/SolverOperation.hpp"
@@ -34,7 +34,7 @@ namespace server {
 
                     //error in recieving problem
                     if(command == ""){
-                        writeSock(clientSocket, getLog(6, m_noResponseLength));
+                        writeSock(clientSocket, getLog(7, m_noResponseLength));
                         close(clientSocket);
                         return;
                     }
@@ -50,7 +50,7 @@ namespace server {
 
                     //error in recieving input
                     if(problemString == ""){
-                        writeSock(clientSocket, getLog(6, m_noResponseLength));
+                        writeSock(clientSocket, getLog(7, m_noResponseLength));
                         close(clientSocket);
                         return;
                     }
@@ -71,7 +71,7 @@ namespace server {
                             // loading the operation into the cache
                             m_cache.load(operation::SolverOperation(hashCode, solutionString));
                         } catch (...) {
-                            status = 7;
+                            status = 6;
                         }
 
                     } else {
@@ -88,20 +88,17 @@ namespace server {
                         catch(const searcher::exceptions::PathDoesNotExistException&){
                             status = 1;
                         }
-                        catch(const searcher::exceptions::InvalidStartPositionException&){
+                        catch(const searcher::exceptions::InvalidPositionException&){
                             status = 2;
                         }
-                        catch(const searcher::exceptions::InvalidEndPositionException&){
+                        catch(const server::exceptions::InvalidCommandException&){
                             status = 3;
                         }
-                        catch(const server::exceptions::InvalidCommandException&){
+                        catch(const server::exceptions::ProtocolException&){
                             status = 4;
                         }
-                        catch(const server::exceptions::MessageFormatException&){
-                            status = 5;
-                        }
                         catch (...) {
-                            status = 7;
+                            status = 5;
                         }
                     }
 
@@ -135,13 +132,13 @@ namespace server {
                     return write(clientSocket, message.c_str(), message.size());
                 }
 
-                std::string readSock(const int clientSocket) const{
+                std::string readSock(const int clientSocket) const {
                     
                     char buffer[m_bufferSize];
                     size_t bytesRead;
                     int messageSize = 0;
 
-                    while(bytesRead == read(clientSocket, buffer + messageSize, sizeof(buffer) - messageSize - 1) >= 0){
+                    while(bytesRead == read(clientSocket, buffer + messageSize, sizeof(buffer) - messageSize - 1) >= 0) {
                         messageSize += bytesRead;
                         if(messageSize > m_bufferSize - 1){
                             //fail
@@ -159,28 +156,20 @@ namespace server {
                     
                     //success
                     return static_cast<std::string>(buffer);
-                }
-
-                std::string getLog(int status, int length){
-                    std::string msg =
-                    "Version: " + m_version + "\r\n"
-                    "status: " + status + "\r\n"
-                    "response-length: " + length + "\r\n";
-                }
-
-                std::string message = static_cast<std::string>(buffer).substr(0, message.size() - 4);
                 
-                //success
-                return message;
-            }
 
-            std::string getLog(int status, int length){
-                std::string msg =
-                "Version: " + m_version + "\r\n"
-                "status: " + status + "\r\n"
-                "response-length: " + length + "\r\n";
-            }
+                    std::string message = static_cast<std::string>(buffer).substr(0, message.size() - 4);
+                
+                    //success
+                    return message;
+                }    
+            
 
+                std::string getLog(int status, int length) {
+                    return "Version: " + m_version + "\r\n"
+                    + "status: " + status + "\r\n"
+                    + "response-length: " + length + "\r\n";
+                }
         };
     }
 }
