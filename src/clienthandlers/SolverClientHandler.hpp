@@ -20,7 +20,7 @@ namespace server {
                 std::string stringInput = readSock(clientSocket);
                 std::string result;
 
-                solver<Problem, Solution> solver = parseSolver(stringProblem);
+                solver<Problem, Solution> solver& = parseSolver(stringProblem);
 
                 Problem input = solver.parseInput(stringInput);
 
