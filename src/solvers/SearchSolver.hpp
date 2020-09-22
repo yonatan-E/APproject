@@ -3,9 +3,13 @@
 #include "Solver.hpp"
 #include "ServerExceptions.hpp"
 #include "../search/searcher/Searcher.hpp"
+#include "../search/searcher/SearchResult.hpp"
 #include "../search/searchable/Searchable.hpp"
 #include "../search/searchable/Graph.hpp"
+#include "../solvers/Solver.hpp"
+#include "../solvers/SearchSolver.hpp"
 #include <cstdint>
+#include <utility>
 
 namespace solver {
 
