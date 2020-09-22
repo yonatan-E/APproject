@@ -7,7 +7,9 @@ namespace server {
 
         class ClientHandler{
             
-            virtual void handleClient(int clientSocket) const = 0;
+            public:
+            
+                virtual void handleClient(int clientSocket) const = 0;
         };
     }
 }
