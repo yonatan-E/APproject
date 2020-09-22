@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdexcept>
+#include <string>
 
 namespace server {
 
@@ -25,7 +26,7 @@ namespace server {
          * @brief This class represents a message format exception.
          * 
          */
-        class MessageFormatException : public std::runtime_error {
+        class ProtocolException : public std::runtime_error {
 
             public:
 
@@ -33,7 +34,7 @@ namespace server {
                  * @brief Construct a new Message Format Exception object
                  * 
                  */
-                MessageFormatException();
+                ProtocolException(std::string message);
         };
     }
 }

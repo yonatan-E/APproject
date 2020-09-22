@@ -7,7 +7,7 @@ namespace server {
         InvalidCommandException::InvalidCommandException()
             : std::runtime_error("Invalid command") {}
         
-        MessageFormatException::MessageFormatException()
-            : std::runtime_error("Invalid message format") {}
+        ProtocolException::ProtocolException(std::string message)
+            : std::runtime_error(std::move(message)) {}
     }
 }
