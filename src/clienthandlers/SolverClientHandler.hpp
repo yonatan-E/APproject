@@ -5,8 +5,8 @@
 #include "../factories/SolverFactory.hpp"
 #include "../cachemanager/CacheManager.hpp"
 #include "../cachemanager/SolverOperation.hpp"
-#include <system_error>
 #include <unistd.h>
+#include <string>
 
 namespace server {
 
@@ -100,23 +100,34 @@ namespace server {
                     }
                 }
 
-                //send success/fail message
+                //the calculation has succeeded
                 if(status == 0){
-                    writeSock(clientSocket, getLog(status, solutionString.size()));
-                    writeSock(clientSocket, solutionString);
+                    //send success message
+                    if(writeSock(clientSocket, getLog(status, solutionString.size())) < 0){
+                        close(clientSocket);
+                        return;
+                    }
+                    //send solution
+                    if(writeSock(clientSocket, solutionString) < 0){
+                        close(clientSocket);
+                        return;
+                    }
                 }
+                //if the calculation has failed
                 else{
-                    writeSock(clientSocket, getLog(status, m_noResponseLength));
+                    //send error message
+                    if(writeSock(clientSocket, getLog(status, m_noResponseLength)) < 0){
+                        close(clientSocket);
+                        return;
+                    }    
                 }
 
                 //close the port
                 close(clientSocket);          
             }
 
-            void writeSock(const int clientSocket, std::string message){
-                if (write(clientSocket, message.c_str(), message.size()) < 0) {
-                    close(clientSocket);
-                }
+            int writeSock(const int clientSocket, std::string message){
+                return write(clientSocket, message.c_str(), message.size());
             }
 
             std::string readSock(const int inputSocket) const{
