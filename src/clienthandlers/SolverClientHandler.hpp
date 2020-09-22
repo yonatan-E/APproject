@@ -97,6 +97,7 @@ namespace server {
             }
 
             std::string readSock(const int inputSocket) const{
+                
                 char buffer[m_bufferSize];
                 size_t bytesRead;
                 int messageSize = 0;
