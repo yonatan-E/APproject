@@ -13,28 +13,28 @@ namespace solver {
     std::unique_ptr<solver::Solver<searcher::Graph, searcher::SearchResult>>
     SolverFactory<searcher::Graph, searcher::SearchResult>::getSolver(const std::string& command) const {
 
+        // parsing the command into parts
         std::vector<std::string> commandParts;
-
-        std::string it = "";
-        for (int i = 0; i < command.size(); i++){
-            if (command.at(i) != ' ') {
-                it += command.at(i);
-                if(i == it.size() - 1){
-                commandParts.push_back(it);
+        std::string part = "";
+        for (const auto x : command) {
+            if (x == ' ') {
+                if (part.size() > 0) {
+                    commandParts.push_back(part);
                 }
-            }
-            else if (it.size() > 0) {
-                commandParts.push_back(it);
-                it = "";
+                part = "";
+            } else {
+                part += x;
             }
         }
 
+        // checking if the command length is legal
         if (command.size() != 3 && command.size() != 2){
             throw server::exceptions::ProtocolException("Invalid message length");
         }
 
+        // getting the right searcher, according to the command
+        // and throwing exceptions in case that the command is invalid
         std::unique_ptr<solver::SearchSolver> solver;
-
         if (commandParts[0] == "solve" && commandParts[1] == "find-graph-path") {
             if(commandParts.size() == 2 || commandParts[2] == "BestFS") {
                 solver = std::make_unique<solver::SearchSolver>(searcher::BestFSSearcher<std::pair<uint32_t, uint32_t>>());
@@ -56,5 +56,4 @@ namespace solver {
         
         throw server::exceptions::ProtocolException("Invalid problem type");
     }
-
 }
