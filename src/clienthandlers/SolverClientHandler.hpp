@@ -13,10 +13,10 @@ namespace server {
             const int m_bufferSize = 1000000;
             const double m_version = 1.0;
 
-            void handleClient(const int inputSocket, const int outputSocket) const override{
+            void handleClient(const int clientSocket) const override{
 
-                std::string stringProblem = readSock(inputSocket);
-                std::string stringInput = readSock(inputSocket);
+                std::string stringProblem = readSock(clientSocket);
+                std::string stringInput = readSock(clientSocket);
                 std::string result;
 
                 solver<Problem, Solution> solver = parseSolver(stringProblem);
@@ -41,21 +41,13 @@ namespace server {
                     result = printLog(4, 0);
                 }
 
-                writeSock(outputSocket, result);
+                writeSock(clientSocket, result);
 
-                closeSock(inputSocket, outputSocket);
-                
-            }
-
-            void closeSock(const int inputSocket, const int outputSocket){
-                close(inputSocket);
-                if(inputSocket != outputSocket()){
-                    close(outputSocket);
-                }
+                close(clientSocket);          
             }
 
             void writeSock(const int outputSocket, std::string message){
-                write(outputSocket, message.c_str(), message.size() + 1);
+                write(outputSocket, message.c_str(), message.size());
             }
 
             std::string readSock(const int inputSocket) const{
