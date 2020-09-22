@@ -40,7 +40,7 @@ namespace server {
                     }
 
                     //success in recieving problem
-                    if(writeSock(clientSocket, getLog(m_successStatus, m_noResponseLength)) < 0) {
+                    if (writeSock(clientSocket, getLog(m_successStatus, m_noResponseLength)) < 0) {
                         close(clientSocket);
                         return;
                     }
@@ -167,6 +167,20 @@ namespace server {
                     "status: " + status + "\r\n"
                     "response-length: " + length + "\r\n";
                 }
+
+                std::string message = static_cast<std::string>(buffer).substr(0, message.size() - 4);
+                
+                //success
+                return message;
+            }
+
+            std::string getLog(int status, int length){
+                std::string msg =
+                "Version: " + m_version + "\r\n"
+                "status: " + status + "\r\n"
+                "response-length: " + length + "\r\n";
+            }
+
         };
     }
 }
