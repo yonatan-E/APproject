@@ -17,12 +17,12 @@ namespace searcher {
             : m_startPos(startPos), m_endPos(endPos) {
                 // checking if the start position is valid
                 if (!isValidElement(startPos)) {
-                    throw exceptions::InvalidStartPositionException();
+                    throw exceptions::InvalidPositionException("The given start position is invalid");
                 }
 
                 // checking if the end position is valid
                 if (!isValidElement(endPos)) {
-                    throw exceptions::InvalidEndPositionException();
+                    throw exceptions::InvalidEndPositionException("The given end position is invalid");
                 }
             }
 
@@ -38,8 +38,13 @@ namespace searcher {
 
             virtual std::string getDirection(const Element<Identifier>& origin, const Element<Identifier>& destination) const = 0;
 
-            virtual bool isValidElement(const Element<Identifier>& element) const = 0;
-
             virtual ~AbstractSearchable() = default;
+        
+        protected:
+
+            virtual bool isValidElement(const Element<Identifier>& element) const {
+                // the default implementation will guess that the given element is always valid
+                return true;
+            }
     };
 }

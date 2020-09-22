@@ -23,6 +23,8 @@ namespace searcher {
 
             std::string getDirection(const graphElement& origin, const graphElement& destination) const override;
 
+        protected:
+
             bool isValidElement(const graphElement& element) const override;
     };
 }
