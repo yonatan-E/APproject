@@ -6,8 +6,9 @@
 #include "../search/searcher/SearchResult.hpp"
 #include "../search/searchable/Searchable.hpp"
 #include "../search/searchable/Graph.hpp"
-#include "../solvers/Solver.hpp"
-#include "../solvers/SearchSolver.hpp"
+#include "Solver.hpp"
+#include "SearchSolver.hpp"
+#include "../parsers/SearcherInputParser.hpp"
 #include <cstdint>
 #include <utility>
 
@@ -15,21 +16,17 @@ namespace solver {
 
     class SearchSolver : public Solver<searcher::Graph, searcher::SearchResult> {
 
-        const searcher::Searcher<searcher::SearchResult, pair>& m_searcher;
+        const searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>& m_searcher;
 
         public:
 
-            SearchSolver(const searcher::Searcher<searcher::SearchResult, pair>& searcher)
+            SearchSolver(const searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>& searcher)
             : m_searcher(searcher) {}
 
-            searcher::SearchResult solve(const Graph& problem) const override {
-                return m_searcher.search(problem);
-            }
-
             std::string solve(const std::string& problemString) const override {
-                parser::SearchInputParser parser;
+                parser::SearcherInputParser parser;
                 searcher::Graph problem = parser.parseInput(problemString);
-                return solve(problem).toString();
+                return (m_searcher.search(problem)).toString();
             }
     };
 }
