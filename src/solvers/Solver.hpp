@@ -11,6 +11,6 @@ namespace solver {
 
             virtual Solution solve(const Problem& problem) const = 0;
 
-            virtual Problem parseInput(const std::string& input) const = 0;
+            virtual std::string solve(const std::string& problemString) const = 0;
     };
 }

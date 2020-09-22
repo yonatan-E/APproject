@@ -21,10 +21,10 @@ namespace server {
             void handleClient(const int clientSocket) const override{
 
                 //read problem
-                std::string stringProblem = readSock(clientSocket);
+                std::string command = readSock(clientSocket);
 
                 //error in recieving problem
-                if(stringProblem == nullptr){
+                if(command == nullptr){
                     writeSock(clientSocket, getLog(4, m_noResponseLength));
                     close(clientSocket);
                     return;
@@ -34,10 +34,10 @@ namespace server {
                 writeSock(clientSocket, getLog(m_successStatus, m_noResponseLength));
 
                 //read input
-                std::string stringInput = readSock(clientSocket);
+                std::string problem = readSock(clientSocket);
 
                 //error in recieving input
-                if(stringInput == nullptr){
+                if(problem == nullptr){
                     writeSock(clientSocket, getLog(5, m_noResponseLength));
                     close(clientSocket);
                     return;
@@ -57,8 +57,8 @@ namespace server {
                 std::string result;
 
                 //trying to solve the problem, return error message if one accurs
-                try{
-                    result = m_solver.solve(input);
+                try {
+                    result = m_solver.solve(problem);
                 }
                 catch(const searcher::exceptions::PathDoesNotExistException&){
                     result = printLog(1, m_noResponseLength);
