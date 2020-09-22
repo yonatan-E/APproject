@@ -3,7 +3,7 @@
 #include "../search/searcher/BFSSearcher.hpp"
 #include "../search/searcher/DFSSearcher.hpp"
 #include "../search/searcher/BestFSSearcher.hpp"
-#include "../clienthandlers/ServerExceptions.hpp"
+#include "../server/ServerExceptions.hpp"
 #include "../search/searchable/Graph.hpp"
 #include <vector>
 
@@ -30,31 +30,31 @@ namespace solver {
         }
 
         if (command.size() != 3 && command.size() != 2){
-            throw server::exceptions::InvalidCommandException();
+            throw server::exceptions::ProtocolException("Invalid message length");
         }
 
         std::unique_ptr<solver::SearchSolver> solver;
 
-        if(commandParts[0] == "solve" && commandParts[1] == "find-graph-path"){
+        if (commandParts[0] == "solve" && commandParts[1] == "find-graph-path") {
             if(commandParts.size() == 2 || commandParts[2] == "BestFS") {
                 solver = std::make_unique<solver::SearchSolver>(searcher::BestFSSearcher<std::pair<uint32_t, uint32_t>>());
             }
-            else if(commandParts[2] == "BFS"){
+            else if (commandParts[2] == "BFS") {
                 solver = std::make_unique<solver::SearchSolver>(searcher::BFSSearcher<std::pair<uint32_t, uint32_t>>());
             }
-            else if(commandParts[2] == "DFS"){
+            else if (commandParts[2] == "DFS") {
                 solver = std::make_unique<solver::SearchSolver>(searcher::DFSSearcher<std::pair<uint32_t, uint32_t>>());
             }
-            else if(commandParts[2] == "A*"){
+            else if (commandParts[2] == "A*") {
                 solver = std::make_unique<solver::SearchSolver>(searcher::AStarSearcher<std::pair<uint32_t, uint32_t>>());
             }
             else {
-                throw server::exceptions::InvalidCommandException();
+                throw server::exceptions::ProtocolException("Invalid algorithm name");
             }
             return solver;
         }
-
-        throw server::exceptions::InvalidCommandException();
+        
+        throw server::exceptions::ProtocolException("Invalid problem type");
     }
 
 }
