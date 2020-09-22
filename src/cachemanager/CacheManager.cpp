@@ -83,7 +83,7 @@ namespace cache {
         }
 
         // writing the vector into the info file
-        for (auto hashCode : m_hashCodes) {
+        for (const auto hashCode : m_hashCodes) {
             info << hashCode << '\n';
         }
 
