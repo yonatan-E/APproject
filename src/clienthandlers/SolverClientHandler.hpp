@@ -151,9 +151,11 @@ namespace server {
                     //fail
                     return "";
                 }
+
+                std::string message = static_cast<std::string>(buffer).substr(0, message.size() - 4);
                 
                 //success
-                return static_cast<std::string>(buffer);
+                return message;
             }
 
             std::string getLog(int status, int length){
