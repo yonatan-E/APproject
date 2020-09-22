@@ -10,7 +10,7 @@ namespace server {
         template <typename Problem, typename Solution>
         class SolverClientHandler : public ClientHandler{
 
-            cache::CacheManager m_cache;
+            //cache::CacheManager m_cache;
             const int m_bufferSize = 1000000;
             const double m_version = 1.0;
             const double m_noResponseLength = 0;
