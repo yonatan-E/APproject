@@ -45,8 +45,11 @@ namespace server {
 
                 //success in recieving input, solving the problem with the input
 
-                solver<Problem, Solution> solver& = parseSolver(stringProblem);
+                //get the right solver according to the problem request
+                SolverFactory factory = SolverFactory();
+                solver<Problem, Solution> solver& = factory.getSolver(stringProblem);
 
+                //parse the input according to the solver
                 Problem input = solver.parseInput(stringInput);
 
                 //add cache managing here
