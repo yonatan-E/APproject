@@ -22,16 +22,16 @@ namespace solver {
                 return m_searcher.search(problem);
             }
 
-            Graph parseInput(const std::string& input) const override {
+            searcher::Graph parseInput(const std::string& input) {
                 // getting the first line
                 std::string firstLine(&input[0], &input[input.find("\r\n", 0)]);
-                firstLine.erase(std::remove(line.begin(), line.end(), ' '), line.end());
+                firstLine.erase(std::remove(firstLine.begin(), firstLine.end(), ' '), firstLine.end());
                 // getting the number of the rows and the columns of the matrix
                 uint32_t numRows;
                 uint32_t numColumns;
                 try {
-                    numRows = std::stoi(std::string(&firstLine[0], &input[input.find(",", 0)]));
-                    numColumns = std::stoi(std::string(&input[input.find(",", 0) + 1], &input[firstLine.size()]));
+                    numRows = std::stoi(std::string(&firstLine[0], &firstLine[firstLine.find(',', 0)]));
+                    numColumns = std::stoi(std::string(&firstLine[firstLine.find(',', 0) + 1], &firstLine[firstLine.size()]));
                 } catch (...) {
                     // throwing a file format exception in case that the stoi function hasn't succeeded
                     throw server::exceptions::MessageFormatException();
@@ -77,7 +77,12 @@ namespace solver {
                             throw server::exceptions::MessageFormatException();
                         }
                         // finally setting the value in the matrix
-                        matrix.setAt(i, colIndex, val);
+                        try {
+                            matrix.setAt(i, colIndex, val);
+                        } catch (...) {
+                            // throwing an exception in case that the value set in the matrix is in an invalid place
+                            throw server::exceptions::MessageFormatException();
+                        }
 
                         // promoting the iterators
                         j = k + 1;
@@ -89,12 +94,12 @@ namespace solver {
 
                 // getting the current line
                 std::string currentLine(&input[it], &input[input.find("\r\n", it)]);
-                firstLine.erase(std::remove(line.begin(), line.end(), ' '), line.end());
+                currentLine.erase(std::remove(currentLine.begin(), currentLine.end(), ' '), currentLine.end());
                 // getting the start position
                 pair startPos;
                 try {
-                    startPos.first = std::stoi(std::string(&firstLine[it], &input[input.find(",", it)]));
-                    startPos.second = std::stoi(std::string(&input[input.find(",", it) + 1], &input[firstLine.size()]));
+                    startPos.first = std::stoi(std::string(&currentLine[0], &currentLine[currentLine.find(',', 0)]));
+                    startPos.second = std::stoi(std::string(&currentLine[currentLine.find(',', 0) + 1], &currentLine[currentLine.size()]));
                 } catch (...) {
                     // throwing a file format exception in case that the stoi function hasn't succeeded
                     throw server::exceptions::MessageFormatException();
@@ -103,16 +108,19 @@ namespace solver {
 
                 // getting the current line
                 currentLine = std::string(&input[it], &input[input.find("\r\n", it)]);
-                firstLine.erase(std::remove(line.begin(), line.end(), ' '), line.end());
+                currentLine.erase(std::remove(currentLine.begin(), currentLine.end(), ' '), currentLine.end());
                 // getting the start position
                 pair endPos;
                 try {
-                    endPos.first = std::stoi(std::string(&firstLine[it], &input[input.find(",", it)]));
-                    endPos.second = std::stoi(std::string(&input[input.find(",", it) + 1], &input[firstLine.size()]));
+                    endPos.first = std::stoi(std::string(&currentLine[0], &currentLine[currentLine.find(',', 0)]));
+                    endPos.second = std::stoi(std::string(&currentLine[currentLine.find(',', 0) + 1], &currentLine[currentLine.size()]));
                 } catch (...) {
                     // throwing a file format exception in case that the stoi function hasn't succeeded
                     throw server::exceptions::MessageFormatException();
                 }
+
+                return searcher::Graph(matrix, startPos, endPos);
+            }
 
                 return Graph(matrix, startPos, endPos);
             }
