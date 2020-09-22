@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AbstractSearchable.hpp"
-#include "Matrix.hpp"
+#include "matrix/Matrix.hpp"
 #include "Element.hpp"
 #include <cstdint>
 #include <utility>

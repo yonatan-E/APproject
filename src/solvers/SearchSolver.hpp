@@ -1,13 +1,8 @@
 #pragma once
 
 #include "Solver.hpp"
-#include "ServerExceptions.hpp"
 #include "../search/searcher/Searcher.hpp"
 #include "../search/searcher/SearchResult.hpp"
-#include "../search/searchable/Searchable.hpp"
-#include "../search/searchable/Graph.hpp"
-#include "Solver.hpp"
-#include "SearchSolver.hpp"
 #include "../parsers/SearcherInputParser.hpp"
 #include <cstdint>
 #include <utility>

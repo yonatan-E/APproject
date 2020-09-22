@@ -11,18 +11,18 @@ namespace factories{
 
     template <>
     std::unique_ptr<solver::Solver<searcher::Graph, searcher::SearchResult>>
-    SolverFactory<searcher::Graph, searcher::SearchResult>::getSolver(std::string request) const{
+    SolverFactory<searcher::Graph, searcher::SearchResult>::getSolver(const std::string& command) const{
 
-        std::vector<std::string> command;
+        std::vector<std::string> commandParts;
 
-        std::string curString = "";
-        for (int i = 0 ;i < request.size(); i++){
-            if(request.at(i) == ' ' && curString.size() > 0){
-                command.push_back(curString);
-                curString = "";
+        std::string it = "";
+        for (int i = 0; i < command.size(); i++){
+            if(command.at(i) == ' ' && it.size() > 0){
+                commandParts.push_back(it);
+                it = "";
             }
-            if(i == curString.size() - 1){
-                command.push_back(curString);
+            if(i == it.size() - 1){
+                commandParts.push_back(it);
             }
         }
 

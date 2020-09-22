@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Searchable.hpp"
-#include "SearchExceptions.hpp"
+#include "../SearchExceptions.hpp"
 
 namespace searcher {
     

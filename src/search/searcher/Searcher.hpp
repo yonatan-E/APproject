@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Searchable.hpp"
+#include "../searchable/Searchable.hpp"
 
 namespace searcher {
 

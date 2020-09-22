@@ -8,7 +8,7 @@ namespace factories{
     template <typename Problem, typename Solution >
     class SolverFactory{
 
-        std::unique_ptr<solver::Solver<Problem, Solution>> getSolver(std::string request) const;
+        std::unique_ptr<solver::Solver<Problem, Solution>> getSolver(const std::string& command) const;
 
     };
 }

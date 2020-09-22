@@ -1,7 +1,7 @@
 #pragma once
 
 #include "InputParser.hpp"
-#include "Graph.hpp"
+#include "../search/searchable/Graph.hpp"
 
 namespace parser {
 
