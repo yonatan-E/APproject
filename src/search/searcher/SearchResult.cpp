@@ -8,10 +8,8 @@ namespace searcher {
     m_algorithmName(algorithmName) {}
 
     std::string SearchResult::toString() const {
-    
-        std::string stringRepresentation = "";
 
-        stringRepresentation += std::to_string(m_cost) + ",";
+        std::string stringRepresentation = std::to_string(m_cost) + "," + m_algorithmName;
 
         for (size_t i = 0; i < m_directions.size(); i++) {
             stringRepresentation += "," + m_directions[i];
