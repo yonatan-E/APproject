@@ -6,16 +6,17 @@
 #include "../search/searchable/Graph.hpp"
 #include <cstdint>
 #include <utility>
+#include <memory>
 
 namespace solver {
 
     class SearchSolver : public Solver<searcher::Graph, searcher::SearchResult> {
 
-        const searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>& m_searcher;
+        std::unique_ptr<searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>> m_searcher;
 
         public:
 
-            SearchSolver(const searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>& searcher);
+            SearchSolver(std::unique_ptr<searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>> searcher);
 
             std::string solve(const std::string& problemString) const override;
     };

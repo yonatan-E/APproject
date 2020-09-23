@@ -1,1 +1,1 @@
-aaa
+21.000000,A*,Right,Right,Down,Down

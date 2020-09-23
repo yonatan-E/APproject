@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
-#include "../parsers/GraphInputParser.hpp"
 
 namespace server {
 
@@ -93,7 +92,7 @@ namespace server {
                         solver::SolverFactory<Problem, Solution> sFactory = solver::SolverFactory<Problem, Solution>();
                     
                         try {
-                            auto solver = sFactory.getSolver(command);
+                            const auto solver = sFactory.getSolver(command);
                             solutionString = solver->solve(problemString);
 
                             // loading the operation into the cache

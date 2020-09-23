@@ -2,20 +2,18 @@
 #include "../parsers/GraphInputParser.hpp"
 #include "../exceptions/StatusException.hpp"
 #include "../exceptions/ParserExceptions.hpp"
-#include <iostream>
 
 namespace solver {
 
-    SearchSolver::SearchSolver(const searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>& searcher)
-    : m_searcher(searcher) {}
+    SearchSolver::SearchSolver(std::unique_ptr<searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>> searcher)
+    : m_searcher(std::move(searcher)) {}
 
     std::string SearchSolver::solve(const std::string& problemString) const {
         parser::GraphInputParser parser;
 
         try {
             searcher::Graph problem = parser.parseInput(problemString);
-            std::cerr << m_searcher.getAlgorithmName() << std::endl;
-            return (m_searcher.search(problem)).toString();
+            return (m_searcher->search(problem)).toString();
         }
         catch (const searcher::exceptions::PathDoesNotExistException& e) {
             throw status_exception::StatusException(e.what(), 1);
@@ -24,7 +22,7 @@ namespace solver {
             throw status_exception::StatusException(e.what(), 2);
         } 
         catch (const parser::exceptions::InvalidInputException& e) {
-            throw status_exception::StatusException(e.what(), 3);
+            throw status_exception::StatusException(e.what(), 4);
         }
     }
 }
