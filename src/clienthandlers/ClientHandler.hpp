@@ -3,7 +3,7 @@
 
 namespace server {
 
-    namespace clienthandler {
+    namespace clientside {
 
         class ClientHandler{
             
