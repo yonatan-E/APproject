@@ -9,7 +9,7 @@ namespace server{
 
         virtual void open(uint32_t serverPort, const clientside::SolverClientHandler<searcher::Graph, searcher::SearchResult>& clientHandler) const;
 
-        virtual void stop() const;
+        virtual bool stop() const;
 
     };
 
