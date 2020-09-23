@@ -31,7 +31,24 @@ namespace server{
             //error
         }
 
+        while(!stop()){
 
+            //waiting for connections
+
+            uint32_t addrSize = sizeof(clientAddress);
+
+            const uint32_t clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress)
+            , reinterpret_cast<socklen_t*>(&addrSize));
+
+            if(clientSocket < 0){
+                //error
+            }
+  
+            clientHandler.handleClient(clientSocket);
+        }
+
+
+/**
         fd_set currentSockets, readySockets;
         FD_ZERO(&currentSockets);
         FD_SET(serverSocket, &currentSockets);
@@ -40,7 +57,11 @@ namespace server{
 
             readySockets = currentSockets;
 
-            if(select(FD_SETSIZE, &readySockets, nullptr, nullptr, /*timeout*/ nullptr) < 0){
+            struct timeval tv;
+            tv.tv_sec = 5;
+            tv.tv_usec = 0;
+
+            if(select(FD_SETSIZE, &readySockets, nullptr, nullptr, nullptr) < 0){
                 //error
             }
 
@@ -56,7 +77,7 @@ namespace server{
                          }
                          FD_SET(clientSocket, &currentSockets);
                     }else{
-                        clientHandler.handleClient(i);
+                       clientHandler.handleClient(i);
                         FD_CLR(i, &currentSockets);
                     }
                 }
@@ -65,6 +86,9 @@ namespace server{
             //waiting for connections
   
         }
+        **/
+
+
     }
 
     bool SerialServer::stop() const{
