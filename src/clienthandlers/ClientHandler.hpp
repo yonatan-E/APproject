@@ -1,5 +1,6 @@
+#pragma once
+
 #include "../solvers/Solver.hpp"
-#include "memory"
 
 namespace server {
 

@@ -168,9 +168,9 @@ namespace server {
             
 
                 std::string getLog(uint32_t status, uint32_t length) {
-                    return "Version: " + m_version + "\r\n"
-                    + "status: " + status + "\r\n"
-                    + "response-length: " + length + "\r\n";
+                    return "Version: " + std::to_string(m_version) + "\r\n"
+                    + "status: " + std::to_string(status) + "\r\n"
+                    + "response-length: " + std::to_string(length) + "\r\n";
                 }
         };
     }

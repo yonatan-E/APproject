@@ -6,7 +6,7 @@ namespace server{
 
      const uint32_t m_backlog = 20;
 
-     void SerialServer::open(uint32_t serverPort, const clientside::SolverClientHandler<searcher::Graph, searcher::SearchResult>& clientHandler) const{
+     void SerialServer::open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const{
        
        sockaddr_in clientAddress{};
        sockaddr_in serverAddress{};

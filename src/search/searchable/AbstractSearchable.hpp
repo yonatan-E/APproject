@@ -22,7 +22,7 @@ namespace searcher {
 
                 // checking if the end position is valid
                 if (!isValidElement(endPos)) {
-                    throw exceptions::InvalidEndPositionException("The given end position is invalid");
+                    throw exceptions::InvalidPositionException("The given end position is invalid");
                 }
             }
 

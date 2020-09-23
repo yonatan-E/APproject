@@ -1,4 +1,4 @@
-#include "ClientHandler.hpp"
+#include "../clienthandlers/ClientHandler.hpp"
 #include "../search/searchable/Graph.hpp"
 #include "../search/searcher/SearchResult.hpp"
 #include "../clienthandlers/SolverClientHandler.hpp"
