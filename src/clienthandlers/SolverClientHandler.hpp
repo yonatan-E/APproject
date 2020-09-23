@@ -18,9 +18,9 @@ namespace server {
         class SolverClientHandler : public ClientHandler {
 
             static const uint32_t s_bufferSize = 1000000;
-            static const uint32_t s_version = 1.0;
             static const uint32_t s_emptyResponseLength = 0;
             static const uint32_t s_successStatus = 0;
+            static const double s_version = 1.0;
             mutable cache::CacheManager m_cache;
 
             public:
