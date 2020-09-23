@@ -12,7 +12,7 @@
 
             server::SerialServer serialServer = server::SerialServer();
 
-            serialServer.open(8989, handler);
+            serialServer.open(8081, handler);
 
             return 0;
         }
