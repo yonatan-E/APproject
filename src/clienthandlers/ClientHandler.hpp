@@ -1,15 +1,14 @@
-#include "../solvers/Solver.hpp"
-#include "memory"
+#pragma once
 
 namespace server {
 
     namespace clientside {
 
-        class ClientHandler{
+        class ClientHandler {
             
             public:
             
-                virtual void handleClient(int clientSocket) const = 0;
+                virtual void handleClient(uint32_t clientSocket) const = 0;
         };
     }
 }

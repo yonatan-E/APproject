@@ -1,5 +1,5 @@
 #include "GraphInputParser.hpp"
-#include "../server/ServerExceptions.hpp"
+#include "../exceptions/ParserExceptions.hpp"
 #include <cstdint>
 #include <algorithm>
 #include <utility>
@@ -18,12 +18,12 @@ namespace parser {
             numColumns = std::stoi(std::string(&firstLine[firstLine.find(',', 0) + 1], &firstLine[firstLine.size()]));
         } catch (...) {
             // throwing a file format exception in case that the stoi function hasn't succeeded
-            throw server::exceptions::ProtocolException("Invalid graph format");
+            throw exceptions::InvalidInputException("Invalid graph format");
         }
 
         // throwing an exception in a case that the matrix height or width is 0
         if (numRows == 0 || numColumns == 0) {
-            throw server::exceptions::ProtocolException("Invalid graph format");
+            throw exceptions::InvalidInputException("Invalid graph format");
         }
 
         // creating a new matrix with sizes numRows * numColumns
@@ -53,19 +53,19 @@ namespace parser {
                         val = std::stoi(line.substr(j, k - j + 1));
                     } catch (...) {
                         // throwing a file format exception in case that the stoi function hasn't succeeded
-                        throw server::exceptions::ProtocolException("Invalid graph format");
+                        throw exceptions::InvalidInputException("Invalid graph format");
                     }
                 }
                 // throwing an exception in case that the specified value in the matrix is smaller than 1
                 if (val < 1) {
-                    throw server::exceptions::ProtocolException("Invalid graph format");
+                    throw exceptions::InvalidInputException("Invalid graph format");
                 }
                 // finally setting the value in the matrix
                 try {
                     matrix.setAt(i, colIndex, val);
                 } catch (...) {
                     // throwing an exception in case that the value set in the matrix is in an invalid place
-                    throw server::exceptions::ProtocolException("Invalid graph format");
+                    throw exceptions::InvalidInputException("Invalid graph format");
                 }
 
                 // promoting the iterators
@@ -86,7 +86,7 @@ namespace parser {
             startPos.second = std::stoi(std::string(&currentLine[currentLine.find(',', 0) + 1], &currentLine[currentLine.size()]));
         } catch (...) {
             // throwing a file format exception in case that the stoi function hasn't succeeded
-            throw server::exceptions::ProtocolException("Invalid graph format");
+            throw exceptions::InvalidInputException("Invalid graph format");
         }
         it = input.find("\r\n", it) + 2;
 
@@ -100,7 +100,7 @@ namespace parser {
             endPos.second = std::stoi(std::string(&currentLine[currentLine.find(',', 0) + 1], &currentLine[currentLine.size()]));
         } catch (...) {
             // throwing a file format exception in case that the stoi function hasn't succeeded
-            throw server::exceptions::ProtocolException("Invalid graph format");
+            throw exceptions::InvalidInputException("Invalid graph format");
         }
 
         return searcher::Graph(matrix, startPos, endPos);
