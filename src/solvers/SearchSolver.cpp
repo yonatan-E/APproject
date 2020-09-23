@@ -2,6 +2,7 @@
 #include "../parsers/GraphInputParser.hpp"
 #include "../exceptions/StatusException.hpp"
 #include "../exceptions/ParserExceptions.hpp"
+#include <iostream>
 
 namespace solver {
 
@@ -13,6 +14,7 @@ namespace solver {
 
         try {
             searcher::Graph problem = parser.parseInput(problemString);
+            std::cerr << m_searcher.getAlgorithmName() << std::endl;
             return (m_searcher.search(problem)).toString();
         }
         catch (const searcher::exceptions::PathDoesNotExistException& e) {

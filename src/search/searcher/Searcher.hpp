@@ -12,5 +12,7 @@ namespace searcher {
             virtual SearchResultType search(const Searchable<Identifier>& searchable) const = 0;
 
             virtual ~Searcher() = default;
+
+            virtual std::string getAlgorithmName() const = 0;
     };
 }

@@ -91,7 +91,7 @@ namespace parser {
         it = input.find("\r\n", it) + 2;
 
         // getting the current line
-        currentLine = std::string(&input[it], &input[input.find("\r\n", it)]);
+        currentLine = std::string(&input[it], &input[input.size()]);
         currentLine.erase(std::remove(currentLine.begin(), currentLine.end(), ' '), currentLine.end());
         // getting the start position
         std::pair<uint32_t, uint32_t> endPos;
