@@ -20,7 +20,7 @@ namespace server{
         serverAddress.sin_addr.s_addr = INADDR_ANY;
         serverAddress.sin_port = serverPort;
 
-        auto bindResult = bind(serverSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
+        auto bindResult = bind(serverSocket, reinterpret_cast<const sockaddr *>(&serverAddress), sizeof(serverAddress));
         if (bindResult < 0) {
             //error
         }
@@ -33,22 +33,21 @@ namespace server{
         while(!stop()){
             //waiting for connections
 
-            const auto clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddress
-            , (socklen_t*)sizeof(clientAddress));
+            uint32_t addrSize = sizeof(clientAddress);
+
+            const auto clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddress)
+            , reinterpret_cast<socklen_t*>(&addrSize));
 
             if(clientSocket < 0){
                 //error
             }
-
+  
             clientHandler.handleClient(clientSocket);
         }
-
     }
 
     bool SerialServer::stop() const{
         return false;
     }
-
-
 
 }
