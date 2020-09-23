@@ -7,7 +7,7 @@ namespace parser {
 
     namespace exceptions {
 
-        class InvalidInputException : std::runtime_error {
+        class InvalidInputException : public std::runtime_error {
 
             public:
 
