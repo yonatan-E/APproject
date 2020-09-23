@@ -3,7 +3,7 @@
 #include "../search/searcher/BFSSearcher.hpp"
 #include "../search/searcher/DFSSearcher.hpp"
 #include "../search/searcher/BestFSSearcher.hpp"
-#include "../server/ServerExceptions.hpp"
+#include "../exceptions/StatusException.hpp"
 #include "../search/searchable/Graph.hpp"
 #include <vector>
 
@@ -29,7 +29,7 @@ namespace solver {
 
         // checking if the command length is legal
         if (command.size() != 3 && command.size() != 2){
-            throw server::exceptions::ProtocolException("Invalid message length");
+            throw status_exception::StatusException("Invalid message length", 4);
         }
 
         // getting the right searcher, according to the command
@@ -49,11 +49,11 @@ namespace solver {
                 solver = std::make_unique<solver::SearchSolver>(searcher::AStarSearcher<std::pair<uint32_t, uint32_t>>());
             }
             else {
-                throw server::exceptions::ProtocolException("Invalid algorithm name");
+                throw status_exception::StatusException("Invalid algorithm name", 4);
             }
             return solver;
         }
         
-        throw server::exceptions::ProtocolException("Invalid problem type");
+        throw status_exception::StatusException("Invalid problem type", 4);
     }
 }
