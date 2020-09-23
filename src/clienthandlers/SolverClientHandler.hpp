@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
+#include "../parsers/GraphInputParser.hpp"
 
 namespace server {
 
@@ -68,9 +69,6 @@ namespace server {
                         return;
                     }
 
-                    std::cout << command << std::endl;
-                    std::cout << problemString << std::endl;
-
                     // success in recieving input, solving the problem with the input.
                     // this variable will hold the solution, as string
                     std::string solutionString;
@@ -95,8 +93,9 @@ namespace server {
                         solver::SolverFactory<Problem, Solution> sFactory = solver::SolverFactory<Problem, Solution>();
                     
                         try {
-                            const auto solver = sFactory.getSolver(command);
+                            auto solver = sFactory.getSolver(command);
                             solutionString = solver->solve(problemString);
+
                             // loading the operation into the cache
                             m_cache.load(operation::SolverOperation(hashCode, solutionString));
                         }
@@ -112,8 +111,7 @@ namespace server {
                     if (status == 0) {
                         // send success message
                         try {
-                            writeSock(clientSocket, getLog(status, solutionString.size()));
-                            writeSock(clientSocket, solutionString);
+                            writeSock(clientSocket, getLog(status, solutionString.size()) + "\r\n" + solutionString);
                         } catch (...) {
                             close(clientSocket);
                             return;

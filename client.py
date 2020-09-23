@@ -26,20 +26,6 @@ sock.connect(("127.0.0.1", port))
 sock.send(str.encode(f"solve find-graph-path {algorithm}{endl*2}"))
 print(sock.recv(1000).decode())
 
-with open('matrix', 'r') as f:
-    mat = [[num.replace('\n','').replace('\r','') for num in line.split(',')] for line in f]
-height = len(mat)
-width = len(mat[0])
-matString = ''
-for i in range(height):
-    for j in range(width - 1):
-        matString += mat[i][j] + ','
-    matString += mat[i][width - 1]+endl
-startingPoint = str(args.s[0]) + ',' + str(args.s[1])
-endingPoint = f'{height - 1},{width - 1}'
-if args.e[0] != -1:
-    endingPoint = str(args.e[0]) + ',' + str(args.e[1])
-
-message = f"{height},{width}{endl}{matString}{startingPoint}{endl}{endingPoint}{endl*2}"
+message = "3,3\r\n1,2,3\r\n4,5,6\r\n7,8,9\r\n0,0\r\n2,2\r\n\r\n"
 sock.send(str.encode(message))
 print(sock.recv(1000).decode())
