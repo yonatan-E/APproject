@@ -3,6 +3,7 @@
 #include "Solver.hpp"
 #include "../search/searcher/Searcher.hpp"
 #include "../search/searcher/SearchResult.hpp"
+#include "../search/searchable/Graph.hpp"
 #include <cstdint>
 #include <utility>
 

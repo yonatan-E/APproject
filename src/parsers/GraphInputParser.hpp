@@ -10,5 +10,5 @@ namespace parser {
         public:
 
             searcher::Graph parseInput(const std::string& input) const;
-    }
+    };
 }

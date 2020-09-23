@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Server.hpp"
 #include "../search/searchable/Graph.hpp"
 #include "../search/searcher/SearchResult.hpp"

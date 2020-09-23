@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ClientHandler.hpp"
 #include "../solvers/Solver.hpp"
 #include "../solvers/SearchSolver.hpp"
@@ -8,6 +10,7 @@
 #include "../search/SearchExceptions.hpp"
 #include "../cachemanager/util/HashUtil.hpp"
 #include <unistd.h>
+
 #include <string>
 
 namespace server {
@@ -18,7 +21,7 @@ namespace server {
         class SolverClientHandler : public ClientHandler {
 
             static const uint32_t s_bufferSize = 1000000;
-            static const double s_version = 1.0;
+            static constexpr double s_version = 1.0;
             static const uint32_t s_emptyResponseLength = 0;
             static const uint32_t s_successStatus = 0;
             mutable cache::CacheManager m_cache;
@@ -77,8 +80,8 @@ namespace server {
 
                     } else {
                         //getting the right solver according to the specific command
-                        solver::SolverFactory<Problem, Solution> sFactory;
-                        const auto solver = sFactory.getSolver(command);
+                        solver::SolverFactory<Problem, Solution> sFactory = solver::SolverFactory<Problem, Solution>();
+                        const std::unique_ptr<solver::Solver<Problem, Solution>> solver = sFactory.getSolver(command);
 
                         //trying to solve the problem, return error message if one accurs
                         try {
@@ -129,7 +132,7 @@ namespace server {
                     close(clientSocket);          
                 }
 
-                int writeSock(const uint32_t clientSocket, std::string message){
+                int writeSock(const uint32_t clientSocket, std::string message) const {
                     return write(clientSocket, message.c_str(), message.size());
                 }
 
@@ -145,7 +148,8 @@ namespace server {
                             //fail
                             return "";
                         }
-                        if(buffer[messageSize - 1] = "\r\n\r\n"){
+                        if(buffer[messageSize - 4] == '\r' && buffer[messageSize - 3] == '\n'
+                         && buffer[messageSize - 2] == '\r' && buffer[messageSize - 1] == '\n'){
                             break;
                         }
                     }
@@ -166,8 +170,8 @@ namespace server {
                 }    
             
 
-                std::string getLog(uint32_t status, uint32_t length) {
-                    return "Version: " + std::to_string(m_version) + "\r\n"
+                std::string getLog(uint32_t status, uint32_t length) const{
+                    return "Version: " + std::to_string(s_version) + "\r\n"
                     + "status: " + std::to_string(status) + "\r\n"
                     + "response-length: " + std::to_string(length) + "\r\n";
                 }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../clienthandlers/ClientHandler.hpp"
 #include "../search/searchable/Graph.hpp"
 #include "../search/searcher/SearchResult.hpp"
@@ -9,9 +11,9 @@ namespace server{
 
         public:
 
-            virtual void open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const;
+            virtual void open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const = 0;
 
-            virtual bool stop() const;
+            virtual bool stop() const = 0;
 
     };
 
