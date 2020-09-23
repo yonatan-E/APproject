@@ -31,20 +31,39 @@ namespace server{
             //error
         }
 
+
+        fd_set currentSockets, readySockets;
+        FD_ZERO(&currentSockets);
+        FD_SET(serverSocket, &currentSockets);
+
         while(!stop()){
 
-            //waiting for connections
+            readySockets = currentSockets;
+
+            if(select(FD_SETSIZE, &readySockets, nullptr, nullptr, /*timeout*/ nullptr) < 0){
+                //error
+            }
 
             uint32_t addrSize = sizeof(clientAddress);
 
-            const uint32_t clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress)
-            , reinterpret_cast<socklen_t*>(&addrSize));
-
-            if(clientSocket < 0){
-                //error
+            for(int i = 0 ; i < FD_SETSIZE ; ++i){
+                if(FD_ISSET(i, &readySockets)){
+                    if(i == serverSocket){
+                        const uint32_t clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress)
+                        ,reinterpret_cast<socklen_t*>(&addrSize));
+                         if(clientSocket < 0){
+                             //error
+                         }
+                         FD_SET(clientSocket, &currentSockets);
+                    }else{
+                        clientHandler.handleClient(i);
+                        FD_CLR(i, &currentSockets);
+                    }
+                }
             }
+
+            //waiting for connections
   
-            clientHandler.handleClient(clientSocket);
         }
     }
 
