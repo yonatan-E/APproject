@@ -9,7 +9,7 @@ namespace server {
             
             public:
             
-                virtual void handleClient(int clientSocket) const = 0;
+                virtual void handleClient(uint32_t clientSocket) const = 0;
         };
     }
 }

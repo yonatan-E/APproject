@@ -7,9 +7,11 @@ namespace server{
 
     class SerialServer: public Server{
 
-        virtual void open(uint32_t serverPort, const clientside::SolverClientHandler<searcher::Graph, searcher::SearchResult>& clientHandler) const;
+        public:
 
-        virtual bool stop() const;
+            virtual void open(uint32_t serverPort, const clientside::SolverClientHandler<searcher::Graph, searcher::SearchResult>& clientHandler) const;
+
+            virtual bool stop() const;
     };
     
 }

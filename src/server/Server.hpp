@@ -7,9 +7,11 @@ namespace server{
 
     class Server{
 
-        virtual void open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const;
+        public:
 
-        virtual bool stop() const;
+            virtual void open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const;
+
+            virtual bool stop() const;
 
     };
 
