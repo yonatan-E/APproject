@@ -1,5 +1,5 @@
 #include "GraphInputParser.hpp"
-#include "ParserExceptions.hpp"
+#include "../exceptions/ParserExceptions.hpp"
 #include <cstdint>
 #include <algorithm>
 #include <utility>

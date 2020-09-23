@@ -1,11 +1,11 @@
 #include "ClientHandler.hpp"
 #include "../solvers/Solver.hpp"
 #include "../solvers/SearchSolver.hpp"
-#include "../server/ServerExceptions.hpp"
 #include "../solvers/SolverFactory.hpp"
 #include "../cachemanager/CacheManager.hpp"
 #include "../cachemanager/SolverOperation.hpp"
-#include "../search/SearchExceptions.hpp"
+#include "../exceptions/StatusException.hpp"
+#include "../exceptions/SearchExceptions.hpp"
 #include "../cachemanager/util/HashUtil.hpp"
 #include <unistd.h>
 #include <string>
