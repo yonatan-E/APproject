@@ -24,6 +24,9 @@ namespace solver {
                 part = "";
             } else {
                 part += x;
+                if(x == command.at(command.size() - 1)){
+                    commandParts.push_back(part);
+                }
             }
         }
 

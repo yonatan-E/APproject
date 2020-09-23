@@ -9,7 +9,7 @@
 #include "../exceptions/StatusException.hpp"
 #include "../cachemanager/util/HashUtil.hpp"
 #include <unistd.h>
-
+#include <iostream>
 #include <string>
 
 namespace server {
@@ -67,6 +67,9 @@ namespace server {
                         close(clientSocket);
                         return;
                     }
+
+                    std::cout << command << std::endl;
+                    std::cout << problemString << std::endl;
 
                     // success in recieving input, solving the problem with the input.
                     // this variable will hold the solution, as string

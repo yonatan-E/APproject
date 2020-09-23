@@ -11,9 +11,9 @@ namespace server{
 
         public:
 
-            virtual void open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const;
+            virtual void open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const override;
 
-            virtual bool stop() const;
+            virtual bool stop() const override;
     };
     
 }
