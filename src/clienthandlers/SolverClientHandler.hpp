@@ -3,11 +3,10 @@
 #include "ClientHandler.hpp"
 #include "../solvers/Solver.hpp"
 #include "../solvers/SearchSolver.hpp"
-#include "../server/ServerExceptions.hpp"
 #include "../solvers/SolverFactory.hpp"
 #include "../cachemanager/CacheManager.hpp"
 #include "../cachemanager/SolverOperation.hpp"
-#include "../search/SearchExceptions.hpp"
+#include "../exceptions/StatusException.hpp"
 #include "../cachemanager/util/HashUtil.hpp"
 #include <unistd.h>
 
@@ -33,28 +32,38 @@ namespace server {
 
                 void handleClient(const uint32_t clientSocket) const override {
 
-                    //read problem
-                    std::string command = readSock(clientSocket);
+                    // read problem
+                    std::string command;
+                    try {
+                        command = readSock(clientSocket);
+                    } catch (const status_exception::StatusException& e) {
+                        
+                        try {
+                            writeSock(clientSocket, getLog(e.getStatus(), s_emptyResponseLength));
+                        } catch (...) {}
 
-                    //error in recieving problem
-                    if(command == ""){
-                        writeSock(clientSocket, getLog(7, s_emptyResponseLength));
                         close(clientSocket);
                         return;
                     }
 
-                    //success in recieving problem
-                    if (writeSock(clientSocket, getLog(s_successStatus, s_emptyResponseLength)) < 0) {
+                    // success in recieving problem
+                    try {
+                        writeSock(clientSocket, getLog(s_successStatus, s_emptyResponseLength));
+                    } catch (...) {
                         close(clientSocket);
                         return;
                     }
 
-                    //read input
-                    std::string problemString = readSock(clientSocket);
+                    // read input
+                    std::string problemString;
+                    try {
+                        problemString = readSock(clientSocket);
+                    } catch (const status_exception::StatusException& e) {
+                        
+                        try {
+                            writeSock(clientSocket, getLog(e.getStatus(), s_emptyResponseLength));
+                        } catch (...) {}
 
-                    //error in recieving input
-                    if(problemString == ""){
-                        writeSock(clientSocket, getLog(7, s_emptyResponseLength));
                         close(clientSocket);
                         return;
                     }
@@ -81,59 +90,53 @@ namespace server {
                     } else {
                         //getting the right solver according to the specific command
                         solver::SolverFactory<Problem, Solution> sFactory = solver::SolverFactory<Problem, Solution>();
-                        const std::unique_ptr<solver::Solver<Problem, Solution>> solver = sFactory.getSolver(command);
-
-                        //trying to solve the problem, return error message if one accurs
+                    
                         try {
+                            const auto solver = sFactory.getSolver(command);
                             solutionString = solver->solve(problemString);
                             // loading the operation into the cache
                             m_cache.load(operation::SolverOperation(hashCode, solutionString));
                         }
-                        catch(const searcher::exceptions::PathDoesNotExistException&){
-                            status = 1;
-                        }
-                        catch(const searcher::exceptions::InvalidPositionException&){
-                            status = 2;
-                        }
-                        catch(const server::exceptions::InvalidCommandException&){
-                            status = 3;
-                        }
-                        catch(const server::exceptions::ProtocolException&){
-                            status = 4;
+                        catch(const status_exception::StatusException& e){
+                            status = e.getStatus();
                         }
                         catch (...) {
                             status = 5;
                         }
                     }
 
-                    //the calculation has succeeded
-                    if(status == 0){
-                        //send success message
-                        if(writeSock(clientSocket, getLog(status, solutionString.size())) < 0){
-                            close(clientSocket);
-                            return;
-                        }
-                        //send solution
-                        if(writeSock(clientSocket, solutionString) < 0){
+                    // the calculation has succeeded
+                    if (status == 0) {
+                        // send success message
+                        try {
+                            writeSock(clientSocket, getLog(status, solutionString.size()));
+                            writeSock(clientSocket, solutionString);
+                        } catch (...) {
                             close(clientSocket);
                             return;
                         }
                     }
-                    //if the calculation has failed
-                    else{
-                        //send error message
-                        if(writeSock(clientSocket, getLog(status, s_emptyResponseLength)) < 0){
+                    // if the calculation has failed
+                    else {
+                        // send error message
+                        try {
+                            writeSock(clientSocket, getLog(status, s_emptyResponseLength));
+                        } catch (...) {
                             close(clientSocket);
                             return;
-                        }    
+                        }
                     }
 
-                    //close the port
+                    // close the port
                     close(clientSocket);          
                 }
+            
+            private:
 
-                int writeSock(const uint32_t clientSocket, std::string message) const {
-                    return write(clientSocket, message.c_str(), message.size());
+                void writeSock(const uint32_t clientSocket, std::string message) const {
+                    if (write(clientSocket, message.c_str(), message.size()) < 0) {
+                        throw status_exception::StatusException("Failed writing to socket", 7)
+                    }
                 }
 
                 std::string readSock(const uint32_t clientSocket) const {
@@ -142,11 +145,10 @@ namespace server {
                     size_t bytesRead;
                     int messageSize = 0;
 
-                    while(bytesRead == read(clientSocket, buffer + messageSize, sizeof(buffer) - messageSize - 1) >= 0) {
+                    while (bytesRead == read(clientSocket, buffer + messageSize, sizeof(buffer) - messageSize - 1) >= 0) {
                         messageSize += bytesRead;
-                        if(messageSize > s_bufferSize - 1){
-                            //fail
-                            return "";
+                        if (messageSize > s_bufferSize - 1) {
+                            throw status_exception::StatusException("Failed writing to socket", 6);
                         }
                         if(buffer[messageSize - 4] == '\r' && buffer[messageSize - 3] == '\n'
                          && buffer[messageSize - 2] == '\r' && buffer[messageSize - 1] == '\n'){
@@ -154,23 +156,14 @@ namespace server {
                         }
                     }
 
-                    if(bytesRead < 0){
-                        //fail
-                        return "";
+                    if (bytesRead < 0) {
+                        throw status_exception::StatusException("Failed writing to socket", 6);
                     }
-                    
-                    //success
-                    return static_cast<std::string>(buffer);
-                
 
-                    std::string message = static_cast<std::string>(buffer).substr(0, message.size() - 4);
-                
-                    //success
-                    return message;
+                    return static_cast<std::string>(buffer).substr(0, message.size() - 4);
                 }    
             
-
-                std::string getLog(uint32_t status, uint32_t length) const{
+                std::string getLog(uint32_t status, uint32_t length) {
                     return "Version: " + std::to_string(s_version) + "\r\n"
                     + "status: " + std::to_string(status) + "\r\n"
                     + "response-length: " + std::to_string(length) + "\r\n";

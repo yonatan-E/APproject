@@ -1,5 +1,4 @@
 #include "Operation.hpp"
-#include "OperationExceptions.hpp"
 
 namespace operation {
 

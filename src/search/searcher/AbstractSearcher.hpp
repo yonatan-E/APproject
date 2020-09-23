@@ -2,7 +2,7 @@
 
 #include "Searcher.hpp"
 #include "SearchResult.hpp"
-#include "../SearchExceptions.hpp"
+#include "../../exceptions/SearchExceptions.hpp"
 #include <set>
 #include <map>
 
