@@ -31,7 +31,7 @@ namespace solver {
         }
 
         // checking if the command length is legal
-        if (command.size() != 3 && command.size() != 2){
+        if (commandParts.size() != 3 && commandParts.size() != 2){
             throw status_exception::StatusException("Invalid message length", 4);
         }
 
