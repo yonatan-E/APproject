@@ -12,7 +12,7 @@
 
 namespace server {
 
-    namespace client_side {
+    namespace clientside {
 
         template <typename Problem, typename Solution>
         class SolverClientHandler : public ClientHandler {
@@ -29,7 +29,7 @@ namespace server {
                 SolverClientHandler(const cache::CacheManager& cache)
                 : m_cache(cache) {}
 
-                void handleClient(const int clientSocket) const override {
+                void handleClient(const uint32_t clientSocket) const override {
 
                     //read problem
                     std::string command = readSock(clientSocket);
@@ -130,11 +130,11 @@ namespace server {
                     close(clientSocket);          
                 }
 
-                int writeSock(const int clientSocket, std::string message){
+                int writeSock(const uint32_t clientSocket, std::string message){
                     return write(clientSocket, message.c_str(), message.size());
                 }
 
-                std::string readSock(const int clientSocket) const {
+                std::string readSock(const uint32_t clientSocket) const {
                     
                     char buffer[m_bufferSize];
                     size_t bytesRead;
@@ -167,7 +167,7 @@ namespace server {
                 }    
             
 
-                std::string getLog(int status, int length) {
+                std::string getLog(uint32_t status, uint32_t length) {
                     return "Version: " + m_version + "\r\n"
                     + "status: " + status + "\r\n"
                     + "response-length: " + length + "\r\n";
