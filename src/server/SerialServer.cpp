@@ -7,7 +7,7 @@ namespace server_side {
 
      const uint32_t m_backlog = 20;
 
-     void SerialServer::open(const uint32_t serverPort, const client_side::ClientHandler& clientHandler) const{
+     void SerialServer::open(const uint32_t serverPort, const client_handler::ClientHandler& clientHandler) const{
        
         struct sockaddr_in clientAddress;
         struct sockaddr_in serverAddress;

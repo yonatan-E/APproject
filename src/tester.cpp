@@ -8,9 +8,9 @@
 
             cache::CacheManager cache(5, "cache");
 
-            server::clientside::SolverClientHandler<searcher::Graph, searcher::SearchResult> handler(cache);
+            server_side::client_handler::SolverClientHandler<searcher::Graph, searcher::SearchResult> handler(cache);
 
-            server::SerialServer serialServer = server::SerialServer();
+            server_side::SerialServer serialServer = server_side::SerialServer();
 
             serialServer.open(8081, handler);
 

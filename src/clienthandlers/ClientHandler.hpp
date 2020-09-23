@@ -1,9 +1,10 @@
 #pragma once
+
 #include <cstdint>
 
 namespace server_side {
 
-    namespace client_side {
+    namespace client_handler {
 
         class ClientHandler {
             

@@ -11,7 +11,7 @@ namespace server_side {
 
         public:
 
-            virtual void open(uint32_t serverPort, const client_side::ClientHandler& clientHandler) const = 0;
+            virtual void open(uint32_t serverPort, const client_handler::ClientHandler& clientHandler) const = 0;
 
             virtual bool stop() const = 0;
 
