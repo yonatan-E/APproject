@@ -130,12 +130,10 @@ namespace server {
                     // close the port
                     close(clientSocket);          
                 }
-            
-            private:
 
                 void writeSock(const uint32_t clientSocket, std::string message) const {
                     if (write(clientSocket, message.c_str(), message.size()) < 0) {
-                        throw status_exception::StatusException("Failed writing to socket", 7)
+                        throw status_exception::StatusException("Failed writing to socket", 7);
                     }
                 }
 
@@ -160,10 +158,12 @@ namespace server {
                         throw status_exception::StatusException("Failed writing to socket", 6);
                     }
 
-                    return static_cast<std::string>(buffer).substr(0, message.size() - 4);
+                    std::string message = static_cast<std::string>(buffer);
+
+                    return message.substr(0, message.size() - 4);
                 }    
             
-                std::string getLog(uint32_t status, uint32_t length) {
+                std::string getLog(uint32_t status, uint32_t length) const {
                     return "Version: " + std::to_string(s_version) + "\r\n"
                     + "status: " + std::to_string(status) + "\r\n"
                     + "response-length: " + std::to_string(length) + "\r\n";
