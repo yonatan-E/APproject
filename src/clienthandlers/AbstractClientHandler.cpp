@@ -1,6 +1,7 @@
 #include "AbstractClientHandler.hpp"
 #include "../exceptions/StatusException.hpp"
 #include <unistd.h>
+#include <string.h>
 
 namespace server_side {
 
@@ -12,14 +13,14 @@ namespace server_side {
             size_t bytesRead;
             int messageSize = 0;
 
-            while (bytesRead == read(clientSocket, buffer + messageSize, sizeof(buffer) - messageSize - 1) >= 0) {
+            bzero(buffer, s_BUFFER_SIZE);
+
+            while (bytesRead == read(clientSocket, buffer, sizeof(buffer) - 1) > 0) {
+
+                bzero(buffer, s_BUFFER_SIZE);
                 messageSize += bytesRead;
                 if (messageSize > s_BUFFER_SIZE - 1) {
-                    throw status_exception::StatusException("Failed writing to socket", 6);
-                }
-                if (buffer[messageSize - 4] == '\r' && buffer[messageSize - 3] == '\n'
-                    && buffer[messageSize - 2] == '\r' && buffer[messageSize - 1] == '\n'){
-                        break;
+                    break;
                 }
             }
 

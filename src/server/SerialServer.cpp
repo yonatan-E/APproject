@@ -1,7 +1,6 @@
 #include "SerialServer.hpp"
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <iostream>
 
 namespace server_side {
 
