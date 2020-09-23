@@ -1,12 +1,10 @@
 #pragma once
 
-#include "../solvers/Solver.hpp"
-
 namespace server {
 
     namespace clientside {
 
-        class ClientHandler{
+        class ClientHandler {
             
             public:
             

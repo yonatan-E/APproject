@@ -17,12 +17,11 @@ namespace server {
         template <typename Problem, typename Solution>
         class SolverClientHandler : public ClientHandler {
 
+            static const uint32_t s_bufferSize = 1000000;
+            static const double s_version = 1.0;
+            static const uint32_t s_emptyResponseLength = 0;
+            static const uint32_t s_successStatus = 0;
             mutable cache::CacheManager m_cache;
-            const int m_bufferSize = 1000000;
-            const double m_version = 1.0;
-            const double m_noResponseLength = 0;
-            const double m_successStatus = 0;
-            const int m_NoPathStatus = 0;
 
             public:
 
@@ -36,13 +35,13 @@ namespace server {
 
                     //error in recieving problem
                     if(command == ""){
-                        writeSock(clientSocket, getLog(7, m_noResponseLength));
+                        writeSock(clientSocket, getLog(7, s_emptyResponseLength));
                         close(clientSocket);
                         return;
                     }
 
                     //success in recieving problem
-                    if (writeSock(clientSocket, getLog(m_successStatus, m_noResponseLength)) < 0) {
+                    if (writeSock(clientSocket, getLog(s_successStatus, s_emptyResponseLength)) < 0) {
                         close(clientSocket);
                         return;
                     }
@@ -52,7 +51,7 @@ namespace server {
 
                     //error in recieving input
                     if(problemString == ""){
-                        writeSock(clientSocket, getLog(7, m_noResponseLength));
+                        writeSock(clientSocket, getLog(7, s_emptyResponseLength));
                         close(clientSocket);
                         return;
                     }
@@ -120,7 +119,7 @@ namespace server {
                     //if the calculation has failed
                     else{
                         //send error message
-                        if(writeSock(clientSocket, getLog(status, m_noResponseLength)) < 0){
+                        if(writeSock(clientSocket, getLog(status, s_emptyResponseLength)) < 0){
                             close(clientSocket);
                             return;
                         }    
@@ -136,13 +135,13 @@ namespace server {
 
                 std::string readSock(const uint32_t clientSocket) const {
                     
-                    char buffer[m_bufferSize];
+                    char buffer[s_bufferSize];
                     size_t bytesRead;
                     int messageSize = 0;
 
                     while(bytesRead == read(clientSocket, buffer + messageSize, sizeof(buffer) - messageSize - 1) >= 0) {
                         messageSize += bytesRead;
-                        if(messageSize > m_bufferSize - 1){
+                        if(messageSize > s_bufferSize - 1){
                             //fail
                             return "";
                         }
