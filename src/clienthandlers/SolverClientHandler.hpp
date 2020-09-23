@@ -87,7 +87,7 @@ namespace server {
                             // loading the operation into the cache
                             m_cache.load(operation::SolverOperation(hashCode, solutionString));
                         } catch (...) {
-                            status = 6;
+                            status = 5;
                         }
 
                     } else {
