@@ -5,13 +5,13 @@
 #include "../search/searcher/SearchResult.hpp"
 #include "../clienthandlers/SolverClientHandler.hpp"
 
-namespace server{
+namespace server_side {
 
-    class Server{
+    class Server {
 
         public:
 
-            virtual void open(uint32_t serverPort, const clientside::ClientHandler& clientHandler) const = 0;
+            virtual void open(uint32_t serverPort, const client_side::ClientHandler& clientHandler) const = 0;
 
             virtual bool stop() const = 0;
 

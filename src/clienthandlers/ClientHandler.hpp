@@ -1,9 +1,9 @@
 #pragma once
 #include <cstdint>
 
-namespace server {
+namespace server_side {
 
-    namespace clientside {
+    namespace client_side {
 
         class ClientHandler {
             
