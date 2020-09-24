@@ -26,7 +26,7 @@ link_directories(${CMAKE_SOURCE_DIR}/bin)
 
 add_executable(ex4.out main.cpp cachemanager/CacheManager.cpp cachemanager/Operation.cpp cachemanager/SolverOperation.cpp
 cachemanager/util/HashUtil.cpp cachemanager/util/Crc32.c exceptions/OperationExceptions.cpp exceptions/ParserExceptions.cpp
-exceptions/SearchExceptions.hpp exceptions/ServerExceptions.hpp exceptions/StatusException.hpp
+exceptions/SearchExceptions.cpp exceptions/ServerExceptions.cpp exceptions/StatusException.cpp
 parsers/GraphInputParser.cpp search/searchable/Graph.cpp search/searchable/Element.cpp search/searchable/matrix/Matrix.cpp 
 search/searchable/matrix/ErrorCode.cpp search/searchable/matrix/Matrix.c search/searchable/matrix/ErrorCode.c
 search/searcher/SearchResult.cpp server/SerialServer.cpp server/clienthandlers/AbstractClientHandler.cpp
