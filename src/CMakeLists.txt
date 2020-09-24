@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 enable_testing()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(HEADER_FILES cachemanager/CacheManager.hpp cachemanager/Operation.hpp cachemanager/SolverOperation.hpp
 cachemanager/util/HashUtil.hpp cachemanager/util/Crc32.h exceptions/OperationExceptions.hpp exceptions/ParserExceptions.hpp
