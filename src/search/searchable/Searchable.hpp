@@ -9,7 +9,7 @@ namespace searcher {
     /**
      * @brief This class represents a searchable object
      * 
-     * @tparam Identifier the identifier of an element in the searchable object 
+     * @tparam Identifier the identifier of an element in the searchable object
      */
     template <typename Identifier>
     class Searchable {

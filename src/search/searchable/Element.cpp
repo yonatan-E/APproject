@@ -7,6 +7,7 @@ namespace searcher {
 
     typedef std::pair<uint32_t, uint32_t> pair;
 
+    // concrete implementation for calculateHeuristics, in case that the identifier is pair
     template<>
     void Element<pair>::calculateHeuristics(const Element<pair>& startPos, const Element<pair>& endPos) {
                 m_gScore = abs(getIdentifier().first - startPos.getIdentifier().first)
