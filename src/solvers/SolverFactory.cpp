@@ -37,6 +37,7 @@ namespace solver {
 
         // getting the right searcher, according to the command
         // and throwing exceptions in case that the command is invalid
+
         if (commandParts[0] == "solve" && commandParts[1] == "find-graph-path") {
             if(commandParts.size() == 2 || commandParts[2] == "BestFS") {
                 return std::make_unique<solver::SearchSolver>(std::make_unique<searcher::BestFSSearcher<std::pair<uint32_t, uint32_t>>>());

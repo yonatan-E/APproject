@@ -1,7 +1,6 @@
 #include "SerialServer.hpp"
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <iostream>
 
 namespace server_side {
 
@@ -46,6 +45,49 @@ namespace server_side {
   
             clientHandler.handleClient(clientSocket);
         }
+
+
+/**
+        fd_set currentSockets, readySockets;
+        FD_ZERO(&currentSockets);
+        FD_SET(serverSocket, &currentSockets);
+
+        while(!stop()){
+
+            readySockets = currentSockets;
+
+            struct timeval tv;
+            tv.tv_sec = 5;
+            tv.tv_usec = 0;
+
+            if(select(FD_SETSIZE, &readySockets, nullptr, nullptr, nullptr) < 0){
+                //error
+            }
+
+            uint32_t addrSize = sizeof(clientAddress);
+
+            for(int i = 0 ; i < FD_SETSIZE ; ++i){
+                if(FD_ISSET(i, &readySockets)){
+                    if(i == serverSocket){
+                        const uint32_t clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress)
+                        ,reinterpret_cast<socklen_t*>(&addrSize));
+                         if(clientSocket < 0){
+                             //error
+                         }
+                         FD_SET(clientSocket, &currentSockets);
+                    }else{
+                       clientHandler.handleClient(i);
+                        FD_CLR(i, &currentSockets);
+                    }
+                }
+            }
+
+            //waiting for connections
+  
+        }
+        **/
+
+
     }
 
     bool SerialServer::stop() const{

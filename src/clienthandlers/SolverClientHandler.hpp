@@ -6,6 +6,7 @@
 #include "../cachemanager/SolverOperation.hpp"
 #include "../exceptions/StatusException.hpp"
 #include "../cachemanager/util/HashUtil.hpp"
+#include <iostream>
 
 namespace server_side {
 
@@ -31,6 +32,7 @@ namespace server_side {
                     std::string commandString;
                     try {
                         commandString = readSock(clientSocket);
+                        std::cerr << commandString << std::endl;
                     } catch (const status_exception::StatusException& e) {
                         
                         try {
