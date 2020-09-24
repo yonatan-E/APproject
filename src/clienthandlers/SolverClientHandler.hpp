@@ -10,7 +10,6 @@
 #include "../search/searcher/SearchResult.hpp"
 #include <thread>
 #include <unistd.h>
-#include <iostream>
 #include <chrono>
 
 namespace server_side {
@@ -31,7 +30,7 @@ namespace server_side {
             // the status for success
             static constexpr uint32_t s_SUCCESS_STATUS = 0;
             // the length of an empty response
-            static constexpr uint32_t s_EMPTY_RESPONSE_LENGTH = 0;
+            static constexpr const char* s_EMPTY_RESPONSE = "";
 
             // the cache manager used to save previous solutions
             mutable cache::CacheManager m_cache;
@@ -46,14 +45,12 @@ namespace server_side {
                 SolverClientHandler(const cache::CacheManager& cache)
                 : m_cache(cache) {}
 
-                static void readSockTrigger(SolverClientHandler<searcher::Graph, searcher::SearchResult> ch, const uint32_t clientSocket, std::string& message, bool& finished){
-                    message = ch.readSock(clientSocket);
-                    finished = true;
-                }
-
+                /**
+                 * @brief Handle a specific client
+                 * 
+                 * @param clientSocket the client socket
+                 */
                 void handleClient(const uint32_t clientSocket) const override {
-                    
-                    std::cout << "run" << std::endl;
 
                     // read problem
                     std::string commandString = "";
@@ -62,26 +59,26 @@ namespace server_side {
                     bool timedout = false;
 
                     try {
-
+                        // waiting for the client message in a different thread
                         std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(commandString), std::ref(finished));
-
+                        // counting the timeout
                         timeout(finished, timedout);
 
                         readThread.join();
 
+                        // if the timeout hasn't been reached, then the client hasn't connected in the last 5 seconds,
+                        // so closing the connection
                         if(timedout){
-                            std::cout << "disconnecting" << std::endl;
                             try{
                                 closeSock(clientSocket);
                             }catch(...){}
                                 return;
                         }
-
-                        std::cerr << commandString << std::endl;
                     } catch (const status_exception::StatusException& e) {
                         
+                        // if couldn't read from the socket, then sending error log and closing the connection
                         try {
-                            writeSock(clientSocket, getLog(e.getStatus(), s_EMPTY_RESPONSE_LENGTH));
+                            writeSock(clientSocket, getLog(s_VERSION, e.getStatus(), s_EMPTY_RESPONSE));
                         } catch (...) {}
 
                         try {
@@ -91,11 +88,12 @@ namespace server_side {
                         return;
                     }
 
-                    // success in recieving problem
+                    // if the client has connected in the last 5 seconds, then sending a success log
                     try {
-                        writeSock(clientSocket, getLog(s_SUCCESS_STATUS, s_EMPTY_RESPONSE_LENGTH));
+                        writeSock(clientSocket, getLog(s_VERSION, s_SUCCESS_STATUS, s_EMPTY_RESPONSE));
                     } catch (...) {
 
+                        // if couldn't write, then closing the socket
                         try {
                             closeSock(clientSocket);
                         } catch (...) {}
@@ -103,19 +101,23 @@ namespace server_side {
                         return;
                     }
 
-                    // read input
+                    // reading the inpput, also with timeout
                     std::string problemString;
-                    try {
-                        finished = false;
-                        timedout = false;
-                        std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(problemString), std::ref(finished));
 
+                    finished = false;
+                    timedout = false;
+
+                    try {
+                        // waiting for the client message in a different thread
+                        std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(problemString), std::ref(finished));
+                        // counting the timeout
                         timeout(finished, timedout);
 
                         readThread.join();
 
+                        // if the timeout hasn't been reached, then the client hasn't connected in the last 5 seconds,
+                        // so closing the connection
                         if(timedout){
-                            std::cout << "disconnecting" << std::endl;
                             try{
                                 closeSock(clientSocket);
                             }catch(...){}
@@ -123,9 +125,9 @@ namespace server_side {
                         }
 
                     } catch (const status_exception::StatusException& e) {
-                        
+                        // if couldn't read from the socket, then sending error log and closing the connection
                         try {
-                            writeSock(clientSocket, getLog(e.getStatus(), s_EMPTY_RESPONSE_LENGTH));
+                            writeSock(clientSocket, getLog(s_VERSION, e.getStatus(), s_EMPTY_RESPONSE));
                         } catch (...) {}
 
                         try {
@@ -174,7 +176,7 @@ namespace server_side {
                     if (status == 0) {
                         // send success message
                         try {
-                            writeSock(clientSocket, getLog(status, solutionString.size()) + "\r\n" + solutionString);
+                            writeSock(clientSocket, getLog(s_VERSION, status, solutionString));
                         } catch (...) {}
 
                         try {
@@ -185,7 +187,7 @@ namespace server_side {
                     else {
                         // send error message
                         try {
-                            writeSock(clientSocket, getLog(status, s_EMPTY_RESPONSE_LENGTH));
+                            writeSock(clientSocket, getLog(s_VERSION, status, s_EMPTY_RESPONSE));
                         } catch (...) {}
 
                         try {
@@ -196,28 +198,40 @@ namespace server_side {
 
             private:
 
+                /**
+                 * @brief Read the content from the socket, and also mark the reading as completed.
+                 *      used for the thread.
+                 * 
+                 * @param ch the given solver client handler
+                 * @param clientSocket the given client socket
+                 * @param message a variable that will be initialized with the message sent to the socket
+                 * @param finished this variable will be initialized with true if the reading from the socket is completed
+                 */
+                static void readSockTrigger(const SolverClientHandler<searcher::Graph, searcher::SearchResult>& ch, const uint32_t clientSocket, std::string& message, bool& finished){
+                    message = ch.readSock(clientSocket);
+                    finished = true;
+                }
+
+                /**
+                 * @brief Getting if the timeout has been reached, according to a boolean variable
+                 * 
+                 * @param finished holding true if the operation that we are waiting to has been finished
+                 * @param timeout holding true if the timeout has been reached
+                 */
                 void timeout(bool& finished, bool& timeout) const{
                     auto start = std::chrono::high_resolution_clock::now();
                     while(true){   
                         auto time = std::chrono::high_resolution_clock::now();
                         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(time - start);
                         if(duration.count() > 5000000){
-                            std::cout << "timedout" << std::endl;
                             timeout = true;
                             return;
                         }
                         if(finished){
-                            std::cout << "finished" << std::endl;
                             timeout = false;
                             return;
                         }
                     }
-                }
-            
-                std::string getLog(uint32_t status, uint32_t length) const {
-                    return "Version: " + std::to_string(s_VERSION) + "\r\n"
-                    + "status: " + std::to_string(status) + "\r\n"
-                    + "response-length: " + std::to_string(length) + "\r\n";
                 }
         };
     }

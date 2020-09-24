@@ -49,6 +49,16 @@ namespace server_side {
                  * @param clientSocket the given client socket
                  */
                 virtual void closeSock(uint32_t clientSocket) const;
+
+                /**
+                 * @brief Create a log, and get its string representation
+                 * 
+                 * @param version the current version
+                 * @param status the status of the log
+                 * @param message the message of the log
+                 * @return std::string string representation of the log
+                 */
+                std::string getLog(uint32_t version, uint32_t status, const std::string& message) const;
         };
     }
 }

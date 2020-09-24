@@ -44,5 +44,12 @@ namespace server_side {
                 throw status_exception::StatusException("Failed writing to socket", 6);
             }
         }
+
+        std::string AbstractClientHandler::getLog(const uint32_t version, const uint32_t status, const std::string& message) const {
+            return "Version: " + std::to_string(version) + "\r\n"
+            + "status: " + std::to_string(status) + "\r\n"
+            + "response-length: " + std::to_string(message.size()) + "\r\n"
+            + message + "\r\n";
+        }
     }
 }
