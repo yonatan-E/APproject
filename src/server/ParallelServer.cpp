@@ -2,14 +2,36 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <iostream>
-#include <pthread>
+#include <thread>
+#include <string>
 
-namespace server{
+namespace server_side{
 
-    void ParallelServer::open(const uint32_t serverPort, const clientside::ClientHandler& clientHandler) const{
+    void ParallelServer::clientHandle(const client_handler::ClientHandler& ch){
+        while(stop()){   
+            if(waitingClients.size() > 0){
+                mutexLock.lock();
+                uint32_t currentClient = waitingClients.front();
+                waitingClients.pop();
+                ch.handleClient(currentClient);
+                mutexLock.unlock();
+            }
+        }
+    }
+
+    void ParallelServer::open(uint32_t serverPort, const client_handler::ClientHandler& clientHandler) const {
       
        struct sockaddr_in clientAddress;
-        struct sockaddr_in serverAddress;
+       struct sockaddr_in serverAddress;
+
+       for(int i = 0; i < m_threadPoolSize ; ++i){
+           threadPool.push_back(std::thread([this, &clientHandler]{
+               ParallelServer::clientHandle(std::ref(clientHandler));
+               }));
+       }
+        for(int i = 0; i < m_threadPoolSize ; ++i){
+           threadPool.at(i).join();
+       }
 
         const uint32_t serverSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (serverSocket < 0) {
@@ -30,28 +52,24 @@ namespace server{
             //error
         }
 
+        //
+
         while(!stop()){
             //waiting for connections
 
             uint32_t addrSize = sizeof(clientAddress);
 
-            const auto clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddress)
+            auto clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddress)
             , reinterpret_cast<socklen_t*>(&addrSize));
 
             if(clientSocket < 0){
                 //error
             }
-  
-            clientHandler.handleClient(clientSocket);
 
-            pthred_t t;
-            pthread_create(&t, nullptr,  handleConnection, &clientSocket);
+            waitingClients.push(clientSocket);
+
         }
   
-    }
-
-    void* handleConnection(int* clientSocketPointer){
-        clientHandler.handleClient(*clientSocketPointer);
     }
 
     bool ParallelServer::stop() const{

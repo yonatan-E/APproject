@@ -1,4 +1,5 @@
 #include "server/SerialServer.hpp"
+#include "server/ParallelServer.hpp"
 #include "clienthandlers/SolverClientHandler.hpp"
 #include "search/searcher/SearchResult.hpp"
 #include "search/searchable/Graph.hpp"
@@ -10,7 +11,7 @@
 
             server_side::client_handler::SolverClientHandler<searcher::Graph, searcher::SearchResult> handler(cache);
 
-            server_side::SerialServer serialServer = server_side::SerialServer();
+            server_side::ParallelServer serialServer = server_side::ParallelServer();
 
             serialServer.open(8081, handler);
 

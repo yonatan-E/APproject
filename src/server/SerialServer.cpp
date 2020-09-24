@@ -4,8 +4,6 @@
 
 namespace server_side {
 
-     const uint32_t m_backlog = 20;
-
      void SerialServer::open(const uint32_t serverPort, const client_handler::ClientHandler& clientHandler) const{
        
         struct sockaddr_in clientAddress;
@@ -47,9 +45,12 @@ namespace server_side {
 
             const uint32_t clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress)
             ,reinterpret_cast<socklen_t*>(&addrSize));
+
             if(clientSocket < 0){
                 //error
             }
+
+            //handle the client
             clientHandler.handleClient(clientSocket);
   
             }

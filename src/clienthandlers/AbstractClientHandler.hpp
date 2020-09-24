@@ -9,7 +9,7 @@ namespace server_side {
 
         class AbstractClientHandler : public ClientHandler {
 
-            static constexpr uint32_t s_BUFFER_SIZE = 2048;
+            static constexpr uint32_t s_BUFFER_SIZE = 65536;
 
             public:
 
