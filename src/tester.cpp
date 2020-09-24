@@ -11,7 +11,7 @@
 
             server_side::client_handler::SolverClientHandler<searcher::Graph, searcher::SearchResult> handler(cache);
 
-            server_side::ParallelServer serialServer = server_side::ParallelServer();
+            server_side::SerialServer serialServer = server_side::SerialServer();
 
             serialServer.open(8081, handler);
 

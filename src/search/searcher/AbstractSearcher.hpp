@@ -18,7 +18,7 @@ namespace searcher {
     class AbstractSearcher : public Searcher<SearchResult, Identifier> {
 
         // the number of the evaluated elements
-        uint32_t m_evaluatedElements;
+        mutable uint32_t m_evaluatedElements;
 
         public:
 

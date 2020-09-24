@@ -13,6 +13,7 @@ namespace server_side {
          */
         class AbstractClientHandler : public ClientHandler {
 
+            // the size of the buffer used for reading from the socket
             static constexpr uint32_t s_BUFFER_SIZE = 65536;
 
             public:
