@@ -18,7 +18,7 @@ namespace server_side
 
             bzero(buffer, s_BUFFER_SIZE);
 
-            while (bytesRead == read(clientSocket, buffer, sizeof(buffer) - 1) > 0)
+            while ((bytesRead = read(clientSocket, buffer, sizeof(buffer) - 1)) > 0)
             {
 
                 bzero(buffer, s_BUFFER_SIZE);
@@ -51,7 +51,7 @@ namespace server_side
         {
             if (close(clientSocket) < 0)
             {
-                throw status_exception::StatusException("Failed writing to socket", 6);
+                throw status_exception::StatusException("Failed closing the socket socket", 6);
             }
         }
 

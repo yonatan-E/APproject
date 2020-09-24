@@ -100,6 +100,9 @@ namespace searcher
                 return true;
             }
             // the default implementation will guess that the given element is always valid
+             if(element.getGScore() < 1){
+                return true;
+            }
             return true;
         }
     };
