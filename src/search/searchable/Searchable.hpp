@@ -4,8 +4,9 @@
 #include <vector>
 #include <string>
 
-namespace searcher {
-    
+namespace searcher
+{
+
     /**
      * @brief This class represents a searchable object
      * 

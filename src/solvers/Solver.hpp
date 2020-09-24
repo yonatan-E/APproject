@@ -2,7 +2,8 @@
 
 #include <string>
 
-namespace solver {
+namespace solver
+{
 
     /**
      * @brief This class represents a problem solver.
@@ -11,16 +12,16 @@ namespace solver {
      * @tparam Solution the type of the solution
      */
     template <typename Problem, typename Solution>
-    class Solver {
+    class Solver
+    {
 
-        public:
-
-            /**
+    public:
+        /**
              * @brief Solve a problem and get its solution
              * 
              * @param problemString a string represents the given problem
              * @return std::string a string represents the solution of the given problem
              */
-            virtual std::string solve(const std::string& problemString) const = 0;
+        virtual std::string solve(const std::string &problemString) const = 0;
     };
 }

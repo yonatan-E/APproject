@@ -1,9 +1,9 @@
-#include "server/SerialServer.hpp"
-//#include "server/ParallelServer.hpp"
-#include "exceptions/ServerExceptions.hpp"
-#include "clienthandlers/SolverClientHandler.hpp"
-#include "search/searchable/Graph.hpp"
-#include "search/searcher/SearchResult.hpp"
+#include "SerialServer.hpp"
+//#include "ParallelServer.hpp"
+#include "ServerExceptions.hpp"
+#include "SolverClientHandler.hpp"
+#include "Graph.hpp"
+#include "SearchResult.hpp"
 #include <vector>
 #include <memory>
 #include <iostream>

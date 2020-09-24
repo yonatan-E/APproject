@@ -3,24 +3,26 @@
 #include <stdexcept>
 #include <string>
 
-namespace parser {
+namespace parser
+{
 
-    namespace exceptions {
-        
+    namespace exceptions
+    {
+
         /**
          * @brief This class represents an invalid parser input exception.
          * 
          */
-        class InvalidInputException : public std::runtime_error {
+        class InvalidInputException : public std::runtime_error
+        {
 
-            public:
-
-                /**
+        public:
+            /**
                  * @brief Construct a new Invalid Input Exception object
                  * 
                  * @param message the message of the exception
                  */
-                InvalidInputException(std::string message);
+            InvalidInputException(std::string message);
         };
     }
 }

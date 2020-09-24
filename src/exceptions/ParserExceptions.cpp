@@ -1,10 +1,12 @@
 #include "ParserExceptions.hpp"
 
-namespace parser {
+namespace parser
+{
 
-    namespace exceptions {
+    namespace exceptions
+    {
 
         InvalidInputException::InvalidInputException(std::string message)
-        : std::runtime_error(std::move(message)) {}
+            : std::runtime_error(std::move(message)) {}
     }
 }
