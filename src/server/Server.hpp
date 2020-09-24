@@ -25,5 +25,11 @@ namespace server_side
              * @return false if the server should not stop
              */
         virtual bool stop() const = 0;
+
+        /**
+         * @brief Virtual destructor
+         * 
+         */
+        virtual ~Server() = default;
     };
 }

@@ -25,6 +25,12 @@ namespace server_side {
                  */
                 virtual void handleClient(uint32_t clientSocket) const = 0;
 
+                /**
+                 * @brief Virtual destructor
+                 * 
+                 */
+                virtual ~AbstractClientHandler() = default;
+
             protected:
 
                 /**

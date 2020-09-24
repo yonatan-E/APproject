@@ -23,5 +23,11 @@ namespace solver
              * @return std::string a string represents the solution of the given problem
              */
         virtual std::string solve(const std::string &problemString) const = 0;
+
+        /**
+         * @brief Virtual destructor
+         * 
+         */
+        virtual ~Solver() = default;
     };
 }
