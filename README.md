@@ -73,6 +73,11 @@ Solve<ProblemType, SolutionType>()
 Class **DFSSolver, BFSSolver, BestFSSolver, AStarSolver** implement solver interface, and they will choose The parameters 
 <ProblemType, SolutionType> for the Solve method .
 
+### Searcher and Searchable
+Interface **Searchable** will represent an object that can be searched on.  
+Interface **Searcher** will represent a searcher, that can search on a **Searchable**.  
+Those interfaces will interact with each other according to the **Bridge** design pattern, which seperate between the algorithm (in this case, the search algorithm), and the problem which this algorithm solves (in this case, the object to search in).
+
 ## Coding
 
 ***Bottom – up approach***
