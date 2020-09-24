@@ -28,5 +28,4 @@ namespace server_side
              */
         bool stop() const override;
     };
-
 }

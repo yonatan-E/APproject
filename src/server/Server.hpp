@@ -26,5 +26,4 @@ namespace server_side
              */
         virtual bool stop() const = 0;
     };
-
 }

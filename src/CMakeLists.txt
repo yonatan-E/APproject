@@ -14,7 +14,7 @@ parsers/InputParser.hpp parsers/GraphInputParser.hpp search/searchable/Searchabl
 search/searchable/Graph.hpp search/searchable/Element.hpp search/searchable/matrix/Matrix.hpp search/searchable/matrix/ErrorCode.hpp
 search/searchable/matrix/Matrix.h search/searchable/matrix/ErrorCode.h search/searcher/Searcher.hpp search/searcher/AbstractSearcher.hpp
 search/searcher/SearchResult.hpp search/searcher/DFSSearcher.hpp search/searcher/BFSSearcher.hpp search/searcher/BestFSSearcher.hpp
-search/searcher/AStarSearcher.hpp server/Server.hpp server/SerialServer.hpp server/clienthandlers/ClientHandler.hpp 
+search/searcher/AStarSearcher.hpp server/Server.hpp server/SerialServer.hpp server/ParallelServer.hpp server/clienthandlers/ClientHandler.hpp 
 server/clienthandlers/AbstractClientHandler.hpp server/clienthandlers/SolverClientHandler.hpp
 solvers/Solver.hpp solvers/SearchSolver.hpp solvers/SolverFactory.hpp)
 
@@ -29,7 +29,7 @@ cachemanager/util/HashUtil.cpp cachemanager/util/Crc32.c exceptions/OperationExc
 exceptions/SearchExceptions.cpp exceptions/ServerExceptions.cpp exceptions/StatusException.cpp
 parsers/GraphInputParser.cpp search/searchable/Graph.cpp search/searchable/Element.cpp search/searchable/matrix/Matrix.cpp 
 search/searchable/matrix/ErrorCode.cpp search/searchable/matrix/Matrix.c search/searchable/matrix/ErrorCode.c
-search/searcher/SearchResult.cpp server/SerialServer.cpp server/clienthandlers/AbstractClientHandler.cpp
+search/searcher/SearchResult.cpp server/SerialServer.cpp server/ParallelServer.cpp server/clienthandlers/AbstractClientHandler.cpp
 solvers/SearchSolver.cpp solvers/SolverFactory.cpp)
 
 target_include_directories(ex4.out PRIVATE ${CMAKE_SOURCE_DIR}/cachemanager ${CMAKE_SOURCE_DIR}/cachemanager/util ${CMAKE_SOURCE_DIR}/exceptions

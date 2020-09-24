@@ -29,7 +29,7 @@ namespace server_side
 
         if (listen(serverSocket, m_backlog) < 0)
         {
-            exceptions::ServerException("Error while setting the backlog of the server");
+            throw exceptions::ServerException("Error while setting the backlog of the server");
         }
 
         fd_set currentSocket;

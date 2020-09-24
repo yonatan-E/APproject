@@ -1,5 +1,5 @@
 #include "SerialServer.hpp"
-//#include "ParallelServer.hpp"
+#include "ParallelServer.hpp"
 #include "ServerExceptions.hpp"
 #include "SolverClientHandler.hpp"
 #include "Graph.hpp"
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         if (command[1] == "serial") {
             server = std::make_unique<SerialServer>();
         } else if (command[1] == "parallel") {
-            //server = std::make_unique<ParallelServer>();
+            server = std::make_unique<ParallelServer>();
         } else {
             throw exceptions::InvalidCommandException();
         }
