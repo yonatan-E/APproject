@@ -25,13 +25,10 @@ algorithm = args.a
 sock = socket.socket()
 sock.connect(("127.0.0.1", port))
 
-time.sleep(8)
 
 sock.send(str.encode(f"solve find-graph-path {algorithm}{endl*2}"))
 print(sock.recv(1000).decode())
 
-
-message = "4,4\r\n1,2,3,30\r\n5,6,7,8\r\n9,10,11,12\r\n13,14,15,16\r\n0,0\r\n3,3\r\n\r\n"
-
+message = "4,4\r\n1,2,3,14\r\n5,6,7,8\r\n9,10,11,12\r\n13,14,15,16\r\n0,0\r\n3,3\r\n\r\n"
 sock.send(str.encode(message))
 print(sock.recv(1000).decode())

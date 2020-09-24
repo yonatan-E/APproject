@@ -6,6 +6,11 @@
 #include "../cachemanager/SolverOperation.hpp"
 #include "../exceptions/StatusException.hpp"
 #include "../cachemanager/util/HashUtil.hpp"
+#include "../search/searchable/Graph.hpp"
+#include "../search/searcher/SearchResult.hpp"
+#include <iostream>
+#include <thread>
+#include <unistd.h>
 #include <iostream>
 
 namespace server_side {
@@ -26,12 +31,40 @@ namespace server_side {
                 SolverClientHandler(const cache::CacheManager& cache)
                 : m_cache(cache) {}
 
+                static void readSockTrigger(SolverClientHandler<searcher::Graph, searcher::SearchResult> ch, const uint32_t clientSocket, std::string& message, bool& finished){
+                    message = ch.readSock(clientSocket);
+                    finished = true;
+                }
+
                 void handleClient(const uint32_t clientSocket) const override {
+                    
+                    std::cout << "run" << std::endl;
 
                     // read problem
-                    std::string commandString;
+                    std::string commandString = "";
+
                     try {
-                        commandString = readSock(clientSocket);
+
+                        bool finished = false;
+                        bool timedout = false;
+                        std::cout << "in" << std::endl;
+                        std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(commandString), std::ref(finished));
+                        std::cout << "out" << std::endl;
+
+                        timeout(finished, timedout);
+
+                        std::cout << "read success" << std::endl;
+
+                        readThread.join();
+
+                        if(timedout){
+                            std::cout << "disconnecting" << std::endl;
+                            try{
+                                closeSock(clientSocket);
+                            }catch(...){}
+                                return;
+                        }
+
                         std::cerr << commandString << std::endl;
                     } catch (const status_exception::StatusException& e) {
                         
@@ -135,6 +168,24 @@ namespace server_side {
                 }
 
             private:
+
+                void timeout(bool& finished, bool& timeout) const{
+                    double timePassed = 0;
+                    while(true){   
+                        sleep(0.01);
+                        timePassed += 0.01;
+                        if(timePassed > 5){
+                            std::cout << "timedout" << std::endl;
+                            timeout = true;
+                            return;
+                        }
+                        if(finished){
+                            std::cout << "finished" << std::endl;
+                            timeout = false;
+                            return;
+                        }
+                    }
+                }
             
                 std::string getLog(uint32_t status, uint32_t length) const {
                     return "Version: " + std::to_string(s_VERSION) + "\r\n"
