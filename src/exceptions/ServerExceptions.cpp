@@ -1,6 +1,6 @@
 #include "ServerExceptions.hpp"
 
-namespace server {
+namespace server_side {
 
     namespace exceptions {
 
