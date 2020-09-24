@@ -14,13 +14,10 @@ namespace server_side{
 
          const uint32_t m_backlog = 100;
          const uint32_t m_threadPoolSize = 20;
-         mutable std::queue<uint32_t> waitingClients;
-         mutable std::unique_lock<std::mutex> mutexLock;
-         mutable std::vector<std::thread> threadPool;
+         mutable std::queue<uint32_t> m_waitingClients;
+         mutable std::vector<std::thread> m_threadPool;
 
         public:
-
-            void clientHandle(const client_handler::ClientHandler& ch);
 
             void open(uint32_t serverPort, const client_handler::ClientHandler& clientHandler) const override;
 

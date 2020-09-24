@@ -7,30 +7,31 @@
 
 namespace server_side{
 
-    void ParallelServer::clientHandle(const client_handler::ClientHandler& ch){
-        while(stop()){   
+    static void clientHandle(std::mutex& mutexLock, std::queue<uint32_t>& waitingClients, const client_handler::ClientHandler& ch){
+        while(true){   
+            mutexLock.lock();
+            uint32_t currentClient;
             if(waitingClients.size() > 0){
-                mutexLock.lock();
-                uint32_t currentClient = waitingClients.front();
+                std::cout << "in" << std::endl;
+                std::cout << waitingClients.size() << std::endl;
+                currentClient = waitingClients.front();
                 waitingClients.pop();
-                ch.handleClient(currentClient);
-                mutexLock.unlock();
+                ch.handleClient(currentClient); 
             }
+            mutexLock.unlock();
         }
     }
 
     void ParallelServer::open(uint32_t serverPort, const client_handler::ClientHandler& clientHandler) const {
-      
        struct sockaddr_in clientAddress;
        struct sockaddr_in serverAddress;
 
+       std::cout << "here 1" << std::endl;
+
+       std::mutex m_mutexLock;
+
        for(int i = 0; i < m_threadPoolSize ; ++i){
-           threadPool.push_back(std::thread([this, &clientHandler]{
-               ParallelServer::clientHandle(std::ref(clientHandler));
-               }));
-       }
-        for(int i = 0; i < m_threadPoolSize ; ++i){
-           threadPool.at(i).join();
+           m_threadPool.push_back(std::thread(clientHandle, std::ref(m_mutexLock), std::ref(m_waitingClients), std::ref(clientHandler)));
        }
 
         const uint32_t serverSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -51,9 +52,9 @@ namespace server_side{
         if (listenResult < 0) {
             //error
         }
-
-        //
-
+        
+        std::cout << "here 2" << std::endl;
+        
         while(!stop()){
             //waiting for connections
 
@@ -66,7 +67,7 @@ namespace server_side{
                 //error
             }
 
-            waitingClients.push(clientSocket);
+            m_waitingClients.push(clientSocket);
 
         }
   
