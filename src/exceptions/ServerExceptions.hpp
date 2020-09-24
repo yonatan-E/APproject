@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace server {
+namespace server_side {
 
     namespace exceptions {
 

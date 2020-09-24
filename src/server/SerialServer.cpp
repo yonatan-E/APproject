@@ -12,7 +12,7 @@ namespace server_side {
 
         const uint32_t serverSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (serverSocket < 0) {
-            throw server::exceptions::ServerException("Error while getting a socket");
+            throw exceptions::ServerException("Error while getting a socket");
         }
 
         serverAddress.sin_family = AF_INET;
@@ -20,11 +20,11 @@ namespace server_side {
         serverAddress.sin_port = htons(serverPort);
 
         if (bind(serverSocket, reinterpret_cast<struct sockaddr *>(&serverAddress), sizeof(serverAddress)) < 0) {
-            throw server::exceptions::ServerException("Error while binding the socket to the server");
+            throw exceptions::ServerException("Error while binding the socket to the server");
         }
 
         if (listen(serverSocket, m_backlog) < 0) {
-            server::exceptions::ServerException("Error while setting the backlog of the server");
+            exceptions::ServerException("Error while setting the backlog of the server");
         }
 
         fd_set currentSocket;
@@ -36,7 +36,7 @@ namespace server_side {
             FD_SET(serverSocket, &currentSocket);
 
             if (select(serverSocket + 1, &currentSocket, nullptr, nullptr, nullptr) < 0){
-                throw server::exceptions::ServerException("Error while selecting a client socket");
+                throw exceptions::ServerException("Error while selecting a client socket");
             }
 
             uint32_t addrSize = sizeof(clientAddress);
@@ -45,7 +45,7 @@ namespace server_side {
             reinterpret_cast<socklen_t*>(&addrSize));
 
             if (clientSocket < 0){
-                throw server::exceptions::ServerException("Error while accepting a client socket");
+                throw exceptions::ServerException("Error while accepting a client socket");
             }
 
             // handling the client using the client handler
