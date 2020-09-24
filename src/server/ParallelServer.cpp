@@ -19,7 +19,7 @@ namespace server_side
             m_threadPool.push_back(std::thread(clientHandle, std::ref(m_mutexLock), std::ref(m_waitingClients), std::ref(clientHandler)));
         }
 
-        int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+        const int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (serverSocket < 0)
         {
             throw exceptions::ServerException("Error while getting a socket");
