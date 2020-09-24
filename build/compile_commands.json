@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/yonatan/APproject/APproject/build",
+  "command": "/bin/c++   -I/home/yonatan/APproject/APproject  -g   -Wall -Wextra -pedantic -Werror -std=gnu++17 -o CMakeFiles/search_tester.dir/tester.cpp.o -c /home/yonatan/APproject/APproject/tester.cpp",
+  "file": "/home/yonatan/APproject/APproject/tester.cpp"
+},
+{
+  "directory": "/home/yonatan/APproject/APproject/build",
+  "command": "/bin/c++   -I/home/yonatan/APproject/APproject  -g   -Wall -Wextra -pedantic -Werror -std=gnu++17 -o CMakeFiles/search_tester.dir/SearchResult.cpp.o -c /home/yonatan/APproject/APproject/SearchResult.cpp",
+  "file": "/home/yonatan/APproject/APproject/SearchResult.cpp"
+},
+{
+  "directory": "/home/yonatan/APproject/APproject/build",
+  "command": "/bin/c++   -I/home/yonatan/APproject/APproject  -g   -Wall -Wextra -pedantic -Werror -std=gnu++17 -o CMakeFiles/search_tester.dir/Graph.cpp.o -c /home/yonatan/APproject/APproject/Graph.cpp",
+  "file": "/home/yonatan/APproject/APproject/Graph.cpp"
+},
+{
+  "directory": "/home/yonatan/APproject/APproject/build",
+  "command": "/bin/c++   -I/home/yonatan/APproject/APproject  -g   -Wall -Wextra -pedantic -Werror -std=gnu++17 -o CMakeFiles/search_tester.dir/Matrix.cpp.o -c /home/yonatan/APproject/APproject/Matrix.cpp",
+  "file": "/home/yonatan/APproject/APproject/Matrix.cpp"
+},
+{
+  "directory": "/home/yonatan/APproject/APproject/build",
+  "command": "/bin/c++   -I/home/yonatan/APproject/APproject  -g   -Wall -Wextra -pedantic -Werror -std=gnu++17 -o CMakeFiles/search_tester.dir/ErrorCode.cpp.o -c /home/yonatan/APproject/APproject/ErrorCode.cpp",
+  "file": "/home/yonatan/APproject/APproject/ErrorCode.cpp"
+}
+]
