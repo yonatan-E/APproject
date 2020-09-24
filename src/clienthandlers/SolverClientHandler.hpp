@@ -44,17 +44,14 @@ namespace server_side {
                     // read problem
                     std::string commandString = "";
 
+                    bool finished = false;
+                    bool timedout = false;
+
                     try {
 
-                        bool finished = false;
-                        bool timedout = false;
-                        std::cout << "in" << std::endl;
                         std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(commandString), std::ref(finished));
-                        std::cout << "out" << std::endl;
 
                         timeout(finished, timedout);
-
-                        std::cout << "read success" << std::endl;
 
                         readThread.join();
 
@@ -95,7 +92,22 @@ namespace server_side {
                     // read input
                     std::string problemString;
                     try {
-                        problemString = readSock(clientSocket);
+                        finished = false;
+                        timedout = false;
+                        std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(problemString), std::ref(finished));
+
+                        timeout(finished, timedout);
+
+                        readThread.join();
+
+                        if(timedout){
+                            std::cout << "disconnecting" << std::endl;
+                            try{
+                                closeSock(clientSocket);
+                            }catch(...){}
+                                return;
+                        }
+
                     } catch (const status_exception::StatusException& e) {
                         
                         try {

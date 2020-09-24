@@ -25,6 +25,8 @@ algorithm = args.a
 sock = socket.socket()
 sock.connect(("127.0.0.1", port))
 
+time.sleep(1)
+
 
 sock.send(str.encode(f"solve find-graph-path {algorithm}{endl*2}"))
 print(sock.recv(1000).decode())
