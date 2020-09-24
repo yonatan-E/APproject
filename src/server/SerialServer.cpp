@@ -2,6 +2,8 @@
 #include "ServerExceptions.hpp"
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <iostream>
+#include <unistd.h>
 
 namespace server_side
 {
@@ -18,6 +20,7 @@ namespace server_side
             throw exceptions::ServerException("Error while getting a socket");
         }
 
+
         serverAddress.sin_family = AF_INET;
         serverAddress.sin_addr.s_addr = INADDR_ANY;
         serverAddress.sin_port = htons(serverPort);
@@ -32,19 +35,8 @@ namespace server_side
             throw exceptions::ServerException("Error while setting the backlog of the server");
         }
 
-        fd_set currentSocket;
-
         while (!stop())
         {
-
-            // waiting for connections
-            FD_ZERO(&currentSocket);
-            FD_SET(serverSocket, &currentSocket);
-
-            if (select(serverSocket + 1, &currentSocket, nullptr, nullptr, nullptr) < 0)
-            {
-                throw exceptions::ServerException("Error while selecting a client socket");
-            }
 
             uint32_t addrSize = sizeof(clientAddress);
 
