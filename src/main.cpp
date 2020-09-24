@@ -32,10 +32,10 @@ int main(int argc, char *argv[]) {
 
         // getting the specific server type according to the command
         std::unique_ptr<Server> server;
-        if (command[1] == "serial") {
-            server = std::make_unique<SerialServer>();
-        } else if (command.size() == 1 || command[1] == "parallel") {
+        if (command.size() == 1 || command[1] == "parallel") {
             server = std::make_unique<ParallelServer>();
+        } else if (command[1] == "serial") {
+            server = std::make_unique<SerialServer>();
         } else {
             throw exceptions::InvalidCommandException();
         }
