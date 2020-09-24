@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 enable_testing()
 
+find_package (Threads REQUIRED)
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(HEADER_FILES cachemanager/CacheManager.hpp cachemanager/Operation.hpp cachemanager/SolverOperation.hpp
@@ -35,7 +37,7 @@ solvers/SearchSolver.cpp solvers/SolverFactory.cpp)
 target_include_directories(ex4.out PRIVATE ${CMAKE_SOURCE_DIR}/cachemanager ${CMAKE_SOURCE_DIR}/cachemanager/util ${CMAKE_SOURCE_DIR}/exceptions
 ${CMAKE_SOURCE_DIR}/parsers ${CMAKE_SOURCE_DIR}/search/searchable ${CMAKE_SOURCE_DIR}/search/searchable/matrix ${CMAKE_SOURCE_DIR}/search/searcher
 ${CMAKE_SOURCE_DIR}/server ${CMAKE_SOURCE_DIR}/clienthandlers ${CMAKE_SOURCE_DIR}/solvers)
-target_link_libraries(ex4.out matrix pthread)
+target_link_libraries(ex4.out matrix ${CMAKE_THREAD_LIBS_INIT})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
