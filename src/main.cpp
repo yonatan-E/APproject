@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
         std::unique_ptr<Server> server;
         if (command[1] == "serial") {
             server = std::make_unique<SerialServer>();
-        } else if (command[1] == "parallel") {
+        } else if (command.size() == 1 || command[1] == "parallel") {
             server = std::make_unique<ParallelServer>();
         } else {
             throw exceptions::InvalidCommandException();
