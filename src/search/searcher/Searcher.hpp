@@ -24,6 +24,13 @@ namespace searcher {
             virtual SearchResultType search(const Searchable<Identifier>& searchable) const = 0;
 
             /**
+             * @brief Get the Number Of Evaluated Elements in the search
+             * 
+             * @return uint32_t the number of the evaluated elements
+             */
+            virtual uint32_t getNumberOfEvaluatedElements() const = 0;
+
+            /**
              * @brief Virtual destructor
              * 
              */

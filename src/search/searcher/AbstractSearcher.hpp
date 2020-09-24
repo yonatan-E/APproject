@@ -17,6 +17,9 @@ namespace searcher {
     template <typename Identifier>
     class AbstractSearcher : public Searcher<SearchResult, Identifier> {
 
+        // the number of the evaluated elements
+        uint32_t m_evaluatedElements;
+
         public:
 
             /**
@@ -25,9 +28,11 @@ namespace searcher {
              * @param searchable the given searchable object, where the search is doing on
              * @return SearchResultType the result of the search
              */
-            virtual SearchResult search(const Searchable<Identifier>& searchable) const {
+            virtual SearchResult search(const Searchable<Identifier>& searchable) const override {
                 // clearing the container, to make sure it is empty
                 clearContainer();
+                // reseting the number of evaluated elements
+                m_evaluatedElements = 0;
 
                 // set of the visited elements
                 std::set<Element<Identifier>, CompareByIdentifier<Identifier>> visited;
@@ -50,7 +55,9 @@ namespace searcher {
                         break;
                     }
 
-                    // else, getting all of the reachable elements of the popped element
+                    // else, evaluating the current element
+                    ++m_evaluatedElements;
+                    // getting all of the reachable elements of the popped element
                     for (auto& reachable : searchable.getAllReachableElements(current)) {
                         // if the reachable element has not been visited, then marking it as visited, 
                         // adding it to the container, and getting its previos element in the path
@@ -68,6 +75,15 @@ namespace searcher {
                 }
 
                 return this->reconstructPath(searchable, cameFrom);
+            }
+
+            /**
+             * @brief Get the Number Of Evaluated Elements in the search
+             * 
+             * @return uint32_t the number of the evaluated elements
+             */
+            uint32_t getNumberOfEvaluatedElements() const override {
+                return m_evaluatedElements;
             }
 
         protected:
