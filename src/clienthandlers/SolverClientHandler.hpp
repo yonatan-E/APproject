@@ -12,6 +12,7 @@
 #include <thread>
 #include <unistd.h>
 #include <iostream>
+#include <chrono>
 
 namespace server_side {
 
@@ -170,11 +171,11 @@ namespace server_side {
             private:
 
                 void timeout(bool& finished, bool& timeout) const{
-                    double timePassed = 0;
+                    auto start = std::chrono::high_resolution_clock::now();
                     while(true){   
-                        sleep(0.01);
-                        timePassed += 0.01;
-                        if(timePassed > 5){
+                        auto time = std::chrono::high_resolution_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(time - start);
+                        if(duration.count() > 5000000){
                             std::cout << "timedout" << std::endl;
                             timeout = true;
                             return;
