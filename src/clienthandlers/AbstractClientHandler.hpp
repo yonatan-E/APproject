@@ -17,7 +17,7 @@ namespace server_side
         {
 
             // the size of the buffer used for reading from the socket
-            static constexpr uint32_t s_BUFFER_SIZE = 65536;
+            static constexpr int s_BUFFER_SIZE = 65536;
 
         public:
             /**

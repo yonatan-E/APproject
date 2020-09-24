@@ -96,6 +96,9 @@ namespace searcher
              */
         virtual bool isValidElement(const Element<Identifier> &element) const
         {
+            if (element.getGScore(); < 1) {
+                return true;
+            }
             // the default implementation will guess that the given element is always valid
             return true;
         }

@@ -13,7 +13,7 @@ namespace server_side
         {
 
             char buffer[s_BUFFER_SIZE];
-            size_t bytesRead;
+            int bytesRead = 0;
             int messageSize = 0;
 
             bzero(buffer, s_BUFFER_SIZE);

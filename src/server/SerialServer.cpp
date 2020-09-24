@@ -12,7 +12,7 @@ namespace server_side
         struct sockaddr_in clientAddress;
         struct sockaddr_in serverAddress;
 
-        const uint32_t serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+        const int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (serverSocket < 0)
         {
             throw exceptions::ServerException("Error while getting a socket");
@@ -48,7 +48,7 @@ namespace server_side
 
             uint32_t addrSize = sizeof(clientAddress);
 
-            const uint32_t clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress),
+            const int clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress),
                                                  reinterpret_cast<socklen_t *>(&addrSize));
 
             if (clientSocket < 0)

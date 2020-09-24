@@ -94,6 +94,6 @@ namespace searcher
 
     bool Graph::isValidElement(const graphElement &element) const
     {
-        return element.getIdentifier().first >= 0 && element.getIdentifier().first < m_graphMatrix.getHeight() && element.getIdentifier().second >= 0 && element.getIdentifier().second < m_graphMatrix.getWidth() && m_graphMatrix(element.getIdentifier().first, element.getIdentifier().second) > 0;
+        return element.getIdentifier().first < m_graphMatrix.getHeight() && element.getIdentifier().second < m_graphMatrix.getWidth() && m_graphMatrix(element.getIdentifier().first, element.getIdentifier().second) > 0;
     }
 }
