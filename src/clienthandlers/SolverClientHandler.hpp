@@ -53,7 +53,7 @@ namespace server_side {
                 void handleClient(const uint32_t clientSocket) const override {
 
                     // read problem
-                    std::string commandString = "";
+                    std::string commandString;
 
                     bool finished = false;
                     bool timedout = false;
@@ -174,9 +174,9 @@ namespace server_side {
 
                     // the calculation has succeeded
                     if (status == 0) {
-                        // send success message
+                        // sending a success message
                         try {
-                            writeSock(clientSocket, getLog(s_VERSION, status, solutionString));
+                            writeSock(clientSocket, getLog(s_VERSION, status, solutionString) + "\r\n");
                         } catch (...) {}
 
                         try {
@@ -185,9 +185,9 @@ namespace server_side {
                     }
                     // if the calculation has failed
                     else {
-                        // send error message
+                        // sending a error message
                         try {
-                            writeSock(clientSocket, getLog(s_VERSION, status, s_EMPTY_RESPONSE));
+                            writeSock(clientSocket, getLog(s_VERSION, status, s_EMPTY_RESPONSE) + "\r\n");
                         } catch (...) {}
 
                         try {
