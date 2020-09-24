@@ -8,7 +8,6 @@
 #include "../cachemanager/util/HashUtil.hpp"
 #include "../search/searchable/Graph.hpp"
 #include "../search/searcher/SearchResult.hpp"
-#include <iostream>
 #include <thread>
 #include <unistd.h>
 #include <iostream>
@@ -17,18 +16,33 @@
 namespace server_side {
 
     namespace client_handler {
-
+        
+        /**
+         * @brief This class represents a client handler which handle the client using a specific solver.
+         * 
+         * @tparam Problem the type problem type of the solver
+         * @tparam Solution the solution type of the solver
+         */
         template <typename Problem, typename Solution>
         class SolverClientHandler : public AbstractClientHandler {
 
+            // the version
             static constexpr double s_VERSION = 1.0;
+            // the status for success
             static constexpr uint32_t s_SUCCESS_STATUS = 0;
+            // the length of an empty response
             static constexpr uint32_t s_EMPTY_RESPONSE_LENGTH = 0;
 
+            // the cache manager used to save previous solutions
             mutable cache::CacheManager m_cache;
 
             public:
 
+                /**
+                 * @brief Construct a new Solver Client Handler object
+                 * 
+                 * @param cache the given cache manager
+                 */
                 SolverClientHandler(const cache::CacheManager& cache)
                 : m_cache(cache) {}
 

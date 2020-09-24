@@ -1,14 +1,15 @@
 #include "SolverFactory.hpp"
+#include "SearchSolver.hpp"
 #include "../search/searcher/AStarSearcher.hpp"
 #include "../search/searcher/BFSSearcher.hpp"
 #include "../search/searcher/DFSSearcher.hpp"
 #include "../search/searcher/BestFSSearcher.hpp"
 #include "../exceptions/StatusException.hpp"
-#include "../search/searchable/Graph.hpp"
 #include <vector>
 
 namespace solver {
 
+    // concrete implementation in case that the solver is a search solver
     template <>
     std::unique_ptr<solver::Solver<searcher::Graph, searcher::SearchResult>>
     SolverFactory<searcher::Graph, searcher::SearchResult>::getSolver(const std::string& command) const {

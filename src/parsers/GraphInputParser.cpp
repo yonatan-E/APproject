@@ -46,19 +46,19 @@ namespace parser {
                 }
                 // getting the specified value
                 double val;
-                if (line.substr(j, k - j + 1) == "b") {
+                if (line.substr(j, k - j) == "b") {
                     val = 0;
                 } else {
                     try {
-                        val = std::stoi(line.substr(j, k - j + 1));
+                        val = std::stoi(line.substr(j, k - j));
                     } catch (...) {
                         // throwing a file format exception in case that the stoi function hasn't succeeded
                         throw exceptions::InvalidInputException("Invalid graph format");
                     }
-                }
-                // throwing an exception in case that the specified value in the matrix is smaller than 1
-                if (val < 1) {
-                    throw exceptions::InvalidInputException("Invalid graph format");
+                    // throwing an exception in case that the specified value in the matrix is smaller than 1
+                    if (val < 1) {
+                        throw exceptions::InvalidInputException("Invalid graph format");
+                    }
                 }
                 // finally setting the value in the matrix
                 try {
