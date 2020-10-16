@@ -1,11 +1,9 @@
-#include "SerialServer.hpp"
-#include "ParallelServer.hpp"
+#include "ServerFactory.hpp"
 #include "ServerExceptions.hpp"
 #include "SolverClientHandler.hpp"
 #include "Graph.hpp"
 #include "SearchResult.hpp"
 #include <vector>
-#include <memory>
 #include <iostream>
 
 using namespace server_side;
@@ -32,11 +30,14 @@ int main(int argc, char *argv[]) {
 
         // getting the specific server type according to the command
         std::unique_ptr<Server> server;
-        if (command.size() == 1 || command[1] == "parallel") {
-            server = std::make_unique<ParallelServer>();
-        } else if (command[1] == "serial") {
-            server = std::make_unique<SerialServer>();
+        ServerFactory serverFactory;
+        if (command.size() == 1) {
+            server = serverFactory.getDefaultServer();
         } else {
+            server = serverFactory.getServer(command[1]);
+        }
+        
+        if (server == nullptr) {
             throw exceptions::InvalidCommandException();
         }
 

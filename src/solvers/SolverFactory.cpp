@@ -52,7 +52,7 @@ namespace solver
             {
                 searcher = searcherFactory.getDefaultSearcher();
             }
-            else if (commandParts.size() == 3) 
+            else
             {
                 searcher = searcherFactory.getSearcher(commandParts[2]);
             }
