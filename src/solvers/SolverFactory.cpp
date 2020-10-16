@@ -1,9 +1,6 @@
 #include "SolverFactory.hpp"
 #include "SearchSolver.hpp"
-#include "AStarSearcher.hpp"
-#include "BFSSearcher.hpp"
-#include "DFSSearcher.hpp"
-#include "BestFSSearcher.hpp"
+#include "SearcherFactory.hpp"
 #include "StatusException.hpp"
 #include <vector>
 
@@ -47,29 +44,23 @@ namespace solver
 
         // getting the right searcher, according to the command
         // and throwing exceptions in case that the command is invalid
-
+        searcher::SearcherFactory<std::pair<uint32_t, uint32_t>> searcherFactory;
         if (commandParts[0] == "solve" && commandParts[1] == "find-graph-path")
         {
-            if (commandParts.size() == 2 || commandParts[2] == "BestFS")
+            std::unique_ptr<searcher::Searcher<searcher::SearchResult, std::pair<uint32_t, uint32_t>>> searcher;
+            if (commandParts.size() == 2)
             {
-                return std::make_unique<solver::SearchSolver>(std::make_unique<searcher::BestFSSearcher<std::pair<uint32_t, uint32_t>>>());
+                searcher = searcherFactory.getDefaultSearcher();
             }
-            else if (commandParts[2] == "BFS")
+            else if (commandParts.size() == 3) 
             {
-                return std::make_unique<solver::SearchSolver>(std::make_unique<searcher::BFSSearcher<std::pair<uint32_t, uint32_t>>>());
+                searcher = searcherFactory.getSearcher(commandParts[2]);
             }
-            else if (commandParts[2] == "DFS")
-            {
-                return std::make_unique<solver::SearchSolver>(std::make_unique<searcher::DFSSearcher<std::pair<uint32_t, uint32_t>>>());
-            }
-            else if (commandParts[2] == "A*")
-            {
-                return std::make_unique<solver::SearchSolver>(std::make_unique<searcher::AStarSearcher<std::pair<uint32_t, uint32_t>>>());
-            }
-            else
-            {
+
+            if (searcher == nullptr) {
                 throw status_exception::StatusException("Invalid algorithm name", 3);
             }
+            return std::make_unique<solver::SearchSolver>(searcher);
         }
 
         throw status_exception::StatusException("Invalid problem type", 3);
