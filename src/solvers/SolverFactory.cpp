@@ -60,7 +60,8 @@ namespace solver
             if (searcher == nullptr) {
                 throw status_exception::StatusException("Invalid algorithm name", 3);
             }
-            return std::make_unique<solver::SearchSolver>(searcher);
+            
+            return std::make_unique<solver::SearchSolver>(std::move(searcher));
         }
 
         throw status_exception::StatusException("Invalid problem type", 3);
