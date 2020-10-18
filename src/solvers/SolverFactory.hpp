@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Solver.hpp"
+
 #include <memory>
 
 namespace solver

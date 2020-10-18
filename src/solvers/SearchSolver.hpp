@@ -4,6 +4,7 @@
 #include "Searcher.hpp"
 #include "SearchResult.hpp"
 #include "Graph.hpp"
+
 #include <cstdint>
 #include <utility>
 #include <memory>

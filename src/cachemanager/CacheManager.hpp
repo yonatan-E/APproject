@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Operation.hpp"
+
 #include <vector>
 
 namespace cache

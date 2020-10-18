@@ -1,6 +1,7 @@
 #include "SearchSolverFactory.hpp"
 #include "SearcherFactory.hpp"
 #include "StatusException.hpp"
+
 #include <vector>
 
 namespace solver {
