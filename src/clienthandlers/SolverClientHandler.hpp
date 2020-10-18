@@ -2,7 +2,7 @@
 
 #include "AbstractClientHandler.hpp"
 #include "SolverFactory.hpp"
-#include "InputParser.hpp"
+#include "Parser.hpp"
 #include "CacheManager.hpp"
 #include "SolverOperation.hpp"
 #include "StatusException.hpp"
@@ -35,7 +35,7 @@ namespace server_side {
             // the solver factory, used to create the concrete solver
             std::unique_ptr<solver::SolverFactory<Problem, Solution>> m_solverFactory;
             // the input parser, used to parse the given input
-            std::unique_ptr<parser::InputParser<Problem>> m_inputParser;
+            std::unique_ptr<parser::Parser<Problem>> m_inputParser;
             // the cache manager used to save previous solutions
             mutable cache::CacheManager m_cacheManager;
 
@@ -47,7 +47,7 @@ namespace server_side {
                  * @param cache the given cache manager
                  */
                 SolverClientHandler(std::unique_ptr<solver::SolverFactory<Problem, Solution>> solverFactory,
-                std::unique_ptr<parser::InputParser<Problem>> inputParser,
+                std::unique_ptr<parser::Parser<Problem>> inputParser,
                 const cache::CacheManager& cacheManager)
                 : m_solverFactory(std::move(solverFactory)),
                 m_inputParser(std::move(inputParser)),

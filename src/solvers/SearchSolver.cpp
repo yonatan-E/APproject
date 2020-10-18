@@ -1,5 +1,4 @@
 #include "SearchSolver.hpp"
-#include "GraphInputParser.hpp"
 #include "StatusException.hpp"
 
 namespace solver

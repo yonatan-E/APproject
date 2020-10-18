@@ -8,7 +8,7 @@ namespace searcher
     /**
      * @brief This class represents a searcher object, that can search on a searchable object
      * 
-     * @tparam SearchResultType the type of the search result
+     * @tparam SearchResult the type of the search result
      * @tparam Identifier the identifier of an element in the searchable object, where the search is doing on
      */
     template <typename SearchResult, typename Identifier>

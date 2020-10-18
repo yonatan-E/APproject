@@ -1,4 +1,4 @@
-#include "GraphInputParser.hpp"
+#include "GraphParser.hpp"
 #include "StatusException.hpp"
 
 #include <cstdint>
@@ -8,7 +8,7 @@
 namespace parser
 {
 
-    searcher::Graph GraphInputParser::parseInput(const std::string &input) const
+    searcher::Graph GraphParser::parseInput(const std::string &input) const
     {
         // getting the first line
         std::string firstLine(&input[0], &input[input.find("\r\n", 0)]);

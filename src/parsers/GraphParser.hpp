@@ -1,16 +1,16 @@
 #pragma once
 
-#include "InputParser.hpp"
+#include "Parser.hpp"
 #include "Graph.hpp"
 
 namespace parser
 {
 
     /**
-     * @brief This class represents a graph input parser.
+     * @brief This class represents a string parser, that parses to a graph object.
      * 
      */
-    class GraphInputParser : public InputParser<searcher::Graph>
+    class GraphParser : public Parser<searcher::Graph>
     {
 
     public:
