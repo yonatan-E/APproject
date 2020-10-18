@@ -1,5 +1,5 @@
 #include "GraphInputParser.hpp"
-#include "ParserExceptions.hpp"
+#include "StatusException.hpp"
 #include <cstdint>
 #include <algorithm>
 #include <utility>
@@ -23,13 +23,13 @@ namespace parser
         catch (...)
         {
             // throwing a file format exception in case that the stoi function hasn't succeeded
-            throw exceptions::InvalidInputException("Invalid graph format");
+            throw status_exception::StatusException("Invalid graph format", 4);
         }
 
         // throwing an exception in a case that the matrix height or width is 0
         if (numRows == 0 || numColumns == 0)
         {
-            throw exceptions::InvalidInputException("Invalid graph format");
+            throw status_exception::StatusException("Invalid graph format", 4);
         }
 
         // creating a new matrix with sizes numRows * numColumns
@@ -68,12 +68,12 @@ namespace parser
                     catch (...)
                     {
                         // throwing a file format exception in case that the stoi function hasn't succeeded
-                        throw exceptions::InvalidInputException("Invalid graph format");
+                        throw status_exception::StatusException("Invalid graph format", 4);
                     }
                     // throwing an exception in case that the specified value in the matrix is smaller than 1
                     if (val < 1)
                     {
-                        throw exceptions::InvalidInputException("Invalid graph format");
+                        throw status_exception::StatusException("Invalid graph format", 4);
                     }
                 }
                 // finally setting the value in the matrix
@@ -84,7 +84,7 @@ namespace parser
                 catch (...)
                 {
                     // throwing an exception in case that the value set in the matrix is in an invalid place
-                    throw exceptions::InvalidInputException("Invalid graph format");
+                    throw status_exception::StatusException("Invalid graph format", 4);
                 }
 
                 // promoting the iterators
@@ -108,7 +108,7 @@ namespace parser
         catch (...)
         {
             // throwing a file format exception in case that the stoi function hasn't succeeded
-            throw exceptions::InvalidInputException("Invalid graph format");
+            throw status_exception::StatusException("Invalid graph format", 4);
         }
         it = input.find("\r\n", it) + 2;
 
@@ -125,7 +125,7 @@ namespace parser
         catch (...)
         {
             // throwing a file format exception in case that the stoi function hasn't succeeded
-            throw exceptions::InvalidInputException("Invalid graph format");
+            throw status_exception::StatusException("Invalid graph format", 4);
         }
 
         return searcher::Graph(matrix, startPos, endPos);

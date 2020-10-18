@@ -10,7 +10,7 @@ find_package (Threads REQUIRED)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(HEADER_FILES cachemanager/CacheManager.hpp cachemanager/Operation.hpp cachemanager/SolverOperation.hpp
-cachemanager/util/HashUtil.hpp cachemanager/util/Crc32.h exceptions/OperationExceptions.hpp exceptions/ParserExceptions.hpp
+cachemanager/util/HashUtil.hpp cachemanager/util/Crc32.h exceptions/OperationExceptions.hpp
 exceptions/SearchExceptions.hpp exceptions/ServerExceptions.hpp exceptions/StatusException.hpp
 parsers/InputParser.hpp parsers/GraphInputParser.hpp search/searchable/Searchable.hpp search/searchable/AbstractSearchable.hpp
 search/searchable/Graph.hpp search/searchable/Element.hpp search/searchable/matrix/Matrix.hpp search/searchable/matrix/ErrorCode.hpp
@@ -28,7 +28,7 @@ ${CMAKE_SOURCE_DIR}/server ${CMAKE_SOURCE_DIR}/clienthandlers ${CMAKE_SOURCE_DIR
 link_directories(${CMAKE_SOURCE_DIR}/bin)
 
 add_executable(ex4.out main.cpp cachemanager/CacheManager.cpp cachemanager/Operation.cpp cachemanager/SolverOperation.cpp
-cachemanager/util/HashUtil.cpp cachemanager/util/Crc32.c exceptions/OperationExceptions.cpp exceptions/ParserExceptions.cpp
+cachemanager/util/HashUtil.cpp cachemanager/util/Crc32.c exceptions/OperationExceptions.cpp
 exceptions/SearchExceptions.cpp exceptions/ServerExceptions.cpp exceptions/StatusException.cpp
 parsers/GraphInputParser.cpp search/searchable/Graph.cpp search/searchable/Element.cpp search/searchable/matrix/Matrix.cpp 
 search/searchable/matrix/ErrorCode.cpp
