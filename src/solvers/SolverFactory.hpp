@@ -24,5 +24,11 @@ namespace solver
              *      according to the given command
              */
         virtual std::unique_ptr<solver::Solver<Problem, Solution>> getSolver(const std::string &command) const = 0;
+
+        /**
+         * @brief Virtual destructor
+         * 
+         */
+        virtual ~SolverFactory() = default;
     };
 }
