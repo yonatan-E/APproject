@@ -1,18 +1,12 @@
-#include "SolverFactory.hpp"
-#include "SearchSolver.hpp"
+#include "SearchSolverFactory.hpp"
 #include "SearcherFactory.hpp"
 #include "StatusException.hpp"
 #include <vector>
 
-namespace solver
-{
+namespace solver {
 
-    // concrete implementation in case that the solver is a search solver
-    template <>
     std::unique_ptr<solver::Solver<searcher::Graph, searcher::SearchResult>>
-    SolverFactory<searcher::Graph, searcher::SearchResult>::getSolver(const std::string &command) const
-    {
-
+    SearchSolverFactory::getSolver(const std::string &command) const {
         // parsing the command into parts
         std::vector<std::string> commandParts;
         std::string part = "";

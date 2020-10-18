@@ -1,20 +1,12 @@
 #pragma once
 
-#include "Solver.hpp"
-#include <memory>
+#include "SolverFactory.hpp"
+#include "SearchSolver.hpp"
 
-namespace solver
-{
+namespace solver {
 
-    /**
-    * @brief This class is a factory of solver objects.
-    * 
-    */
-    template <typename Problem, typename Solution>
-    class SolverFactory
-    {
+    class SearchSolverFactory : public SolverFactory<searcher::Graph, searcher::SearchResult> {
 
-    public:
         /**
              * @brief Create a solver according to a specific command.
              * 
@@ -22,6 +14,7 @@ namespace solver
              * @return std::unique_ptr<solver::Solver<Problem, Solution>> a pointer to a solver, which was created
              *      according to the given command
              */
-        virtual std::unique_ptr<solver::Solver<Problem, Solution>> getSolver(const std::string &command) const = 0;
+        std::unique_ptr<solver::Solver<searcher::Graph, searcher::SearchResult>>
+        getSolver(const std::string &command) const override;
     };
 }

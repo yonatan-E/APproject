@@ -1,8 +1,8 @@
 #include "ServerFactory.hpp"
 #include "ServerExceptions.hpp"
 #include "SolverClientHandler.hpp"
-#include "Graph.hpp"
-#include "SearchResult.hpp"
+#include "SearchSolverFactory.hpp"
+#include "GraphInputParser.hpp"
 #include <vector>
 #include <iostream>
 
@@ -41,11 +41,16 @@ int main(int argc, char *argv[]) {
             throw exceptions::InvalidCommandException();
         }
 
+        // creating the solver factory that will be used to create the concrete search solver 
+        std::unique_ptr<solver::SearchSolverFactory> solverFactory;
+        // creating the input parser that will be used to parse the graph input
+        std::unique_ptr<parser::GraphInputParser> inputParser;
         // creating a cache in size 5, which its files will be stored at the directory "cache"
-        cache::CacheManager cache(5, "cache");
+        cache::CacheManager cacheManager(5, "cache");
 
         // creating a solver client handler, which solves a search problem
-        client_handler::SolverClientHandler<searcher::Graph, searcher::SearchResult> clientHandler(cache);
+        client_handler::SolverClientHandler<searcher::Graph, searcher::SearchResult> clientHandler(
+            solverFactory, inputParser, cacheManager);
 
         // opening and running the server
         server->open(port, clientHandler);

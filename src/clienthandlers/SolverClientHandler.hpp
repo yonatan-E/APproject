@@ -2,12 +2,11 @@
 
 #include "AbstractClientHandler.hpp"
 #include "SolverFactory.hpp"
+#include "InputParser.hpp"
 #include "CacheManager.hpp"
 #include "SolverOperation.hpp"
 #include "StatusException.hpp"
 #include "HashUtil.hpp"
-#include "Graph.hpp"
-#include "SearchResult.hpp"
 #include <thread>
 #include <unistd.h>
 #include <chrono>
@@ -33,8 +32,12 @@ namespace server_side {
             // the length of an empty response
             static constexpr const char* s_EMPTY_RESPONSE = "";
 
+            // the solver factory, used to create the concrete solver
+            std::unique_ptr<solver::SolverFactory<Problem, Solution>> m_solverFactory;
+            // the input parser, used to parse the given input
+            std::unique_ptr<parser::InputParser<Problem>> m_inputParser;
             // the cache manager used to save previous solutions
-            mutable cache::CacheManager m_cache;
+            mutable cache::CacheManager m_cacheManager;
 
             public:
 
@@ -43,8 +46,10 @@ namespace server_side {
                  * 
                  * @param cache the given cache manager
                  */
-                SolverClientHandler(const cache::CacheManager& cache)
-                : m_cache(cache) {}
+                SolverClientHandler(std::unique_ptr<solver::SolverFactory<Problem, Solution>> solverFactory,
+                std::unique_ptr<parser::InputParser<Problem>> inputParser,
+                const cache::CacheManager& cacheManager)
+                : m_cacheManager(cacheManager) {}
 
                 /**
                  * @brief Handle a specific client
@@ -72,7 +77,7 @@ namespace server_side {
                         if(timedout){
                             try{
                                 closeSock(clientSocket);
-                            }catch(...){}
+                            } catch(...) {}
                                 return;
                         }
                     } catch (const status_exception::StatusException& e) {
@@ -121,7 +126,7 @@ namespace server_side {
                         if(timedout){
                             try{
                                 closeSock(clientSocket);
-                            }catch(...){}
+                            } catch (...){}
                                 return;
                         }
 
@@ -150,22 +155,20 @@ namespace server_side {
                     // if the operation result also exists in the cache, so getting it from the cache
                     if (m_cache.contains(hashCode)) {
                         try {
-                            solutionString = m_cache.getOperationFileContent(hashCode);
+                            solutionString = m_cacheManager.getOperationFileContent(hashCode);
                             // loading the operation into the cache
-                            m_cache.load(operation::SolverOperation(hashCode, solutionString));
+                            m_cacheManager.load(operation::SolverOperation(hashCode, solutionString));
                         } catch (...) {
                             status = 5;
                         }
 
                     } else {
-                        // getting the right solver according to the specific command, using a solver factory
-                        solver::SolverFactory<Problem, Solution> sFactory = solver::SolverFactory<Problem, Solution>();
-                    
                         try {
-                            const auto solver = sFactory.getSolver(commandString);
-                            solutionString = solver->solve(problemString);
+                            auto solver =  m_solverFactory.getSolver(commandString);
+                            auto problem = m_inputParser.parseInput(problemString);
+                            solutionString = solver->solve(problem).toString();
                             // loading the operation into the cache
-                            m_cache.load(operation::SolverOperation(hashCode, solutionString));
+                            m_cacheManager.load(operation::SolverOperation(hashCode, solutionString));
                         } catch(const status_exception::StatusException& e){
                             status = e.getStatus();
                         } catch (...) {
