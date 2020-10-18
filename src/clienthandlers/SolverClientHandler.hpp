@@ -7,6 +7,7 @@
 #include "SolverOperation.hpp"
 #include "StatusException.hpp"
 #include "HashUtil.hpp"
+
 #include <thread>
 #include <unistd.h>
 #include <chrono>
