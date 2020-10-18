@@ -10,7 +10,6 @@
 #include <thread>
 #include <unistd.h>
 #include <chrono>
-#include <iostream>
 
 namespace server_side {
 
@@ -166,8 +165,8 @@ namespace server_side {
 
                     } else {
                         try {
-                            auto solver = m_solverFactory->getSolver(commandString);
-                            auto problem = m_inputParser->parseInput(problemString);
+                            const auto solver = m_solverFactory->getSolver(commandString);
+                            const auto problem = m_inputParser->parseInput(problemString);
                             solutionString = solver->solve(problem).toString();
                             // loading the operation into the cache
                             m_cacheManager.load(operation::SolverOperation(hashCode, solutionString));
