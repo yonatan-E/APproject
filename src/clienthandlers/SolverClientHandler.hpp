@@ -49,7 +49,9 @@ namespace server_side {
                 SolverClientHandler(std::unique_ptr<solver::SolverFactory<Problem, Solution>> solverFactory,
                 std::unique_ptr<parser::InputParser<Problem>> inputParser,
                 const cache::CacheManager& cacheManager)
-                : m_cacheManager(cacheManager) {}
+                : m_solverFactory(std::move(solverFactory)),
+                m_inputParser(std::move(inputParser)),
+                m_cacheManager(cacheManager) {}
 
                 /**
                  * @brief Handle a specific client
@@ -66,7 +68,7 @@ namespace server_side {
 
                     try {
                         // waiting for the client message in a different thread
-                        std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(commandString), std::ref(finished));
+                        std::thread readThread(readSockTrigger, std::ref(*this), clientSocket, std::ref(commandString), std::ref(finished));
                         // counting the timeout
                         timeout(finished, timedout);
 
@@ -115,7 +117,7 @@ namespace server_side {
 
                     try {
                         // waiting for the client message in a different thread
-                        std::thread readThread(readSockTrigger, *this,  clientSocket, std::ref(problemString), std::ref(finished));
+                        std::thread readThread(readSockTrigger, std::ref(*this),  clientSocket, std::ref(problemString), std::ref(finished));
                         // counting the timeout
                         timeout(finished, timedout);
 
@@ -153,7 +155,7 @@ namespace server_side {
                     // getting the hashCode of the operation
                     const uint32_t hashCode = util::HashUtil::calculateHash(commandString + problemString);
                     // if the operation result also exists in the cache, so getting it from the cache
-                    if (m_cache.contains(hashCode)) {
+                    if (m_cacheManager.contains(hashCode)) {
                         try {
                             solutionString = m_cacheManager.getOperationFileContent(hashCode);
                             // loading the operation into the cache
@@ -164,8 +166,8 @@ namespace server_side {
 
                     } else {
                         try {
-                            auto solver =  m_solverFactory.getSolver(commandString);
-                            auto problem = m_inputParser.parseInput(problemString);
+                            auto solver = m_solverFactory->getSolver(commandString);
+                            auto problem = m_inputParser->parseInput(problemString);
                             solutionString = solver->solve(problem).toString();
                             // loading the operation into the cache
                             m_cacheManager.load(operation::SolverOperation(hashCode, solutionString));
@@ -211,7 +213,7 @@ namespace server_side {
                  * @param message a variable that will be initialized with the message sent to the socket
                  * @param finished this variable will be initialized with true if the reading from the socket is completed
                  */
-                static void readSockTrigger(const SolverClientHandler<searcher::Graph, searcher::SearchResult>& ch, const uint32_t clientSocket, std::string& message, bool& finished){
+                static void readSockTrigger(const SolverClientHandler<Problem, Solution>& ch, const uint32_t clientSocket, std::string& message, bool& finished){
                     message = ch.readSock(clientSocket);
                     finished = true;
                 }

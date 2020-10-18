@@ -42,15 +42,17 @@ int main(int argc, char *argv[]) {
         }
 
         // creating the solver factory that will be used to create the concrete search solver 
-        std::unique_ptr<solver::SearchSolverFactory> solverFactory;
+        solver::SearchSolverFactory solverFactory;
         // creating the input parser that will be used to parse the graph input
-        std::unique_ptr<parser::GraphInputParser> inputParser;
+        parser::GraphInputParser inputParser;
         // creating a cache in size 5, which its files will be stored at the directory "cache"
         cache::CacheManager cacheManager(5, "cache");
 
         // creating a solver client handler, which solves a search problem
         client_handler::SolverClientHandler<searcher::Graph, searcher::SearchResult> clientHandler(
-            solverFactory, inputParser, cacheManager);
+            std::make_unique<solver::SearchSolverFactory>(solverFactory),
+            std::make_unique<parser::GraphInputParser>(inputParser),
+            cacheManager);
 
         // opening and running the server
         server->open(port, clientHandler);
