@@ -33,8 +33,8 @@ namespace server_side {
             static constexpr const char* s_EMPTY_RESPONSE = "";
 
             // the solver factory, used to create the concrete solver
-            std::unique_ptr<solver::SolverFactory<Problem, Solution>> m_solverFactory;
-            // the input parser, used to parse the given input
+            std::unique_ptr<parser::Parser<std::unique_ptr<solver::Solver<Problem, Solution>>>> m_commandParser;
+            // the input parser, used to parse the input problem
             std::unique_ptr<parser::Parser<Problem>> m_inputParser;
             // the cache manager used to save previous solutions
             mutable cache::CacheManager m_cacheManager;
@@ -46,10 +46,11 @@ namespace server_side {
                  * 
                  * @param cache the given cache manager
                  */
-                SolverClientHandler(std::unique_ptr<solver::SolverFactory<Problem, Solution>> solverFactory,
-                std::unique_ptr<parser::Parser<Problem>> inputParser,
-                const cache::CacheManager& cacheManager)
-                : m_solverFactory(std::move(solverFactory)),
+                SolverClientHandler(
+                    std::unique_ptr<parser::Parser<std::unique_ptr<solver::Solver<Problem, Solution>>>> commandParser,
+                    std::unique_ptr<parser::Parser<Problem>> inputParser,
+                    const cache::CacheManager& cacheManager)
+                : m_commandParser(std::move(commandParser)),
                 m_inputParser(std::move(inputParser)),
                 m_cacheManager(cacheManager) {}
 
@@ -166,8 +167,8 @@ namespace server_side {
 
                     } else {
                         try {
-                            const auto solver = m_solverFactory->getSolver(commandString);
-                            const auto problem = m_inputParser->parseInput(problemString);
+                            const auto solver = m_commandParser->parse(commandString);
+                            const auto problem = m_inputParser->parse(problemString);
                             solutionString = solver->solve(problem).toString();
                             // loading the operation into the cache
                             m_cacheManager.load(operation::SolverOperation(hashCode, solutionString));

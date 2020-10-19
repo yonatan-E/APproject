@@ -2,9 +2,9 @@
 #include "ServerExceptions.hpp"
 #include "SolverClientHandler.hpp"
 #include "SearchSolverFactory.hpp"
-#include "GraphParser.hpp"
+#include "InputToGraphParser.hpp"
+#include "CommandToSearchSolverParser.hpp"
 
-#include <vector>
 #include <iostream>
 
 using namespace server_side;
@@ -43,16 +43,16 @@ int main(int argc, char *argv[]) {
         }
 
         // creating the solver factory that will be used to create the concrete search solver 
-        solver::SearchSolverFactory solverFactory;
+        parser::CommandToSearchSolverParser commandParser;
         // creating the input parser that will be used to parse the graph input
-        parser::GraphParser inputParser;
+        parser::InputToGraphParser inputParser;
         // creating a cache in size 5, which its files will be stored at the directory "cache"
         cache::CacheManager cacheManager(5, "cache");
 
         // creating a solver client handler, which solves a search problem
         client_handler::SolverClientHandler<searcher::Graph, searcher::SearchResult> clientHandler(
-            std::make_unique<solver::SearchSolverFactory>(solverFactory),
-            std::make_unique<parser::GraphParser>(inputParser),
+            std::make_unique<parser::CommandToSearchSolverParser>(commandParser),
+            std::make_unique<parser::InputToGraphParser>(inputParser),
             cacheManager);
 
         // opening and running the server
