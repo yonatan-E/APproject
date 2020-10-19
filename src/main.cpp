@@ -1,7 +1,6 @@
 #include "ServerFactory.hpp"
 #include "ServerExceptions.hpp"
 #include "SolverClientHandler.hpp"
-#include "SearchSolverFactory.hpp"
 #include "InputToGraphParser.hpp"
 #include "CommandToSearchSolverParser.hpp"
 

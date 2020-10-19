@@ -20,7 +20,7 @@ search/searcher/SearchResult.hpp search/searcher/DFSSearcher.hpp search/searcher
 search/searcher/BestFSSearcher.hpp search/searcher/AStarSearcher.hpp search/searcher/SearcherFactory.hpp
 server/Server.hpp server/SerialServer.hpp server/ParallelServer.hpp server/ServerFactory.hpp
 clienthandlers/ClientHandler.hpp clienthandlers/AbstractClientHandler.hpp clienthandlers/SolverClientHandler.hpp
-solvers/Solver.hpp solvers/SearchSolver.hpp solvers/SolverFactory.hpp solvers/SearchSolverFactory.hpp)
+solvers/Solver.hpp solvers/SearchSolver.hpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/cachemanager ${CMAKE_SOURCE_DIR}/cachemanager/util ${CMAKE_SOURCE_DIR}/exceptions
 ${CMAKE_SOURCE_DIR}/parsers ${CMAKE_SOURCE_DIR}/search/searchable ${CMAKE_SOURCE_DIR}/search/searchable/matrix ${CMAKE_SOURCE_DIR}/search/searcher
@@ -35,7 +35,7 @@ parsers/InputToGraphParser.cpp parsers/CommandToSearchSolverParser.cpp
 search/searchable/Graph.cpp search/searchable/Element.cpp search/searchable/matrix/Matrix.cpp 
 search/searchable/matrix/ErrorCode.cpp
 search/searcher/SearchResult.cpp server/SerialServer.cpp server/ParallelServer.cpp server/ServerFactory.cpp
-clienthandlers/AbstractClientHandler.cpp solvers/SearchSolver.cpp solvers/SearchSolverFactory.cpp)
+clienthandlers/AbstractClientHandler.cpp solvers/SearchSolver.cpp)
 
 target_include_directories(ex4.out PRIVATE ${CMAKE_SOURCE_DIR}/cachemanager ${CMAKE_SOURCE_DIR}/cachemanager/util ${CMAKE_SOURCE_DIR}/exceptions
 ${CMAKE_SOURCE_DIR}/parsers ${CMAKE_SOURCE_DIR}/search/searchable ${CMAKE_SOURCE_DIR}/search/searchable/matrix ${CMAKE_SOURCE_DIR}/search/searcher

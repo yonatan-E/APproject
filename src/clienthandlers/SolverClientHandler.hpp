@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AbstractClientHandler.hpp"
-#include "SolverFactory.hpp"
+#include "Solver.hpp"
 #include "Parser.hpp"
 #include "CacheManager.hpp"
 #include "SolverOperation.hpp"
