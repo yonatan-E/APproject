@@ -16,12 +16,12 @@ namespace parser
 
     public:
         /**
-             * @brief Parse an input string to an actual object of type Input
+             * @brief Parse an input string into an actual object of Type
              * 
              * @param input the given input string
-             * @return Input the object that the given input string was parsed to
+             * @return Type the object that the given input string was parsed to
              */
-        virtual Type parseInput(const std::string &input) const = 0;
+        virtual Type parse(const std::string &input) const = 0;
 
         /**
          * @brief Virtual destructor
