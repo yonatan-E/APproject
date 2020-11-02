@@ -19,28 +19,28 @@ namespace searcher
              * 
              * @return const Identifier& the identifier of the element
              */
-        virtual const Identifier &getIdentifier() const;
+        virtual const Identifier &getIdentifier() const = 0;
 
         /**
              * @brief Get the Value of the element
              * 
              * @return double the value of the element
              */
-        virtual double getValue() const;
+        virtual double getValue() const = 0;
 
         /**
              * @brief Get the heuristic G score of the element
              * 
              * @return double the G score of the element, which is the estimated distance to the end position
              */
-        virtual double getGScore() const;
+        virtual double getGScore() const = 0;
 
         /**
              * @brief Get the heuristic H score of the element
              * 
              * @return double the H score of the element, which is the distance to the start position
              */
-        virtual double getHScore() const;
+        virtual double getHScore() const = 0;
 
         /**
              * @brief Compare operator
@@ -49,7 +49,7 @@ namespace searcher
              * @return true if the elements are equal
              * @return false if the elements are not equal
              */
-        virtual bool operator==(const Element<Identifier> &other) const;
+        virtual bool operator==(const Element<Identifier> &other) const = 0;
 
         /**
              * @brief Negative compare operator
@@ -58,7 +58,7 @@ namespace searcher
              * @return true if the elements are not equal
              * @return false if the elements are equal
              */
-        virtual bool operator!=(const Element<Identifier> &other) const;
+        virtual bool operator!=(const Element<Identifier> &other) const = 0;
     };
 
     /**
