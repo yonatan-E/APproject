@@ -2,16 +2,13 @@
 
 #include "AbstractSearchable.hpp"
 #include "Matrix.hpp"
-#include "Element.hpp"
+#include "GraphElement.hpp"
 
 #include <cstdint>
 #include <utility>
 
 namespace searcher
 {
-
-    typedef std::pair<uint32_t, uint32_t> pair;
-    typedef Element<pair> graphElement;
 
     /**
      * @brief This class represents a graph, which is defined by a matrix
@@ -28,8 +25,8 @@ namespace searcher
              * @brief Construct a new Graph object
              * 
              * @param graphMatrix the matrix which defines the graph
-             * @param startPos 
-             * @param endPos 
+             * @param startPos the start position of the search
+             * @param endPos the end position of the search
              */
         Graph(const matrix::Matrix &graphMatrix, const pair &startPos, const pair &endPos);
 
@@ -37,9 +34,9 @@ namespace searcher
              * @brief Get the All Reachable Elements object of an element
              * 
              * @param current the given element
-             * @return std::vector<Element<Identifier>> vector with all of the reachable elements of the given element 
+             * @return std::vector<std::shared_ptr<Element<pair>>> vector with all of the reachable elements of the given element 
              */
-        std::vector<graphElement> getAllReachableElements(const graphElement &current) const override;
+        std::vector<std::shared_ptr<Element<pair>>> getAllReachableElements(std::shared_ptr<Element<pair>> current) const override;
 
         /**
              * @brief Get the Direction between two elements in the searchable object, represented by a string
@@ -49,7 +46,7 @@ namespace searcher
              * @return std::string a string that represents the direction from origin to destination.
              *      in this case, can be: left, right, up, down.
              */
-        std::string getDirection(const graphElement &origin, const graphElement &destination) const override;
+        std::string getDirection(std::shared_ptr<Element<pair>> origin, std::shared_ptr<Element<pair>> destination) const override;
 
     protected:
         /**
@@ -59,6 +56,6 @@ namespace searcher
              * @return true if the given element is a valid element
              * @return false if the given element is not a valid element
              */
-        bool isValidElement(const graphElement &element) const override;
+        bool isValidElement(std::shared_ptr<Element<pair>> element) const override;
     };
 }

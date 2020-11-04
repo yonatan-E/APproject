@@ -4,18 +4,18 @@ namespace searcher
 {
 
     Graph::Graph(const matrix::Matrix &graphMatrix, const pair &startPos, const pair &endPos)
-        : AbstractSearchable(graphElement(startPos, graphMatrix(startPos.first, startPos.second)),
-                             graphElement(endPos, graphMatrix(endPos.first, endPos.second))),
+        : AbstractSearchable(std::make_shared<GraphElement>(startPos, graphMatrix(startPos.first, startPos.second)),
+                            std::make_shared<GraphElement>(endPos, graphMatrix(endPos.first, endPos.second))),
           m_graphMatrix(graphMatrix) {}
 
-    std::vector<graphElement> Graph::getAllReachableElements(const graphElement &current) const
+    std::vector<std::shared_ptr<Element<pair>>> Graph::getAllReachableElements(std::shared_ptr<Element<pair>> current) const
     {
         // this vector will contain the elements which can be reached from the current element
-        std::vector<graphElement> reachables;
+        std::vector<std::shared_ptr<Element<pair>>> reachables;
 
         // getting the exact location of the current element
-        const auto rowIdx = current.getIdentifier().first;
-        const auto colIdx = current.getIdentifier().second;
+        const auto rowIdx = current->getIdentifier().first;
+        const auto colIdx = current->getIdentifier().second;
 
         // adding the element in the left of the current element, if exists
         if (colIdx > 0)
@@ -24,8 +24,8 @@ namespace searcher
             if (m_graphMatrix(rowIdx, colIdx - 1) != 0)
             {
                 // creating the left element and calculating its heuristics
-                graphElement left(pair(rowIdx, colIdx - 1), m_graphMatrix(rowIdx, colIdx - 1));
-                left.calculateHeuristics(getStartElement(), getEndElement());
+                auto left = std::make_shared<GraphElement>(pair(rowIdx, colIdx - 1), m_graphMatrix(rowIdx, colIdx - 1));
+                left->calculateHeuristics(getStartElement(), getEndElement());
                 reachables.push_back(left);
             }
         }
@@ -37,8 +37,8 @@ namespace searcher
             if (m_graphMatrix(rowIdx, colIdx + 1) != 0)
             {
                 // creating the right element and calculating its heuristics
-                graphElement right(pair(rowIdx, colIdx + 1), m_graphMatrix(rowIdx, colIdx + 1));
-                right.calculateHeuristics(getStartElement(), getEndElement());
+                auto right = std::make_shared<GraphElement>(pair(rowIdx, colIdx + 1), m_graphMatrix(rowIdx, colIdx + 1));
+                right->calculateHeuristics(getStartElement(), getEndElement());
                 reachables.push_back(right);
             }
         }
@@ -50,8 +50,8 @@ namespace searcher
             if (m_graphMatrix(rowIdx - 1, colIdx) != 0)
             {
                 // creating the element above and calculating its heuristics
-                graphElement up(pair(rowIdx - 1, colIdx), m_graphMatrix(rowIdx - 1, colIdx));
-                up.calculateHeuristics(getStartElement(), getEndElement());
+                auto up = std::make_shared<GraphElement>(pair(rowIdx - 1, colIdx), m_graphMatrix(rowIdx - 1, colIdx));
+                up->calculateHeuristics(getStartElement(), getEndElement());
                 reachables.push_back(up);
             }
         }
@@ -62,8 +62,8 @@ namespace searcher
             // checking if the element below actually exists
             if (m_graphMatrix(rowIdx + 1, colIdx) != 0)
             {
-                graphElement down(pair(rowIdx + 1, colIdx), m_graphMatrix(rowIdx + 1, colIdx));
-                down.calculateHeuristics(getStartElement(), getEndElement());
+                auto down = std::make_shared<GraphElement>(pair(rowIdx + 1, colIdx), m_graphMatrix(rowIdx + 1, colIdx));
+                down->calculateHeuristics(getStartElement(), getEndElement());
                 reachables.push_back(down);
             }
         }
@@ -71,29 +71,30 @@ namespace searcher
         return reachables;
     }
 
-    std::string Graph::getDirection(const graphElement &origin, const graphElement &destination) const
+    std::string Graph::getDirection(std::shared_ptr<Element<pair>> origin, std::shared_ptr<Element<pair>> destination) const
     {
-        if (origin.getIdentifier().second == destination.getIdentifier().second + 1 && origin.getIdentifier().first == destination.getIdentifier().first)
+        if (origin->getIdentifier().second == destination->getIdentifier().second + 1 && origin->getIdentifier().first == destination->getIdentifier().first)
         {
             return "Left";
         }
-        else if (origin.getIdentifier().second == destination.getIdentifier().second - 1 && origin.getIdentifier().first == destination.getIdentifier().first)
+        else if (origin->getIdentifier().second == destination->getIdentifier().second - 1 && origin->getIdentifier().first == destination->getIdentifier().first)
         {
             return "Right";
         }
-        else if (origin.getIdentifier().second == destination.getIdentifier().second && origin.getIdentifier().first == destination.getIdentifier().first + 1)
+        else if (origin->getIdentifier().second == destination->getIdentifier().second && origin->getIdentifier().first == destination->getIdentifier().first + 1)
         {
             return "Up";
         }
-        else if (origin.getIdentifier().second == destination.getIdentifier().second && origin.getIdentifier().first == destination.getIdentifier().first - 1)
+        else if (origin->getIdentifier().second == destination->getIdentifier().second && origin->getIdentifier().first == destination->getIdentifier().first - 1)
         {
             return "Down";
         }
         return "";
     }
 
-    bool Graph::isValidElement(const graphElement &element) const
+    bool Graph::isValidElement(std::shared_ptr<Element<pair>> element) const
     {
-        return element.getIdentifier().first < m_graphMatrix.getHeight() && element.getIdentifier().second < m_graphMatrix.getWidth() && m_graphMatrix(element.getIdentifier().first, element.getIdentifier().second) > 0;
+        return element->getIdentifier().first < m_graphMatrix.getHeight() && element->getIdentifier().second < m_graphMatrix.getWidth()
+        && m_graphMatrix(element->getIdentifier().first, element->getIdentifier().second) > 0;
     }
 }
