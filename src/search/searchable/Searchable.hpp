@@ -2,8 +2,9 @@
 
 #include "Element.hpp"
 
-#include <vector>
 #include <string>
+#include <vector>
+#include <memory>
 
 namespace searcher
 {
@@ -23,14 +24,14 @@ namespace searcher
              * 
              * @return const Element<Identifier>& the element where the search starts
              */
-            virtual const Element<Identifier>& getStartElement() const = 0;
+            virtual std::shared_ptr<Element<Identifier>> getStartElement() const = 0;
 
             /**
              * @brief Get the End Element of the search
              * 
              * @return const Element<Identifier>& the element where the search end
              */
-            virtual const Element<Identifier>& getEndElement() const = 0;
+            virtual std::shared_ptr<Element<Identifier>> getEndElement() const = 0;
 
             /**
              * @brief Get the All Reachable Elements object of an element
@@ -38,7 +39,7 @@ namespace searcher
              * @param current the given element
              * @return std::vector<Element<Identifier>> vector with all of the reachable elements of the given element 
              */
-            virtual std::vector<Element<Identifier>> getAllReachableElements(const Element<Identifier>& current) const = 0;
+            virtual std::vector<std::shared_ptr<Element<Identifier>>> getAllReachableElements(std::shared_ptr<Element<Identifier>> current) const = 0;
 
             /**
              * @brief Get the Direction between two elements in the searchable object, represented by a string
@@ -47,7 +48,7 @@ namespace searcher
              * @param destination the destination element
              * @return std::string a string that represents the direction from origin to destination
              */
-            virtual std::string getDirection(const Element<Identifier>& origin, const Element<Identifier>& destination) const = 0;
+            virtual std::string getDirection(std::shared_ptr<Element<Identifier>> origin, std::shared_ptr<Element<Identifier>> destination) const = 0;
 
             /**
              * @brief Virtual destructor
