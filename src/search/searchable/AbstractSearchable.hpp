@@ -16,9 +16,9 @@ namespace searcher
     {
 
         // the start position of the search
-        const Element<Identifier> m_startPos;
+        std::shared_ptr<Element<Identifier>> m_startPos;
         // the end position of the search
-        const Element<Identifier> m_endPos;
+        std::shared_ptr<Element<Identifier>> m_endPos;
 
     public:
         /**
@@ -27,7 +27,7 @@ namespace searcher
              * @param startPos the start position
              * @param endPos the end position
              */
-        AbstractSearchable(const Element<Identifier> &startPos, const Element<Identifier> &endPos)
+        AbstractSearchable(std::shared_ptr<Element<Identifier>> startPos, std::shared_ptr<Element<Identifier>> endPos)
             : m_startPos(startPos), m_endPos(endPos)
         {
             // checking if the start position is valid
@@ -46,9 +46,9 @@ namespace searcher
         /**
              * @brief Get the Start Element of the search
              * 
-             * @return const Element<Identifier>& the element where the search starts
+             * @return std::shared_ptr<Element<Identifier>> the element where the search starts
              */
-        virtual const Element<Identifier> &getStartElement() const final
+        virtual std::shared_ptr<Element<Identifier>> getStartElement() const final
         {
             return m_startPos;
         }
@@ -56,9 +56,9 @@ namespace searcher
         /**
              * @brief Get the End Element of the search
              * 
-             * @return const Element<Identifier>& the element where the search end
+             * @return cstd::shared_ptr<Element<Identifier>> the element where the search end
              */
-        virtual const Element<Identifier> &getEndElement() const final
+        virtual std::shared_ptr<Element<Identifier>> getEndElement() const final
         {
             return m_endPos;
         }
@@ -67,9 +67,9 @@ namespace searcher
              * @brief Get the All Reachable Elements object of an element
              * 
              * @param current the given element
-             * @return std::vector<Element<Identifier>> vector with all of the reachable elements of the given element 
+             * @return std::vector<std::shared_ptr<Element<Identifier>>> vector with all of the reachable elements of the given element 
              */
-        virtual std::vector<Element<Identifier>> getAllReachableElements(const Element<Identifier> &current) const = 0;
+        virtual std::vector<Estd::shared_ptr<Element<Identifier>>> getAllReachableElements(std::shared_ptr<Element<Identifier>> current) const = 0;
 
         /**
              * @brief Get the Direction between two elements in the searchable object, represented by a string
@@ -78,7 +78,7 @@ namespace searcher
              * @param destination the destination element
              * @return std::string a string that represents the direction from origin to destination
              */
-        virtual std::string getDirection(const Element<Identifier> &origin, const Element<Identifier> &destination) const = 0;
+        virtual std::string getDirection(std::shared_ptr<Element<Identifier>> origin, std::shared_ptr<Element<Identifier>> destination) const = 0;
 
         /**
              * @brief Virtual destructor
@@ -94,7 +94,7 @@ namespace searcher
              * @return true if the given element is a valid element
              * @return false if the given element is not a valid element
              */
-        virtual bool isValidElement(const Element<Identifier> &element) const
+        virtual bool isValidElement(std::shared_ptr<Element<Identifier>> element) const
         {
             if (element.getGScore() < 1) {
                 return true;
