@@ -22,14 +22,14 @@ namespace searcher
             /**
              * @brief Get the Start Element of the search
              * 
-             * @return const Element<Identifier>& the element where the search starts
+             * @return std::shared_ptr<Element<Identifier>> the element where the search starts
              */
             virtual std::shared_ptr<Element<Identifier>> getStartElement() const = 0;
 
             /**
              * @brief Get the End Element of the search
              * 
-             * @return const Element<Identifier>& the element where the search end
+             * @return std::shared_ptr<Element<Identifier>> the element where the search end
              */
             virtual std::shared_ptr<Element<Identifier>> getEndElement() const = 0;
 
