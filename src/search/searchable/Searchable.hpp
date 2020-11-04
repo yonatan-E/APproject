@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace searcher
 {
@@ -29,7 +28,7 @@ namespace searcher
             /**
              * @brief Get the End Element of the search
              * 
-             * @return std::shared_ptr<Element<Identifier>> the element where the search end
+             * @return std::shared_ptr<Element<Identifier>> the element where the search ends
              */
             virtual std::shared_ptr<Element<Identifier>> getEndElement() const = 0;
 
