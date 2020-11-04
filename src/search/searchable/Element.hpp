@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace searcher
 {
 
@@ -13,6 +15,14 @@ namespace searcher
     {
 
     public:
+
+        /**
+             * @brief Calculate and set the heuristic scores of the graph element
+             * 
+             * @param startPos the start position of the search
+             * @param endPos the end position of the search
+             */
+        virtual void calculateHeuristics(std::shared_ptr<Element<Identifier>> startPos, std::shared_ptr<Element<Identifier>> endPos) = 0;
 
         /**
              * @brief Get the Identifier of the element

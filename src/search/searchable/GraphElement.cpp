@@ -6,6 +6,11 @@ namespace searcher {
         : m_identifier(identifier),
         m_value(value) {}
 
+    void GraphElement::calculateHeuristics(std::shared_ptr<Element<pair>> startPos, std::shared_ptr<Element<pair>> endPos) {
+        m_gScore = abs(getIdentifier().first - startPos->getIdentifier().first) + abs(getIdentifier().second - startPos->getIdentifier().second);
+        m_hScore = abs(getIdentifier().first - endPos->getIdentifier().first) + abs(getIdentifier().second - endPos->getIdentifier().second);
+    }
+
     const std::pair<uint32_t, uint32_t> &GraphElement::getIdentifier() const {
         return m_identifier;
     }
@@ -28,10 +33,5 @@ namespace searcher {
 
     bool GraphElement::operator!=(const Element<std::pair<uint32_t, uint32_t>> &other) const {
             return !(*this == other);
-    }
-
-    void GraphElement::calculateHeuristics(const GraphElement &startPos, const GraphElement &endPos) {
-        m_gScore = abs(getIdentifier().first - startPos.getIdentifier().first) + abs(getIdentifier().second - startPos.getIdentifier().second);
-        m_hScore = abs(getIdentifier().first - endPos.getIdentifier().first) + abs(getIdentifier().second - endPos.getIdentifier().second);
     }
 }

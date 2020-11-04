@@ -7,9 +7,11 @@
 
 namespace searcher {
 
-    class GraphElement : public Element<std::pair<uint32_t, uint32_t>> {
+    typedef std::pair<uint32_t, uint32_t> pair;
 
-        std::pair<uint32_t, uint32_t> m_identifier;
+    class GraphElement : public Element<pair> {
+
+        pair m_identifier;
         double m_value;
         double m_gScore;
         double m_hScore;
@@ -21,14 +23,22 @@ namespace searcher {
              * @param identifier the identifier of the element
              * @param value the value of the element
              */
-            GraphElement(const std::pair<uint32_t, uint32_t> &identifier, double value);
+            GraphElement(const pair &identifier, double value);
+
+            /**
+             * @brief Calculate and set the heuristic scores of the graph element
+             * 
+             * @param startPos the start position of the search
+             * @param endPos the end position of the search
+             */
+            void calculateHeuristics(std::shared_ptr<Element<pair>> startPos, std::shared_ptr<Element<pair>> endPos) override;
 
             /**
              * @brief Get the Identifier of the element
              * 
              * @return const Identifier& the identifier of the element
              */
-            const std::pair<uint32_t, uint32_t> &getIdentifier() const override;
+            const pair &getIdentifier() const override;
 
             /**
              * @brief Get the Value of the element
@@ -58,7 +68,7 @@ namespace searcher {
              * @return true if the elements are equal
              * @return false if the elements are not equal
              */
-            bool operator==(const Element<std::pair<uint32_t, uint32_t>> &other) const override;
+            bool operator==(const Element<pair> &other) const override;
 
             /**
              * @brief Negative compare operator
@@ -67,16 +77,6 @@ namespace searcher {
              * @return true if the elements are not equal
              * @return false if the elements are equal
              */
-            bool operator!=(const Element<std::pair<uint32_t, uint32_t>> &other) const override;
-
-        private:
-
-            /**
-             * @brief Calculate and set the heuristic scores of the graph element
-             * 
-             * @param startPos the start position of the search
-             * @param endPos the end position of the search
-             */
-            void calculateHeuristics(const GraphElement &startPos, const GraphElement &endPos);
+            bool operator!=(const Element<pair> &other) const override;
     };
 }
