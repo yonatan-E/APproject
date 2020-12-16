@@ -38,11 +38,11 @@ namespace searcher
             m_evaluatedElements = 0;
 
             // set of the visited elements
-            std::set<shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> visited;
+            std::set<std::shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> visited;
 
             // this map will hold for every element in the path, its previous element in the path.
             // the elements will be ordered in the map using the element Identifier comparator
-            std::map<shared_ptr<Element<Identifier>>, shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> cameFrom;
+            std::map<std::shared_ptr<Element<Identifier>>, std::shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> cameFrom;
 
             // marking the start element as visited
             visited.insert(searchable.getStartElement());
@@ -105,7 +105,7 @@ namespace searcher
              */
         virtual SearchResult reconstructPath(
             const Searchable<Identifier> &searchable,
-            std::map<shared_ptr<Element<Identifier>>, shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> &cameFrom) const
+            std::map<std::shared_ptr<Element<Identifier>>, std::shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> &cameFrom) const
         {
 
             // this vector will hold the directions of the path from the start element to the end element
@@ -139,14 +139,14 @@ namespace searcher
              * 
              * @param element the given element
              */
-        virtual void pushToContainer(shared_ptr<Element<Identifier>> element) const = 0;
+        virtual void pushToContainer(std::shared_ptr<Element<Identifier>> element) const = 0;
 
         /**
              * @brief Pop an element from the container of the search
              * 
              * @return Element<Identifier> the popped element
              */
-        virtual shared_ptr<Element<Identifier>> popFromContainer() const = 0;
+        virtual std::shared_ptr<Element<Identifier>> popFromContainer() const = 0;
 
         /**
              * @brief Check if the container of the search is empty

@@ -17,7 +17,7 @@ namespace searcher
     {
 
         // the queue which will be used for the BFS algorithm
-        mutable std::queue<shared_ptr<Element<Identifier>>> queue;
+        mutable std::queue<std::shared_ptr<Element<Identifier>>> queue;
 
     protected:
         /**
@@ -25,7 +25,7 @@ namespace searcher
              * 
              * @param element the given element
              */
-        void pushToContainer(shared_ptr<Element<Identifier>> element) const override
+        void pushToContainer(std::shared_ptr<Element<Identifier>> element) const override
         {
             queue.push(element);
         }
@@ -35,7 +35,7 @@ namespace searcher
              * 
              * @return Element<Identifier> the popped element
              */
-        shared_ptr<Element<Identifier>> popFromContainer() const override
+        std::shared_ptr<Element<Identifier>> popFromContainer() const override
         {
             auto popped = queue.front();
             queue.pop();

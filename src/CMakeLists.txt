@@ -13,7 +13,7 @@ set(HEADER_FILES cachemanager/CacheManager.hpp cachemanager/Operation.hpp cachem
 cachemanager/util/HashUtil.hpp cachemanager/util/Crc32.h exceptions/OperationExceptions.hpp
 exceptions/SearchExceptions.hpp exceptions/ServerExceptions.hpp exceptions/StatusException.hpp
 parsers/Parser.hpp parsers/InputToGraphParser.hpp parsers/CommandToSearchSolverParser.hpp search/searchable/Searchable.hpp 
-search/searchable/AbstractSearchable.hpp search/searchable/Graph.hpp search/searchable/Element.hpp 
+search/searchable/AbstractSearchable.hpp search/searchable/Graph.hpp search/searchable/Element.hpp search/searchable/GraphElement.hpp
 search/searchable/matrix/Matrix.hpp search/searchable/matrix/ErrorCode.hpp search/searchable/matrix/Matrix.h 
 search/searchable/matrix/ErrorCode.h search/searcher/Searcher.hpp search/searcher/AbstractSearcher.hpp
 search/searcher/SearchResult.hpp search/searcher/DFSSearcher.hpp search/searcher/BFSSearcher.hpp 
@@ -32,7 +32,7 @@ add_executable(ex4.out main.cpp cachemanager/CacheManager.cpp cachemanager/Opera
 cachemanager/util/HashUtil.cpp cachemanager/util/Crc32.c exceptions/OperationExceptions.cpp
 exceptions/SearchExceptions.cpp exceptions/ServerExceptions.cpp exceptions/StatusException.cpp
 parsers/InputToGraphParser.cpp parsers/CommandToSearchSolverParser.cpp
-search/searchable/Graph.cpp search/searchable/Element.cpp search/searchable/matrix/Matrix.cpp 
+search/searchable/Graph.cpp search/searchable/GraphElement.cpp search/searchable/matrix/Matrix.cpp 
 search/searchable/matrix/ErrorCode.cpp
 search/searcher/SearchResult.cpp server/SerialServer.cpp server/ParallelServer.cpp server/ServerFactory.cpp
 clienthandlers/AbstractClientHandler.cpp solvers/SearchSolver.cpp)

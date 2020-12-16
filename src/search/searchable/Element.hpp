@@ -88,7 +88,7 @@ namespace searcher
          * @return true if e1 is smaller
          * @return false if e2 is smaller
          */
-        bool operator()(const shared_ptr<Element<Identifier>> &e1, const shared_ptr<Element<Identifier>> &e2) const
+        bool operator()(const std::shared_ptr<Element<Identifier>> &e1, const std::shared_ptr<Element<Identifier>> &e2) const
         {
             return e1->getIdentifier() < e2->getIdentifier();
         }
@@ -111,7 +111,7 @@ namespace searcher
          * @return true if e1 is smaller
          * @return false if e2 is smaller
          */
-        bool operator()(const shared_ptr<Element<Identifier>> &e1, const shared_ptr<Element<Identifier>> &e2) const
+        bool operator()(const std::shared_ptr<Element<Identifier>> &e1, const std::shared_ptr<Element<Identifier>> &e2) const
         {
             return e1->getHScore() > e2->getHScore();
         }
@@ -134,7 +134,7 @@ namespace searcher
          * @return true if e1 is smaller
          * @return false if e2 is smaller
          */
-        bool operator()(const shared_ptr<Element<Identifier>> &e1, const shared_ptr<Element<Identifier>> &e2) const
+        bool operator()(const std::shared_ptr<Element<Identifier>> &e1, const std::shared_ptr<Element<Identifier>> &e2) const
         {
             return e1->getGScore() + e1->getHScore() > e2->getGScore() + e2->getHScore();
         }

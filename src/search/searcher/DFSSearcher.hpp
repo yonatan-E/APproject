@@ -17,7 +17,7 @@ namespace searcher
     {
 
         // the stack which will be used for the DFS algorithm
-        mutable std::stack<shared_ptr<Element<Identifier>>> stack;
+        mutable std::stack<std::shared_ptr<Element<Identifier>>> stack;
 
     protected:
         /**
@@ -25,7 +25,7 @@ namespace searcher
              * 
              * @param element the given element
              */
-        void pushToContainer(shared_ptr<Element<Identifier>> element) const override
+        void pushToContainer(std::shared_ptr<Element<Identifier>> element) const override
         {
             stack.push(element);
         }
@@ -35,7 +35,7 @@ namespace searcher
              * 
              * @return Element<Identifier> the popped element
              */
-        shared_ptr<Element<Identifier>> popFromContainer() const override
+        std::shared_ptr<Element<Identifier>> popFromContainer() const override
         {
             auto popped = stack.top();
             stack.pop();

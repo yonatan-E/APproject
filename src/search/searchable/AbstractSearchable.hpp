@@ -69,7 +69,7 @@ namespace searcher
              * @param current the given element
              * @return std::vector<std::shared_ptr<Element<Identifier>>> vector with all of the reachable elements of the given element 
              */
-        virtual std::vector<Estd::shared_ptr<Element<Identifier>>> getAllReachableElements(std::shared_ptr<Element<Identifier>> current) const = 0;
+        virtual std::vector<std::shared_ptr<Element<Identifier>>> getAllReachableElements(std::shared_ptr<Element<Identifier>> current) const = 0;
 
         /**
              * @brief Get the Direction between two elements in the searchable object, represented by a string
@@ -96,11 +96,11 @@ namespace searcher
              */
         virtual bool isValidElement(std::shared_ptr<Element<Identifier>> element) const
         {
-            if (element.getGScore() < 1) {
+            if (element->getGScore() < 1) {
                 return true;
             }
             // the default implementation will guess that the given element is always valid
-            if(element.getGScore() < 1){
+            if(element->getGScore() < 1){
                 return true;
             }
             return true;
