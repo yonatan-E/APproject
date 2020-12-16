@@ -38,11 +38,11 @@ namespace searcher
             m_evaluatedElements = 0;
 
             // set of the visited elements
-            std::set<Element<Identifier>, CompareByIdentifier<Identifier>> visited;
+            std::set<shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> visited;
 
             // this map will hold for every element in the path, its previous element in the path.
             // the elements will be ordered in the map using the element Identifier comparator
-            std::map<Element<Identifier>, Element<Identifier>, CompareByIdentifier<Identifier>> cameFrom;
+            std::map<shared_ptr<Element<Identifier>>, shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> cameFrom;
 
             // marking the start element as visited
             visited.insert(searchable.getStartElement());
@@ -52,10 +52,10 @@ namespace searcher
             while (!isContainerEmpty())
             {
                 // popping an element from the container
-                const auto current = popFromContainer();
+                auto current = popFromContainer();
 
                 // in case that the popped element is the end element, then finishing the search
-                if (current == searchable.getEndElement())
+                if (*current == *searchable.getEndElement())
                 {
                     break;
                 }
@@ -105,7 +105,7 @@ namespace searcher
              */
         virtual SearchResult reconstructPath(
             const Searchable<Identifier> &searchable,
-            std::map<Element<Identifier>, Element<Identifier>, CompareByIdentifier<Identifier>> &cameFrom) const
+            std::map<shared_ptr<Element<Identifier>>, shared_ptr<Element<Identifier>>, CompareByIdentifier<Identifier>> &cameFrom) const
         {
 
             // this vector will hold the directions of the path from the start element to the end element
@@ -114,21 +114,21 @@ namespace searcher
             // this variable will hold the total cost of the path.
             // first, initializing it just with the cost of the start element
             auto pathCost = 0;
-            if (searchable.getStartElement().getIdentifier() != searchable.getEndElement().getIdentifier())
+            if (searchable.getStartElement()->getIdentifier() != searchable.getEndElement()->getIdentifier())
             {
-                pathCost += searchable.getStartElement().getValue();
+                pathCost += searchable.getStartElement()->getValue();
             }
 
             // iterating over the elements, and initializing the directions vector according to the path
-            const auto *temp = &searchable.getEndElement();
-            while (*temp != searchable.getStartElement())
+            auto temp = searchable.getEndElement();
+            while (*temp != *searchable.getStartElement())
             {
                 // adding the cost of the current element to the total cost of the path
                 pathCost += temp->getValue();
                 // adding a direction between two elements in the path
-                directions.insert(directions.begin(), searchable.getDirection(cameFrom.at(*temp), *temp));
+                directions.insert(directions.begin(), searchable.getDirection(cameFrom.at(temp), temp));
                 // moving to the previous element
-                temp = &cameFrom.at(*temp);
+                temp = cameFrom.at(temp);
             }
 
             return SearchResult(directions, pathCost, getAlgorithmName());
@@ -139,14 +139,14 @@ namespace searcher
              * 
              * @param element the given element
              */
-        virtual void pushToContainer(const Element<Identifier> &element) const = 0;
+        virtual void pushToContainer(shared_ptr<Element<Identifier>> element) const = 0;
 
         /**
              * @brief Pop an element from the container of the search
              * 
              * @return Element<Identifier> the popped element
              */
-        virtual Element<Identifier> popFromContainer() const = 0;
+        virtual shared_ptr<Element<Identifier>> popFromContainer() const = 0;
 
         /**
              * @brief Check if the container of the search is empty
