@@ -36,7 +36,7 @@ namespace searcher
              * @param current the given element
              * @return std::vector<std::shared_ptr<Element<pair>>> vector with all of the reachable elements of the given element 
              */
-        std::vector<std::shared_ptr<Element<pair>>> getAllReachableElements(std::shared_ptr<Element<pair>> current) const override;
+        std::vector<std::shared_ptr<Element<pair>>> getAllReachableElements(const std::shared_ptr<Element<pair>> &current) const override;
 
         /**
              * @brief Get the Direction between two elements in the searchable object, represented by a string
@@ -46,7 +46,7 @@ namespace searcher
              * @return std::string a string that represents the direction from origin to destination.
              *      in this case, can be: left, right, up, down.
              */
-        std::string getDirection(std::shared_ptr<Element<pair>> origin, std::shared_ptr<Element<pair>> destination) const override;
+        std::string getDirection(const std::shared_ptr<Element<pair>> &origin, const std::shared_ptr<Element<pair>> &destination) const override;
 
     protected:
         /**
@@ -56,6 +56,6 @@ namespace searcher
              * @return true if the given element is a valid element
              * @return false if the given element is not a valid element
              */
-        bool isValidElement(std::shared_ptr<Element<pair>> element) const override;
+        bool isValidElement(const std::shared_ptr<Element<pair>> &element) const override;
     };
 }

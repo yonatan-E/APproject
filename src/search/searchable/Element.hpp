@@ -22,7 +22,7 @@ namespace searcher
              * @param startPos the start position of the search
              * @param endPos the end position of the search
              */
-        virtual void calculateHeuristics(std::shared_ptr<Element<Identifier>> startPos, std::shared_ptr<Element<Identifier>> endPos) = 0;
+        virtual void calculateHeuristics(const std::shared_ptr<Element<Identifier>> &startPos, const std::shared_ptr<Element<Identifier>> &endPos) = 0;
 
         /**
              * @brief Get the Identifier of the element

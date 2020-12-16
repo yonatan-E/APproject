@@ -6,7 +6,7 @@ namespace searcher {
         : m_identifier(identifier),
         m_value(value) {}
 
-    void GraphElement::calculateHeuristics(std::shared_ptr<Element<pair>> startPos, std::shared_ptr<Element<pair>> endPos) {
+    void GraphElement::calculateHeuristics(const std::shared_ptr<Element<pair>> &startPos, const std::shared_ptr<Element<pair>> &endPos) {
         m_gScore = abs(getIdentifier().first - startPos->getIdentifier().first) + abs(getIdentifier().second - startPos->getIdentifier().second);
         m_hScore = abs(getIdentifier().first - endPos->getIdentifier().first) + abs(getIdentifier().second - endPos->getIdentifier().second);
     }

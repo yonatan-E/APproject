@@ -27,7 +27,7 @@ namespace searcher
              * @param startPos the start position
              * @param endPos the end position
              */
-        AbstractSearchable(std::shared_ptr<Element<Identifier>> startPos, std::shared_ptr<Element<Identifier>> endPos)
+        AbstractSearchable(const std::shared_ptr<Element<Identifier>> &startPos, const std::shared_ptr<Element<Identifier>> &endPos)
             : m_startPos(startPos), m_endPos(endPos)
         {
             // checking if the start position is valid
@@ -69,7 +69,7 @@ namespace searcher
              * @param current the given element
              * @return std::vector<std::shared_ptr<Element<Identifier>>> vector with all of the reachable elements of the given element 
              */
-        virtual std::vector<std::shared_ptr<Element<Identifier>>> getAllReachableElements(std::shared_ptr<Element<Identifier>> current) const = 0;
+        virtual std::vector<std::shared_ptr<Element<Identifier>>> getAllReachableElements(const std::shared_ptr<Element<Identifier>> &current) const = 0;
 
         /**
              * @brief Get the Direction between two elements in the searchable object, represented by a string
@@ -78,7 +78,7 @@ namespace searcher
              * @param destination the destination element
              * @return std::string a string that represents the direction from origin to destination
              */
-        virtual std::string getDirection(std::shared_ptr<Element<Identifier>> origin, std::shared_ptr<Element<Identifier>> destination) const = 0;
+        virtual std::string getDirection(const std::shared_ptr<Element<Identifier>> &origin, const std::shared_ptr<Element<Identifier>> &destination) const = 0;
 
         /**
              * @brief Virtual destructor
@@ -94,7 +94,7 @@ namespace searcher
              * @return true if the given element is a valid element
              * @return false if the given element is not a valid element
              */
-        virtual bool isValidElement(std::shared_ptr<Element<Identifier>> element) const
+        virtual bool isValidElement(const std::shared_ptr<Element<Identifier>> &element) const
         {
             if (element->getGScore() < 1) {
                 return true;

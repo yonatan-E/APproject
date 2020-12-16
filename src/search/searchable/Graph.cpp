@@ -8,7 +8,7 @@ namespace searcher
                             std::make_shared<GraphElement>(endPos, graphMatrix(endPos.first, endPos.second))),
           m_graphMatrix(graphMatrix) {}
 
-    std::vector<std::shared_ptr<Element<pair>>> Graph::getAllReachableElements(std::shared_ptr<Element<pair>> current) const
+    std::vector<std::shared_ptr<Element<pair>>> Graph::getAllReachableElements(const std::shared_ptr<Element<pair>> &current) const
     {
         // this vector will contain the elements which can be reached from the current element
         std::vector<std::shared_ptr<Element<pair>>> reachables;
@@ -71,7 +71,7 @@ namespace searcher
         return reachables;
     }
 
-    std::string Graph::getDirection(std::shared_ptr<Element<pair>> origin, std::shared_ptr<Element<pair>> destination) const
+    std::string Graph::getDirection(const std::shared_ptr<Element<pair>> &origin, const std::shared_ptr<Element<pair>> &destination) const
     {
         if (origin->getIdentifier().second == destination->getIdentifier().second + 1 && origin->getIdentifier().first == destination->getIdentifier().first)
         {
@@ -92,7 +92,7 @@ namespace searcher
         return "";
     }
 
-    bool Graph::isValidElement(std::shared_ptr<Element<pair>> element) const
+    bool Graph::isValidElement(const std::shared_ptr<Element<pair>> &element) const
     {
         return element->getIdentifier().first < m_graphMatrix.getHeight() && element->getIdentifier().second < m_graphMatrix.getWidth()
         && m_graphMatrix(element->getIdentifier().first, element->getIdentifier().second) > 0;

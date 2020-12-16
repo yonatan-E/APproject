@@ -139,7 +139,7 @@ namespace searcher
              * 
              * @param element the given element
              */
-        virtual void pushToContainer(std::shared_ptr<Element<Identifier>> element) const = 0;
+        virtual void pushToContainer(const std::shared_ptr<Element<Identifier>> &element) const = 0;
 
         /**
              * @brief Pop an element from the container of the search

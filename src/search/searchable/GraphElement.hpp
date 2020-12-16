@@ -31,7 +31,7 @@ namespace searcher {
              * @param startPos the start position of the search
              * @param endPos the end position of the search
              */
-            void calculateHeuristics(std::shared_ptr<Element<pair>> startPos, std::shared_ptr<Element<pair>> endPos) override;
+            void calculateHeuristics(const std::shared_ptr<Element<pair>> &startPos, const std::shared_ptr<Element<pair>> &endPos) override;
 
             /**
              * @brief Get the Identifier of the element

@@ -38,7 +38,7 @@ namespace searcher
              * @param current the given element
              * @return std::vector<Element<Identifier>> vector with all of the reachable elements of the given element 
              */
-            virtual std::vector<std::shared_ptr<Element<Identifier>>> getAllReachableElements(std::shared_ptr<Element<Identifier>> current) const = 0;
+            virtual std::vector<std::shared_ptr<Element<Identifier>>> getAllReachableElements(const std::shared_ptr<Element<Identifier>> &current) const = 0;
 
             /**
              * @brief Get the Direction between two elements in the searchable object, represented by a string
@@ -47,7 +47,7 @@ namespace searcher
              * @param destination the destination element
              * @return std::string a string that represents the direction from origin to destination
              */
-            virtual std::string getDirection(std::shared_ptr<Element<Identifier>> origin, std::shared_ptr<Element<Identifier>> destination) const = 0;
+            virtual std::string getDirection(const std::shared_ptr<Element<Identifier>> &origin, const std::shared_ptr<Element<Identifier>> &destination) const = 0;
 
             /**
              * @brief Virtual destructor

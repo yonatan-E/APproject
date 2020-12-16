@@ -25,7 +25,7 @@ namespace searcher
              * 
              * @param element the given element
              */
-        void pushToContainer(std::shared_ptr<Element<Identifier>> element) const override
+        void pushToContainer(const std::shared_ptr<Element<Identifier>> &element) const override
         {
             queue.push(element);
         }
