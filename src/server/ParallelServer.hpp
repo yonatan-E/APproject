@@ -51,6 +51,6 @@ namespace server_side
             * @param waitingClients the given queue with waiting clients
             * @param ch the given client handler
          */
-        static void clientHandle(std::mutex &mutexLock, std::queue<uint32_t> &waitingClients, const client_handler::ClientHandler &ch);
+        static void clientHandle(std::mutex &mutexLock, std::queue<int> &waitingClients, const client_handler::ClientHandler &ch);
     };
 }
