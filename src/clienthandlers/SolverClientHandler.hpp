@@ -9,8 +9,7 @@
 #include "HashUtil.hpp"
 
 #include <thread>
-#include <unistd.h>
-#include <chrono>
+#include <sys/socket.h>
 
 namespace server_side {
 
@@ -61,34 +60,26 @@ namespace server_side {
                  */
                 void handleClient(const int clientSocket) const override {
 
-                    // read problem
+                    // reading the command
                     std::string commandString;
 
-                    bool finished = false;
-                    bool timedout = false;
-
                     try {
-                        // waiting for the client message in a different thread
-                        std::thread readThread(readSockTrigger, std::ref(*this), clientSocket, std::ref(commandString), std::ref(finished));
-                        // counting the timeout
-                        timeout(finished, timedout);
+                        // setting the timeout for the socket
+                        struct timeval tv = {5, 0};
+                        setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<struct timeval *>(&tv), sizeof(struct timeval));
 
-                        readThread.join();
+                        commandString = readSock(clientSocket);
 
-                        // if the timeout hasn't been reached, then the client hasn't connected in the last 5 seconds,
-                        // so closing the connection
-                        if(timedout){
-                            try{
-                                closeSock(clientSocket);
-                            } catch(...) {}
-                                return;
-                        }
                     } catch (const status_exception::StatusException& e) {
-                        
-                        // if couldn't read from the socket, then sending error log and closing the connection
-                        try {
-                            writeSock(clientSocket, getLog(s_VERSION, e.getStatus(), s_EMPTY_RESPONSE));
-                        } catch (...) {}
+
+                        // if couldn't read from the socket, then sending error log and closing the connection.
+                        // checking that the error is not about the timeout, because if the error is about the timeout then
+                        // the server will not send a message to the client
+                        if (errno != EWOULDBLOCK) {
+                            try {
+                                writeSock(clientSocket, getLog(s_VERSION, e.getStatus(), s_EMPTY_RESPONSE));
+                            } catch (...) {}
+                        }
 
                         try {
                             closeSock(clientSocket);
@@ -110,39 +101,31 @@ namespace server_side {
                         return;
                     }
 
-                    // reading the inpput, also with timeout
+                    // reading the input
                     std::string problemString;
 
-                    finished = false;
-                    timedout = false;
-
                     try {
-                        // waiting for the client message in a different thread
-                        std::thread readThread(readSockTrigger, std::ref(*this),  clientSocket, std::ref(problemString), std::ref(finished));
-                        // counting the timeout
-                        timeout(finished, timedout);
+                        // setting the timeout for the socket
+                        struct timeval tv = {5, 0};
+                        setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<struct timeval *>(&tv), sizeof(struct timeval));
 
-                        readThread.join();
-
-                        // if the timeout hasn't been reached, then the client hasn't connected in the last 5 seconds,
-                        // so closing the connection
-                        if(timedout){
-                            try{
-                                closeSock(clientSocket);
-                            } catch (...){}
-                                return;
-                        }
+                        problemString = readSock(clientSocket);
 
                     } catch (const status_exception::StatusException& e) {
-                        // if couldn't read from the socket, then sending error log and closing the connection
-                        try {
-                            writeSock(clientSocket, getLog(s_VERSION, e.getStatus(), s_EMPTY_RESPONSE));
-                        } catch (...) {}
+
+                        // if couldn't read from the socket, then sending error log and closing the connection.
+                        // checking that the error is not about the timeout, because if the error is about the timeout,
+                        // then the server will not send a message to the client
+                        if (errno != EWOULDBLOCK) {
+                            try {
+                                writeSock(clientSocket, getLog(s_VERSION, e.getStatus(), s_EMPTY_RESPONSE));
+                            } catch (...) {}
+                        }
 
                         try {
                             closeSock(clientSocket);
                         } catch (...) {}
-
+                        
                         return;
                     }
 
@@ -179,15 +162,12 @@ namespace server_side {
                         }
                     }
 
+
                     // the calculation has succeeded
                     if (status == 0) {
                         // sending a success message
                         try {
                             writeSock(clientSocket, getLog(s_VERSION, status, solutionString) + "\r\n");
-                        } catch (...) {}
-
-                        try {
-                            closeSock(clientSocket);
                         } catch (...) {}
                     }
                     // if the calculation has failed
@@ -196,49 +176,11 @@ namespace server_side {
                         try {
                             writeSock(clientSocket, getLog(s_VERSION, status, s_EMPTY_RESPONSE) + "\r\n");
                         } catch (...) {}
-
-                        try {
-                            closeSock(clientSocket);
-                        } catch (...) {}
-                    }         
-                }
-
-            private:
-
-                /**
-                 * @brief Read the content from the socket, and also mark the reading as completed.
-                 *      used for the thread.
-                 * 
-                 * @param ch the given solver client handler
-                 * @param clientSocket the given client socket
-                 * @param message a variable that will be initialized with the message sent to the socket
-                 * @param finished this variable will be initialized with true if the reading from the socket is completed
-                 */
-                static void readSockTrigger(const SolverClientHandler<Problem, Solution>& ch, const uint32_t clientSocket, std::string& message, bool& finished){
-                    message = ch.readSock(clientSocket);
-                    finished = true;
-                }
-
-                /**
-                 * @brief Getting if the timeout has been reached, according to a boolean variable
-                 * 
-                 * @param finished holding true if the operation that we are waiting to has been finished
-                 * @param timeout holding true if the timeout has been reached
-                 */
-                void timeout(bool& finished, bool& timeout) const{
-                    auto start = std::chrono::high_resolution_clock::now();
-                    while(true){   
-                        auto time = std::chrono::high_resolution_clock::now();
-                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(time - start);
-                        if(duration.count() > 5000000){
-                            timeout = true;
-                            return;
-                        }
-                        if(finished){
-                            timeout = false;
-                            return;
-                        }
                     }
+                    // closing the connection
+                    try {
+                        closeSock(clientSocket);
+                    } catch (...) {}
                 }
         };
     }
