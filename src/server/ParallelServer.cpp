@@ -62,7 +62,7 @@ namespace server_side
         return false;
     }
 
-    void ParallelServer::clientHandle(std::mutex &mutexLock, std::queue<uint32_t> &waitingClients, const client_handler::ClientHandler &ch)
+    void ParallelServer::clientHandle(std::mutex &mutexLock, std::queue<int> &waitingClients, const client_handler::ClientHandler &ch)
     {
         while (true)
         {

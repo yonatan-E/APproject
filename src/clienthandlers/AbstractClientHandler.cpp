@@ -11,7 +11,7 @@ namespace server_side {
         std::string AbstractClientHandler::readSock(const int clientSocket) const {
                     
             char buffer[s_BUFFER_SIZE];
-            uint32_t bytesRead = 0;
+            int bytesRead = 0;
             uint32_t messageSize = 0;
 
             bzero(buffer, s_BUFFER_SIZE);
