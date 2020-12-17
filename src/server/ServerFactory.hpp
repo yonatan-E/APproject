@@ -19,13 +19,13 @@ namespace server_side {
         public:
 
             /**
-             * @brief Construct a new Server Factory object
+             * @brief Construct a new Server Factory object.
              * 
              */
             ServerFactory();
 
             /**
-             * @brief Get a server object according to the type of the server
+             * @brief Construct a server object according to the type of the server.
              * 
              * @param type the type of the server
              * @return std::unique_ptr<Server> a pointer to the server object
@@ -33,7 +33,7 @@ namespace server_side {
             std::unique_ptr<Server> getServer(const std::string& type) const;
 
             /**
-             * @brief Get the default server object
+             * @brief Construct a default server object. The default server will be a parallel server.
              * 
              * @return std::unique_ptr<Server> a pointer to the default server object
              */

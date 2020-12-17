@@ -18,10 +18,25 @@ namespace searcher {
 
         public:
 
+            /**
+             * @brief Construct a new Searcher Factory object.
+             * 
+             */
             SearcherFactory();
 
+            /**
+             * @brief Construct a searcher object according to the type of the searcher.
+             * 
+             * @param type the type of the searcher
+             * @return std::unique_ptr<Searcher<SearchResult, Identifier>> a pointer to a searcher object
+             */
             std::unique_ptr<Searcher<SearchResult, Identifier>> getSearcher(const std::string& type) const;
 
+            /**
+             * @brief Construct a default searcher object. The default searcher will be a BestFS searcher.
+             * 
+             * @return std::unique_ptr<Searcher<SearchResult, Identifier>> a pointer to the default searcher object
+             */
             std::unique_ptr<Searcher<SearchResult, Identifier>> getDefaultSearcher() const;
     };
 
