@@ -46,7 +46,7 @@ namespace server_side {
             }
         }
 
-        std::string AbstractClientHandler::getLog(const double version, const double status, const std::string& message) const {
+        std::string AbstractClientHandler::getLog(const int version, const int status, const std::string& message) const {
             return "Version: " + std::to_string(version) + "\r\n"
             + "status: " + std::to_string(status) + "\r\n"
             + "response-length: " + std::to_string(message.size()) + "\r\n"

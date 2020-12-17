@@ -26,9 +26,9 @@ namespace server_side {
         class SolverClientHandler : public AbstractClientHandler {
 
             // the version
-            static constexpr double s_VERSION = 1.0;
+            static constexpr int s_VERSION = 1.0;
             // the status for success
-            static constexpr double s_SUCCESS_STATUS = 0;
+            static constexpr int s_SUCCESS_STATUS = 0;
             // the length of an empty response
             static constexpr const char* s_EMPTY_RESPONSE = "";
 
