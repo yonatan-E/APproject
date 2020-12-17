@@ -28,7 +28,7 @@ namespace server_side {
             // the version
             static constexpr double s_VERSION = 1.0;
             // the status for success
-            static constexpr uint32_t s_SUCCESS_STATUS = 0;
+            static constexpr double s_SUCCESS_STATUS = 0;
             // the length of an empty response
             static constexpr const char* s_EMPTY_RESPONSE = "";
 
@@ -59,7 +59,7 @@ namespace server_side {
                  * 
                  * @param clientSocket the client socket
                  */
-                void handleClient(const uint32_t clientSocket) const override {
+                void handleClient(const int clientSocket) const override {
 
                     // read problem
                     std::string commandString;

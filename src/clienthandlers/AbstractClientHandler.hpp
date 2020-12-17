@@ -65,7 +65,7 @@ namespace server_side {
                  * @param message the message of the log
                  * @return std::string string representation of the log
                  */
-                std::string getLog(uint32_t version, uint32_t status, const std::string& message) const;
+                std::string getLog(double version, double status, const std::string& message) const;
         };
     }
 }
