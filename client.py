@@ -30,6 +30,11 @@ sock.connect(("127.0.0.1", port))
 sock.send(str.encode(f"solve find-graph-path {algorithm}{endl*2}"))
 print(sock.recv(1000).decode())
 
-message = "3,3\r\n1,2,3\r\n4,5,6\r\n7,8,9\r\n0,0\r\n2,2\r\n\r\n"
-sock.send(str.encode(message))
-print(sock.recv(1000).decode())
+#time.sleep(6)
+
+message = "4,4\r\n1,2,3,3\r\n4,5,6,6\r\n7,8,9,9\r\n1,2,3,3\r\n0,0\r\n3,3\r\n\r\n"
+try:
+    sock.send(str.encode(message))
+    print(sock.recv(1000).decode())
+except:
+    print("Connection has been closed")
