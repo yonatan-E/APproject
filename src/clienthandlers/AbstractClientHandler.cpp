@@ -17,7 +17,6 @@ namespace server_side {
             bzero(buffer, s_BUFFER_SIZE);
 
             while ((bytesRead == read(clientSocket, buffer, sizeof(buffer) - 1)) > 0) {
-
                 bzero(buffer, s_BUFFER_SIZE);
                 messageSize += bytesRead;
                 if (messageSize > s_BUFFER_SIZE - 1) {
@@ -25,12 +24,12 @@ namespace server_side {
                 }
             }
 
-            if (bytesRead < 0) {
+            // throwing an exception if an error has occured or if the timeout has been over
+            if (bytesRead < 0 || errno == EWOULDBLOCK) {
                 throw status_exception::StatusException("Failed reading from socket", 6);
             }
 
             std::string message = static_cast<std::string>(buffer);
-
             return message.substr(0, message.size() - 4);
         }
 
