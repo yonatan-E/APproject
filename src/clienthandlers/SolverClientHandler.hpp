@@ -8,7 +8,6 @@
 #include "StatusException.hpp"
 #include "HashUtil.hpp"
 
-#include <thread>
 #include <sys/socket.h>
 
 namespace server_side {
