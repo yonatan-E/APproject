@@ -8,7 +8,7 @@
 namespace server_side
 {
 
-    void ParallelServer::open(uint32_t serverPort, const client_handler::ClientHandler &clientHandler) const
+    void ParallelServer::open(int serverPort, const client_handler::ClientHandler &clientHandler) const
     {
         struct sockaddr_in clientAddress;
         struct sockaddr_in serverAddress;
@@ -46,7 +46,7 @@ namespace server_side
 
             uint32_t addrSize = sizeof(clientAddress);
 
-            auto clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddress), reinterpret_cast<socklen_t *>(&addrSize));
+            const int clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddress), reinterpret_cast<socklen_t *>(&addrSize));
 
             if (clientSocket < 0)
             {
@@ -67,7 +67,7 @@ namespace server_side
         while (true)
         {
             mutexLock.lock();
-            uint32_t currentClient;
+            int currentClient;
             if (waitingClients.size() > 0)
             {
                 currentClient = waitingClients.front();

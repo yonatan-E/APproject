@@ -8,11 +8,11 @@ namespace server_side {
 
     namespace client_handler {
 
-        std::string AbstractClientHandler::readSock(const uint32_t clientSocket) const {
+        std::string AbstractClientHandler::readSock(const int clientSocket) const {
                     
             char buffer[s_BUFFER_SIZE];
-            int bytesRead = 0;
-            int messageSize = 0;
+            uint32_t bytesRead = 0;
+            uint32_t messageSize = 0;
 
             bzero(buffer, s_BUFFER_SIZE);
 
@@ -26,7 +26,7 @@ namespace server_side {
             }
 
             if (bytesRead < 0) {
-                throw status_exception::StatusException("Failed writing to socket", 6);
+                throw status_exception::StatusException("Failed reading from socket", 6);
             }
 
             std::string message = static_cast<std::string>(buffer);
@@ -34,15 +34,15 @@ namespace server_side {
             return message.substr(0, message.size() - 4);
         }
 
-        void AbstractClientHandler::writeSock(const uint32_t clientSocket, const std::string& message) const {
+        void AbstractClientHandler::writeSock(const int clientSocket, const std::string& message) const {
             if (write(clientSocket, message.c_str(), message.size()) < 0) {
                 throw status_exception::StatusException("Failed writing to socket", 6);
             }
         }
 
-        void AbstractClientHandler::closeSock(const uint32_t clientSocket) const {
+        void AbstractClientHandler::closeSock(const int clientSocket) const {
             if (close(clientSocket) < 0) {
-                throw status_exception::StatusException("Failed writing to socket", 6);
+                throw status_exception::StatusException("Failed closing the socket", 6);
             }
         }
 

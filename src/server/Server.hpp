@@ -19,7 +19,7 @@ namespace server_side
              * @param serverPort the given server port
              * @param clientHandler the given client handler, will be used to handle the clients
              */
-        virtual void open(uint32_t serverPort, const client_handler::ClientHandler &clientHandler) const = 0;
+        virtual void open(int serverPort, const client_handler::ClientHandler &clientHandler) const = 0;
 
         /**
              * @brief Check if the server stop

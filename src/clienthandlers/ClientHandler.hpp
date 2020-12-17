@@ -21,7 +21,7 @@ namespace server_side
                  * 
                  * @param clientSocket the client socket
                  */
-            virtual void handleClient(uint32_t clientSocket) const = 0;
+            virtual void handleClient(int clientSocket) const = 0;
 
             /**
              * @brief Virtual destructor

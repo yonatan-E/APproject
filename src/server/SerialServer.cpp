@@ -9,7 +9,7 @@
 namespace server_side
 {
 
-    void SerialServer::open(const uint32_t serverPort, const client_handler::ClientHandler &clientHandler) const
+    void SerialServer::open(const int serverPort, const client_handler::ClientHandler &clientHandler) const
     {
 
         struct sockaddr_in clientAddress;
@@ -41,8 +41,7 @@ namespace server_side
 
             uint32_t addrSize = sizeof(clientAddress);
 
-            const int clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress),
-                                                 reinterpret_cast<socklen_t *>(&addrSize));
+            const int clientSocket = accept(serverSocket, reinterpret_cast<struct sockaddr *>(&clientAddress), reinterpret_cast<socklen_t *>(&addrSize));
 
             if (clientSocket < 0)
             {
