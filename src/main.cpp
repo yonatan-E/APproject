@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
         }
 
         // getting the given port, and throwing an exception if it isn't legal
-        uint32_t port;
+        int port;
         try {
             port = std::stoi(command[0]);
         } catch (...) {
